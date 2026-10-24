@@ -1,0 +1,55 @@
+name: Build Typst & Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v3
+
+      - name: Compila Typst in PDF
+        run: |
+          mkdir -p public
+          
+          # 1. Copia HTML e CSS dalla cartella website alla radice del server
+          cp website/* public/ 2>/dev/null || true
+          
+          # 2. Copia la cartella assets (loghi e font) alla radice del server
+          cp -r assets public/ 2>/dev/null || true
+          
+          # 3. Trova i file .typ escludendo i template e compila
+          find Candidatura -name "*.typ" ! -name "template.typ" -type f | while read -r file; do
+            dir_path=$(dirname "$file")
+            mkdir -p "public/pdf/$dir_path"
+
+            # Stampa i font riconosciuti nei log per debug
+            typst fonts --font-path assets/fonts --variants
+
+            
+            echo "Compilazione di $file..."
+            # Usa --font-path per includere i font personalizzati dalla cartella assets/fonts
+            typst compile --root . --font-path assets/fonts "$file" "public/pdf/${file%.typ}.pdf"
+          done
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
