@@ -1,0 +1,60 @@
+name: Build Typst & Deploy
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v3
+
+      - name: Compila Typst in PDF
+        run: |
+          mkdir -p public
+          
+          cp website/* public/ 2>/dev/null || true
+          
+          cp -r assets public/ 2>/dev/null || true
+          
+          find Candidatura -name "*.typ" ! -name "template.typ" -type f | while read -r file; do
+            dir_path=$(dirname "$file")
+            mkdir -p "public/pdf/$dir_path"
+            typst compile --root . --font-path assets/fonts "$file" "public/pdf/${file%.typ}.pdf"
+          done
+
+      
+      - name: Upload PDF Preview Artifact (Solo PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-preview-pdfs
+          path: public/pdf/
+          retention-days: 5
+
+      
+      - name: Setup GitHub Pages
+        if: github.event_name == 'push'
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        uses: actions/deploy-pages@v4
