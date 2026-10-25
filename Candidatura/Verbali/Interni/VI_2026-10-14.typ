@@ -2,21 +2,21 @@
 
 #show: verbale.with(
   titolo: "Verbale Incontro #1",
-  data: "2027-10-14",
+  data: "2026-10-14",
   versione: "1.0.0",
   uso: "Interno",
   redattore: "Carlo Nardin",
   verificatore: "Giacomo Ravazzolo",
   riassunto: "Incontro conoscitivo iniziale. Analisi delle disponibilità orarie, prima valutazione dei capitolati, definizione degli strumenti operativi e assegnazione prime task.",
   registro_modifiche: (
-    ([1.0.0], [2027-10-18], [Carlo Nardin], [Giacomo Ravazzolo], [- Prima stesura del verbale]),
+    ([1.0.0], [2026-10-18], [Carlo Nardin], [Giacomo Ravazzolo], [- Prima stesura del verbale]),
   )
 )
 
 = Informazioni generali
 == Luogo e data della riunione
 - *Luogo*: Google Meet
-- *Data*: 2027-10-14
+- *Data*: 2026-10-14
 - *Ora*: 15:00
 - *Durata*: 1 ora
 
@@ -62,8 +62,8 @@ Il gruppo ha definito il proprio nome e stabilito gli strumenti operativi:
   [Analisi approfondita dei capitolati], [Team], [-],
   [Creazione bozze per il logo], [Nikola Miljanovic], [Godwin Agbleze],
   [Creazione Gmail e Repo GitHub], [Mattia Pasquato], [Mattia Scomparin],
-  [Stesura Verbale 2027-10-14], [Carlo Nardin], [Giacomo Ravazzolo]
+  [Stesura Verbale 2026-10-14], [Carlo Nardin], [Giacomo Ravazzolo]
 )
 
 #v(1cm)
-*Prossimo incontro:* 2027-10-20 su Google Meet.
+*Prossimo incontro:* 2026-10-20 su Google Meet.
