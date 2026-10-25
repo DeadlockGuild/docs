@@ -268,7 +268,8 @@
   }
   th.num, td.num { text-align: right; }
   tbody tr:nth-child(even) { background: var(--bg-main); }
-  td .ruolo { font-weight: 700; cursor: help; }
+  td .ruolo { font-weight: 700; }
+  td .descrizione { font-size: 0.72rem; color: var(--text-muted); line-height: 1.25; }
   td input[type="number"] { width: 76px; margin-left: auto; display: block; }
   td.totale { white-space: nowrap; }
   tfoot td {
@@ -410,12 +411,12 @@
     return Number.isFinite(n) && n > 0 ? n : 0;
   }
 
-  // Costruzione righe della tabella (la descrizione del ruolo è nel tooltip)
+  // Costruzione righe della tabella
   const tbody = $("ruoli");
   for (const r of RUOLI) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><span class="ruolo" title="${r.descrizione}">${r.nome}</span></td>
+      <td><div class="ruolo">${r.nome}</div><div class="descrizione">${r.descrizione}</div></td>
       <td class="num"><input type="number" id="costo-${r.id}" min="0" step="0.5" value="${r.costo}" aria-label="Costo orario ${r.nome}"></td>
       <td class="num"><input type="number" id="ore-${r.id}" min="0" step="1" placeholder="0" aria-label="Ore ${r.nome}"></td>
       <td class="num totale" id="totale-${r.id}">${euro.format(0)}</td>`;
