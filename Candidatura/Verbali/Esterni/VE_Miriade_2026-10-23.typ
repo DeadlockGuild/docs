@@ -7,7 +7,7 @@
   versione: "1.0.0",
   uso: "Esterno",
   redattore: "Carlo Nardin",
-  verificatore: "Mattia Pasquato",
+  verificatore: "Giacomo Ravazzolo",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Miriade"),
   riassunto: "Chiarimenti su Disease Pack, assistente, permessi e requisiti opzionali.",
   registro_modifiche: (
