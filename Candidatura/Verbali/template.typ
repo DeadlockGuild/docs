@@ -103,6 +103,9 @@
 }
 
 // Tabella Azioni
+
+#let issue(id) = link("https://github.com/DeadlockGuild/docs/issues/" + str(id))[#underline[#id]]
+
 #let tabella_azioni(..righe) = {
   table(
     columns: (auto, 1fr, auto, auto),
