@@ -2,7 +2,7 @@
 
 
 #show: verbale.with(
-  titolo: "Verbale Esterno - Miriade (C5)",
+  titolo: "Verbale - Miriade (C5)",
   data: "2026-10-23",
   versione: "1.0.0",
   uso: "Esterno",
