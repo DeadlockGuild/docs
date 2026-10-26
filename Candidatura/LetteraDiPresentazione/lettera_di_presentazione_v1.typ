@@ -17,7 +17,7 @@ dove nella sezione candidatura si possono consultare i seguenti documenti:
 - Valutazione dei capitolati;
 - Verbali interni ed esterni.
 
-Come riportato nel documento _"Dichiarazione impegni e preventivo costi"_ il costo stimato del prodotto è di *???* e la data prevista di consegna è il *???*.
+Come riportato nel documento _"Dichiarazione impegni e preventivo costi"_ il costo stimato del prodotto è di *11.190,00 €*, corrispondente a un impegno complessivo di *546 ore*, e la data prevista di consegna è il *09/04/2027*.
 
 Si riporta di seguito l'elenco dei componenti del gruppo con il relativo numero di matricola:
 
