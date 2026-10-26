@@ -28,7 +28,13 @@ jobs:
           cp website/* public/ 2>/dev/null || true
           
           cp -r assets public/ 2>/dev/null || true
-          
+
+          # Pubblica i tool HTML (es. stima ore e costi) mantenendo il percorso
+          find Candidatura -name "*.html" -type f | while read -r file; do
+            mkdir -p "public/$(dirname "$file")"
+            cp "$file" "public/$file"
+          done
+
           find Candidatura -name "*.typ" ! -name "template.typ" -type f | while read -r file; do
             dir_path=$(dirname "$file")
             mkdir -p "public/pdf/$dir_path"
