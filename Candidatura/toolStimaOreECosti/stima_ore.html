@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stima ore e costi</title>
+<style>
+  @font-face {
+    font-family: "Atkinson Hyperlegible Next";
+    src: url("../../assets/fonts/AtkinsonHyperlegibleNext-Regular.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "Atkinson Hyperlegible Next";
+    src: url("../../assets/fonts/AtkinsonHyperlegibleNext-Bold.ttf") format("truetype");
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "Montserrat";
+    src: url("../../assets/fonts/Montserrat-ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+  }
+
+  :root {
+    --bg-main: #f8f9fa;
+    --bg-section: #ffffff;
+    --bg-bar: #e9ecef;
+    --border: #dee2e6;
+    --text-main: #2b3035;
+    --text-muted: #6c757d;
+    --accent: #c85815;
+    --accent-soft: rgba(200, 88, 21, 0.12);
+    --ok: #2e8540;
+    --ok-soft: rgba(46, 133, 64, 0.18);
+    --warn: #b7791f;
+    --ko: #c53030;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-main: #16181b;
+      --bg-section: #1f2226;
+      --bg-bar: #2b2f34;
+      --border: #3a3f45;
+      --text-main: #e9ecef;
+      --text-muted: #9aa1a8;
+      --accent: #e8702b;
+      --accent-soft: rgba(232, 112, 43, 0.16);
+      --ok: #4caf68;
+      --ok-soft: rgba(76, 175, 104, 0.22);
+      --warn: #e0a43a;
+      --ko: #ef5b5b;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.4;
+    font-size: 15px;
+  }
+
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 16px 16px 32px;
+  }
+
+  /* Intestazione */
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  header img {
+    height: 64px;
+    width: auto;
+    border-radius: 10px;
+  }
+  @media (prefers-color-scheme: dark) {
+    header img { background: #f8f9fa; }
+  }
+  h1 {
+    font-family: "Montserrat", system-ui, sans-serif;
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  .sottotitolo { color: var(--text-muted); margin: 0; font-size: 0.85rem; }
+
+  h2 {
+    font-family: "Montserrat", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    margin: 0 0 10px;
+  }
+
+  /* Layout a due colonne: ruoli a sinistra, indicatori a destra */
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    gap: 16px;
+    align-items: stretch;
+  }
+  /* Il box dei ruoli si allunga fino all'altezza dei box a fianco */
+  .box-ruoli {
+    display: flex;
+    flex-direction: column;
+  }
+  .box-ruoli .tabella-wrap { flex: 1 1 auto; }
+  .box-ruoli table { height: 100%; }
+  aside {
+    position: sticky;
+    top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    aside { position: static; order: -1; }
+  }
+
+  section {
+    background: var(--bg-section);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  input[type="number"] {
+    font: inherit;
+    color: var(--text-main);
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 6px;
+    width: 100%;
+    min-width: 0;
+    text-align: right;
+  }
+  input[type="number"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  /* Parametri compatti */
+  .parametri {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .parametri label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .parametri input { width: 58px; }
+  .fisso { color: var(--text-main); }
+  .parametri input.largo { width: 96px; }
+
+  /* Valori sintetici */
+  .valori {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .valori div { font-size: 0.75rem; color: var(--text-muted); }
+  .valori div:last-child { text-align: right; }
+  .valori strong { display: block; font-size: 1.05rem; color: var(--text-main); }
+
+  /* Indicatore */
+  .barra {
+    position: relative;
+    height: 14px;
+    background: var(--bg-bar);
+    border-radius: 7px;
+    margin: 30px 0 22px;
+  }
+  .barra .fascia {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: var(--ok-soft);
+    border-left: 2px solid var(--ok);
+    border-right: 2px solid var(--ok);
+  }
+  .barra .fascia.aperta {
+    border-right: none;
+    border-radius: 0 7px 7px 0;
+  }
+  .barra .riempimento {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 0.25s ease, background 0.25s ease;
+  }
+  .barra .cursore {
+    position: absolute;
+    top: -5px;
+    width: 4px;
+    height: 24px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: left 0.25s ease, background 0.25s ease;
+  }
+  .barra .cursore span {
+    position: absolute;
+    bottom: 27px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .barra .tacca {
+    position: absolute;
+    top: 17px;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .stato {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--bg-bar);
+  }
+  .stato.dentro { background: var(--ok-soft); color: var(--ok); }
+  .stato.sotto { background: var(--accent-soft); color: var(--warn); }
+  .stato.sopra { background: rgba(197, 48, 48, 0.14); color: var(--ko); }
+
+  /* Tabella ruoli */
+  .tabella-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: middle;
+  }
+  th {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+  th.num, td.num { text-align: right; }
+  tbody tr:nth-child(even) { background: var(--bg-main); }
+  td .ruolo { font-weight: 700; }
+  td .descrizione { font-size: 0.72rem; color: var(--text-muted); line-height: 1.25; }
+  td input[type="number"] { width: 76px; margin-left: auto; display: block; }
+  td.totale { white-space: nowrap; }
+  tfoot td {
+    font-weight: 700;
+    border-top: 2px solid var(--accent);
+    border-bottom: none;
+  }
+  .totale-generale { color: var(--accent); }
+  @media (max-width: 480px) {
+    table { font-size: 13px; }
+    th, td { padding: 6px 3px; }
+    td input[type="number"] { width: 56px; padding: 4px; }
+    td:nth-child(2) input[type="number"] { width: 46px; }
+  }
+
+  /* Grafico a torta: ripartizione delle ore per ruolo */
+  .torta-box {
+    margin-top: 16px;
+    --serie-1: #2a78d6;
+    --serie-2: #eb6834;
+    --serie-3: #1baf7a;
+    --serie-4: #eda100;
+    --serie-5: #e87ba4;
+    --serie-6: #008300;
+    --vuoto: #e9ecef;
+  }
+  @media (prefers-color-scheme: dark) {
+    .torta-box {
+      --serie-1: #3987e5;
+      --serie-2: #d95926;
+      --serie-3: #199e70;
+      --serie-4: #c98500;
+      --serie-5: #d55181;
+      --serie-6: #008300;
+      --vuoto: #2b2f34;
+    }
+  }
+  .torta {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 24px;
+    align-items: center;
+  }
+  @media (max-width: 560px) {
+    .torta { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  }
+  .torta-grafico { position: relative; width: 200px; height: 200px; }
+  .torta-grafico svg { display: block; width: 100%; height: 100%; }
+  .torta-grafico path {
+    stroke: var(--bg-section);
+    stroke-width: 2;
+    transition: opacity 0.15s ease;
+  }
+  .torta-grafico.evidenzia path { opacity: 0.35; }
+  .torta-grafico.evidenzia path.attiva { opacity: 1; }
+  .torta-centro {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .torta-centro strong { font-size: 1.4rem; }
+  .torta-centro span { font-size: 0.75rem; color: var(--text-muted); }
+  .tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--bg-section);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    padding: 6px 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    transform: translate(-50%, calc(-100% - 10px));
+    z-index: 2;
+  }
+  .tooltip[hidden] { display: none; }
+  .legenda { width: 100%; max-width: 440px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .legenda td {
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .legenda tr:last-child td { border-bottom: none; }
+  .legenda tr.attiva td { background: var(--bg-main); }
+  .legenda .colore {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    margin-right: 8px;
+    vertical-align: -1px;
+  }
+  .legenda .percentuale { font-weight: 700; }
+
+  .azioni { margin-top: 10px; text-align: right; }
+  button {
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-soft); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="../../assets/logo_nobg.png" alt="Logo DeadlockGuild">
+    <h1>Stima ore e costi</h1>
+    <p class="sottotitolo">DeadlockGuild &mdash; Ingegneria del Software A.A. 2026/2027</p>
+  </header>
+
+  <div class="layout">
+    <section class="box-ruoli">
+      <h2>Ore e costi per ruolo</h2>
+      <div class="tabella-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ruolo</th>
+              <th class="num">€/h</th>
+              <th class="num">Ore</th>
+              <th class="num">Totale</th>
+            </tr>
+          </thead>
+          <tbody id="ruoli"></tbody>
+          <tfoot>
+            <tr>
+              <td>Totale</td>
+              <td></td>
+              <td class="num" id="footOre">0 h</td>
+              <td class="num totale-generale" id="footCosto">0,00 €</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="azioni">
+        <button type="button" id="reset">Ripristina valori</button>
+      </div>
+    </section>
+
+    <aside>
+      <section>
+        <h2>Ore</h2>
+        <div class="parametri">
+          <span>Componenti <strong class="fisso" id="componenti"></strong></span>
+          <span>Ore/persona <strong class="fisso" id="orePersona"></strong></span>
+        </div>
+        <div class="valori">
+          <div>Pianificate<strong id="totOre">0 h</strong></div>
+          <div>Media a persona<strong id="mediaPersona">0 h</strong></div>
+          <div>Range<strong id="totRange">480&ndash;570 h</strong></div>
+        </div>
+        <div class="barra">
+          <div class="fascia" id="fascia"></div>
+          <div class="riempimento" id="riempimento"></div>
+          <div class="cursore" id="cursore"><span id="cursoreValore">0 h</span></div>
+          <div class="tacca" id="taccaMin"></div>
+          <div class="tacca" id="taccaMax"></div>
+        </div>
+        <div class="stato" id="stato">Inserisci le ore per ruolo</div>
+      </section>
+
+      <section>
+        <h2>Costo</h2>
+        <div class="parametri">
+          <label>Costo minimo (€) <input type="number" class="largo" id="costoMin" min="0" step="0.01" value="10285.71"></label>
+        </div>
+        <div class="valori">
+          <div>Pianificato<strong id="cTot">0,00 €</strong></div>
+          <div>Medio orario<strong id="cMedia">0,00 €</strong></div>
+          <div>Differenza<strong id="cDiff">&ndash;</strong></div>
+        </div>
+        <div class="barra">
+          <div class="fascia aperta" id="cFascia"></div>
+          <div class="riempimento" id="cRiempimento"></div>
+          <div class="cursore" id="cCursore"><span id="cCursoreValore">0 €</span></div>
+          <div class="tacca" id="cTaccaMin"></div>
+        </div>
+        <div class="stato" id="cStato">Inserisci le ore per ruolo</div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="torta-box">
+    <h2>Ripartizione delle ore per ruolo</h2>
+    <div class="torta">
+      <div class="torta-grafico" id="torta">
+        <svg viewBox="0 0 200 200" role="img" aria-label="Percentuale di ore per ruolo sul totale">
+          <g id="torta-fette"></g>
+        </svg>
+        <div class="torta-centro"><strong id="tortaTotale">0 h</strong><span>ore totali</span></div>
+        <div class="tooltip" id="tortaTooltip" hidden></div>
+      </div>
+      <table class="legenda">
+        <tbody id="legenda"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script>
+  const RUOLI = [
+    { id: "responsabile", nome: "Responsabile", costo: 30,
+      descrizione: "Coordina piani, scadenze e attività del gruppo; approva i rilasci" },
+    { id: "amministratore", nome: "Amministratore", costo: 20,
+      descrizione: "Assicura l'efficienza di procedure, strumenti e tecnologie del way of working" },
+    { id: "analista", nome: "Analista", costo: 25,
+      descrizione: "Svolge le attività di analisi dei requisiti" },
+    { id: "progettista", nome: "Progettista", costo: 25,
+      descrizione: "Svolge le attività di progettazione (design)" },
+    { id: "programmatore", nome: "Programmatore", costo: 15,
+      descrizione: "Svolge le attività di codifica" },
+    { id: "verificatore", nome: "Verificatore", costo: 15,
+      descrizione: "Svolge le attività di verifica" },
+  ];
+
+  // Parametri fissi del progetto (non modificabili dalla pagina)
+  const COMPONENTI = 6;
+  const ORE_MIN_PERSONA = 80;
+  const ORE_MAX_PERSONA = 95;
+
+  const CHIAVE_STORAGE = "deadlockguild-stima-ore";
+  const euro = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR", useGrouping: "always" });
+  const numero = new Intl.NumberFormat("it-IT", { maximumFractionDigits: 1, useGrouping: "always" });
+  const $ = (id) => document.getElementById(id);
+
+  function valore(input) {
+    const n = parseFloat(input.value);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  }
+
+  $("componenti").textContent = COMPONENTI;
+  $("orePersona").textContent = `${ORE_MIN_PERSONA}–${ORE_MAX_PERSONA} h`;
+
+  // Costruzione righe della tabella
+  const tbody = $("ruoli");
+  for (const r of RUOLI) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><div class="ruolo">${r.nome}</div><div class="descrizione">${r.descrizione}</div></td>
+      <td class="num">${r.costo}</td>
+      <td class="num"><input type="number" id="ore-${r.id}" min="0" step="1" placeholder="0" aria-label="Ore ${r.nome}"></td>
+      <td class="num totale" id="totale-${r.id}">${euro.format(0)}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  // Posiziona fascia, cursore e tacche di un indicatore; restituisce il colore usato
+  function disegnaBarra(ids, valoreAttuale, minimo, massimo, fondoScala, testo, colore) {
+    const pct = (v) => (v / fondoScala) * 100;
+    const fineFascia = massimo === null ? 100 : pct(massimo);
+    $(ids.fascia).style.left = pct(minimo) + "%";
+    $(ids.fascia).style.width = (fineFascia - pct(minimo)) + "%";
+    $(ids.riempimento).style.width = pct(valoreAttuale) + "%";
+    $(ids.cursore).style.left = pct(valoreAttuale) + "%";
+    $(ids.cursoreValore).textContent = testo;
+    $(ids.cursore).style.background = colore;
+    $(ids.riempimento).style.background = colore;
+    $(ids.cursoreValore).style.color = colore;
+  }
+
+  function impostaStato(id, classe, testo) {
+    $(id).className = "stato" + (classe ? " " + classe : "");
+    $(id).textContent = testo;
+  }
+
+  function aggiorna() {
+    let oreTotali = 0;
+    let costoTotale = 0;
+    for (const r of RUOLI) {
+      const ore = valore($("ore-" + r.id));
+      const costo = r.costo;
+      oreTotali += ore;
+      costoTotale += ore * costo;
+      $("totale-" + r.id).textContent = euro.format(ore * costo);
+    }
+    $("footOre").textContent = numero.format(oreTotali) + " h";
+    $("footCosto").textContent = euro.format(costoTotale);
+
+    aggiornaOre(oreTotali);
+    aggiornaCosto(costoTotale, oreTotali);
+    aggiornaTorta(oreTotali);
+    salva();
+  }
+
+  // Grafico a torta: una fetta per ruolo, colori fissi nell'ordine dei ruoli
+  const percentuale = new Intl.NumberFormat("it-IT", { style: "percent", maximumFractionDigits: 1 });
+  const legenda = $("legenda");
+  for (const [i, r] of RUOLI.entries()) {
+    const tr = document.createElement("tr");
+    tr.dataset.ruolo = r.id;
+    tr.innerHTML = `
+      <td><span class="colore" style="background: var(--serie-${i + 1})"></span>${r.nome}</td>
+      <td class="num" id="leg-ore-${r.id}">0 h</td>
+      <td class="num percentuale" id="leg-pct-${r.id}">–</td>`;
+    legenda.appendChild(tr);
+  }
+
+  function puntoSuCerchio(raggio, angolo) {
+    return [100 + raggio * Math.sin(angolo), 100 - raggio * Math.cos(angolo)];
+  }
+
+  // Percorso di una fetta di ciambella tra due angoli (in radianti, 0 = ore 12)
+  function fetta(inizio, fine, rEsterno = 92, rInterno = 60) {
+    if (fine - inizio >= 2 * Math.PI - 1e-6) fine = inizio + 2 * Math.PI - 1e-4;
+    const grande = fine - inizio > Math.PI ? 1 : 0;
+    const [x1, y1] = puntoSuCerchio(rEsterno, inizio);
+    const [x2, y2] = puntoSuCerchio(rEsterno, fine);
+    const [x3, y3] = puntoSuCerchio(rInterno, fine);
+    const [x4, y4] = puntoSuCerchio(rInterno, inizio);
+    return `M${x1} ${y1} A${rEsterno} ${rEsterno} 0 ${grande} 1 ${x2} ${y2} ` +
+           `L${x3} ${y3} A${rInterno} ${rInterno} 0 ${grande} 0 ${x4} ${y4} Z`;
+  }
+
+  function aggiornaTorta(oreTotali) {
+    const gruppo = $("torta-fette");
+    gruppo.innerHTML = "";
+    $("tortaTooltip").hidden = true;
+    evidenziaRuolo(null);
+    $("tortaTotale").textContent = numero.format(oreTotali) + " h";
+
+    if (oreTotali === 0) {
+      const vuoto = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      vuoto.setAttribute("d", fetta(0, 2 * Math.PI));
+      vuoto.setAttribute("fill", "var(--vuoto)");
+      vuoto.style.stroke = "none";
+      gruppo.appendChild(vuoto);
+    }
+
+    let angolo = 0;
+    for (const [i, r] of RUOLI.entries()) {
+      const ore = valore($("ore-" + r.id));
+      const quota = oreTotali > 0 ? ore / oreTotali : 0;
+      $("leg-ore-" + r.id).textContent = numero.format(ore) + " h";
+      $("leg-pct-" + r.id).textContent = oreTotali > 0 ? percentuale.format(quota) : "–";
+      if (quota === 0) continue;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", fetta(angolo, angolo + quota * 2 * Math.PI));
+      path.setAttribute("fill", `var(--serie-${i + 1})`);
+      path.dataset.ruolo = r.id;
+      path.dataset.testo = `${r.nome}: ${numero.format(ore)} h (${percentuale.format(quota)})`;
+      gruppo.appendChild(path);
+      angolo += quota * 2 * Math.PI;
+    }
+  }
+
+  function evidenziaRuolo(id) {
+    $("torta").classList.toggle("evidenzia", Boolean(id));
+    for (const el of document.querySelectorAll("#torta-fette path, #legenda tr")) {
+      el.classList.toggle("attiva", el.dataset.ruolo === id);
+    }
+  }
+
+  $("torta").addEventListener("mousemove", (e) => {
+    const tooltip = $("tortaTooltip");
+    const path = e.target.closest("path[data-ruolo]");
+    if (!path) {
+      tooltip.hidden = true;
+      evidenziaRuolo(null);
+      return;
+    }
+    const box = $("torta").getBoundingClientRect();
+    tooltip.textContent = path.dataset.testo;
+    tooltip.hidden = false;
+    // Il tooltip è centrato sul puntatore ma non deve uscire dal bordo dello schermo
+    const metà = tooltip.offsetWidth / 2;
+    const x = Math.min(Math.max(e.clientX, metà + 8), window.innerWidth - metà - 8);
+    tooltip.style.left = x - box.left + "px";
+    tooltip.style.top = e.clientY - box.top + "px";
+    evidenziaRuolo(path.dataset.ruolo);
+  });
+  $("torta").addEventListener("mouseleave", () => {
+    $("tortaTooltip").hidden = true;
+    evidenziaRuolo(null);
+  });
+  legenda.addEventListener("mouseover", (e) => {
+    const tr = e.target.closest("tr[data-ruolo]");
+    if (tr) evidenziaRuolo(tr.dataset.ruolo);
+  });
+  legenda.addEventListener("mouseleave", () => evidenziaRuolo(null));
+
+  function aggiornaOre(oreTotali) {
+    const componenti = COMPONENTI;
+    let minimo = ORE_MIN_PERSONA * componenti;
+    let massimo = ORE_MAX_PERSONA * componenti;
+    if (minimo > massimo) [minimo, massimo] = [massimo, minimo];
+
+    $("totOre").textContent = numero.format(oreTotali) + " h";
+    $("mediaPersona").textContent = numero.format(oreTotali / componenti) + " h";
+    $("totRange").textContent = `${numero.format(minimo)}–${numero.format(massimo)} h`;
+
+    const fondoScala = Math.max(massimo * 1.25, oreTotali * 1.05, 1);
+    $("taccaMin").style.left = (minimo / fondoScala) * 100 + "%";
+    $("taccaMin").textContent = numero.format(minimo);
+    $("taccaMax").style.left = (massimo / fondoScala) * 100 + "%";
+    $("taccaMax").textContent = numero.format(massimo);
+
+    let colore;
+    if (oreTotali === 0) {
+      impostaStato("stato", "", "Inserisci le ore per ruolo");
+      colore = "var(--accent)";
+    } else if (oreTotali < minimo) {
+      impostaStato("stato", "sotto", `Sotto il range: mancano ${numero.format(minimo - oreTotali)} h`);
+      colore = "var(--warn)";
+    } else if (oreTotali > massimo) {
+      impostaStato("stato", "sopra", `Fuori range: ${numero.format(oreTotali - massimo)} h oltre il massimo`);
+      colore = "var(--ko)";
+    } else {
+      impostaStato("stato", "dentro", `Dentro il range: margine di ${numero.format(massimo - oreTotali)} h`);
+      colore = "var(--ok)";
+    }
+    disegnaBarra(
+      { fascia: "fascia", riempimento: "riempimento", cursore: "cursore", cursoreValore: "cursoreValore" },
+      oreTotali, minimo, massimo, fondoScala, numero.format(oreTotali) + " h", colore
+    );
+  }
+
+  // Indicatore del costo: un solo valore minimo, la zona valida è da lì in su
+  function aggiornaCosto(costoTotale, oreTotali) {
+    const minimo = valore($("costoMin"));
+    const diff = costoTotale - minimo;
+    $("cTot").textContent = euro.format(costoTotale);
+    $("cMedia").textContent = euro.format(oreTotali > 0 ? costoTotale / oreTotali : 0);
+
+    const fondoScala = Math.max(minimo * 1.3, costoTotale * 1.05, 1);
+    $("cTaccaMin").style.left = (minimo / fondoScala) * 100 + "%";
+    $("cTaccaMin").textContent = euro.format(minimo);
+
+    let colore;
+    if (costoTotale === 0) {
+      impostaStato("cStato", "", "Inserisci le ore per ruolo");
+      $("cDiff").textContent = "–";
+      colore = "var(--accent)";
+    } else if (diff < 0) {
+      impostaStato("cStato", "sotto", `Sotto il minimo: mancano ${euro.format(-diff)}`);
+      $("cDiff").textContent = "−" + euro.format(-diff);
+      colore = "var(--warn)";
+    } else {
+      impostaStato("cStato", "dentro", `Minimo raggiunto: ${euro.format(diff)} sopra`);
+      $("cDiff").textContent = "+" + euro.format(diff);
+      colore = "var(--ok)";
+    }
+    disegnaBarra(
+      { fascia: "cFascia", riempimento: "cRiempimento", cursore: "cCursore", cursoreValore: "cCursoreValore" },
+      costoTotale, minimo, null, fondoScala, euro.format(costoTotale), colore
+    );
+  }
+
+  function campi() {
+    return [...document.querySelectorAll("input[type=number]")];
+  }
+
+  function salva() {
+    try {
+      const dati = {};
+      for (const input of campi()) dati[input.id] = input.value;
+      localStorage.setItem(CHIAVE_STORAGE, JSON.stringify(dati));
+    } catch (e) { /* storage non disponibile */ }
+  }
+
+  function carica() {
+    try {
+      const dati = JSON.parse(localStorage.getItem(CHIAVE_STORAGE) || "{}");
+      for (const input of campi()) {
+        if (typeof dati[input.id] === "string") input.value = dati[input.id];
+      }
+    } catch (e) { /* storage non disponibile */ }
+  }
+
+  $("reset").addEventListener("click", () => {
+    $("costoMin").value = 10285.71;
+    for (const r of RUOLI) {
+      $("ore-" + r.id).value = "";
+    }
+    aggiorna();
+  });
+
+  document.addEventListener("input", (e) => {
+    if (e.target.matches("input[type=number]")) aggiorna();
+  });
+
+  carica();
+  aggiorna();
+</script>
+</body>
+</html>
