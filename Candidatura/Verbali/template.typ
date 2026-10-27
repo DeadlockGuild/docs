@@ -38,7 +38,7 @@
     #text(size: 14pt)[Data: #data] \
     #text(size: 14pt)[Versione: #versione]
     
-    #v(1.5cm)
+    #v(1.4cm)
     #grid(
       columns: (1fr, 1fr),
       align: (right, left),
@@ -49,9 +49,9 @@
       text(weight: "bold")[Destinatari:], destinatari.join([\ ]),
     )
     
-    #v(1.0cm)
+    #v(0.8cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(1.0cm)
+    #v(0.8cm)
     
     #if riassunto != "" [
       #text(size: 14pt, weight: "bold")[Riassunto del verbale] \
