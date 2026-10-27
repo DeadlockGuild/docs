@@ -29,9 +29,9 @@
     #text(size: 12pt)[Corso di Laurea in Informatica] \
     #text(size: 12pt)[Ingegneria del Software -- A.A. 2026/2027]
     
-    #v(1.5cm)
+    #v(1.2cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(1.5cm)
+    #v(1.2cm)
     
     #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[#titolo] \
     #v(0.5cm)
@@ -49,9 +49,9 @@
       text(weight: "bold")[Destinatari:], destinatari.join([\ ]),
     )
     
-    #v(1.3cm)
+    #v(1.0cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(1.3cm)
+    #v(1.0cm)
     
     #if riassunto != "" [
       #text(size: 14pt, weight: "bold")[Riassunto del verbale] \

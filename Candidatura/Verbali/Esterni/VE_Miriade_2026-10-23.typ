@@ -4,13 +4,14 @@
 #show: verbale.with(
   titolo: "Verbale - Miriade (C5)",
   data: "2026-10-23",
-  versione: "1.0.0",
+  versione: "1.0.1",
   uso: "Esterno",
   redattore: "Carlo Nardin",
   verificatore: "Giacomo Ravazzolo",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Miriade"),
   riassunto: "Chiarimenti su Disease Pack, assistente, permessi e requisiti opzionali.",
   registro_modifiche: (
+    ([1.0.1], [2026-10-27], [Carlo Nardin], [Giacomo Ravazzolo], [- Aggiunta sezione per l'approvazione]),
     ([1.0.0], [2026-10-24], [Carlo Nardin], [Giacomo Ravazzolo], [- Prima stesura del verbale]),
   )
 )
@@ -121,4 +122,16 @@
   [-], [Definizione della fornitura dei dati per l'eventuale mappa dei servizi, con proponente e associazione], [-], [-]
 )
 
-_*Nota*: le azioni senza ID e senza assegnatari sono da approfondire in caso di aggiudicazione del capitolato._
+_*Nota*: le voci prive di ID Issue e assegnatari rappresentano macro-attività la cui effettiva istanziazione e presa in carico è strettamente vincolata all'eventuale aggiudicazione del capitolato._
+
+#v(1.5cm)
+= Approvazione
+Con la presente firma, la proponente conferma che il contenuto del presente verbale rispecchia fedelmente gli argomenti trattati.
+
+#v(1cm)
+#align(right)[
+  *Per Miriade* \
+  Emanuele Righetto \
+  #v(2cm)
+  #line(length: 40%)
+]
