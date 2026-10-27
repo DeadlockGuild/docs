@@ -3,13 +3,14 @@
 #show: verbale.with(
   titolo: "Verbale - Ergon (C7)",
   data: "2026-10-22",
-  versione: "1.0.0",
+  versione: "1.0.1",
   uso: "Esterno",
   redattore: "Carlo Nardin",
   verificatore: "Mattia Pasquato",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Ergon"),
   riassunto: "Chiarimenti su gestionale e Data Warehouse, widget e dashboard, assistente AI, ambiente di esecuzione e controllo degli accessi.",
   registro_modifiche: (
+    ([1.0.1], [2026-10-27], [Carlo Nardin], [Mattia Pasquato], [- Aggiunta sezione per l'approvazione]),
     ([1.0.0], [2026-10-25], [Carlo Nardin], [Mattia Pasquato], [- Prima stesura del verbale]),
   )
 )
@@ -101,4 +102,17 @@
   [-], [Definizione di quali dati e tabelle possono essere utilizzati dall'assistente AI], [-], [-],
   [-], [Valutazione di filtri e caratteristiche aggiuntive per singolo utente/dashboard], [-], [-]
 )
-_*Nota*: le azioni senza ID e senza assegnatari sono da approfondire in caso di aggiudicazione del capitolato._
+
+_*Nota*: le voci prive di ID Issue e assegnatari rappresentano macro-attività la cui effettiva istanziazione e presa in carico è strettamente vincolata all'eventuale aggiudicazione del capitolato._
+
+#v(2cm)
+= Approvazione
+Con la presente firma, la proponente conferma che il contenuto del presente verbale rispecchia fedelmente gli argomenti trattati.
+
+#v(1cm)
+#align(right)[
+  *Per Ergon* \
+  Gianluca Carlesso  \
+  #v(2cm)
+  #line(length: 40%)
+]
