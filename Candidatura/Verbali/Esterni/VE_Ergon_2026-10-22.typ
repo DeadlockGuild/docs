@@ -105,7 +105,7 @@
 
 _*Nota*: le voci prive di ID Issue e assegnatari rappresentano macro-attività la cui effettiva istanziazione e presa in carico è strettamente vincolata all'eventuale aggiudicazione del capitolato._
 
-#v(2cm)
+#v(1.5cm)
 = Approvazione
 Con la presente firma, la proponente conferma che il contenuto del presente verbale rispecchia fedelmente gli argomenti trattati.
 
