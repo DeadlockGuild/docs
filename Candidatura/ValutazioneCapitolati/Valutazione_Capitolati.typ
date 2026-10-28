@@ -10,7 +10,7 @@
 #align(center)[
   #v(1cm)
   // Assicurati che il percorso del logo sia corretto
-  #figure(image("assets/logo_nobg.png", width: 35%), outlined: false, numbering: none)
+  #figure(image("../../assets/logo_nobg.png", width: 35%), outlined: false, numbering: none)
   #v(0.5cm)
   #text(size: 14pt, weight: "bold")[UNIVERSITÀ DEGLI STUDI DI PADOVA] \
   #text(size: 12pt)[Corso di Laurea in Informatica] \
@@ -50,7 +50,7 @@
       columns: (1fr, auto, 1fr),
       align: horizon,
       line(length: 100%, stroke: 1.5pt + rgb("#c85815")),
-      box(inset: (x: 10pt))[#image("assets/logo_text_nobg.png", width: 85pt)],
+      box(inset: (x: 10pt))[#image("../../assets/logo_text_nobg.png", width: 85pt)],
       line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
     )
   ],
