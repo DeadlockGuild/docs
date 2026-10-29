@@ -1,13 +1,13 @@
 #import "../template.typ": *
 
 #show: verbale.with(
-  titolo: "Verbale - San Marco Informatica S.p.A. (C0)",
+  titolo: "Verbale - Sanmarco Informatica S.p.A. (C0)",
   data: "2026-10-28",
   versione: "1.0.0",
   uso: "Esterno",
   redattore: "Mattia Scomparin",
   verificatore: "Godwin Agbleze",
-  destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "San Marco Informatica S.p.A."),
+  destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Sanmarco Informatica S.p.A."),
   riassunto: "",
   registro_modifiche: (
     ([1.0.0], [2026-10-29], [Mattia Scomparin], [Godwin Agbleze], [- Prima stesura del verbale])
@@ -28,11 +28,11 @@
 - Mattia Pasquato
 - Mattia Scomparin
 
-*San Marco Informatica S.p.A.*
+*Sanmarco Informatica S.p.A.*
 - Riferimenti:
-    - Linda Benozzato
-    - Luca Marcon
-    - Alberto Veronese
+  - Linda Benozzato
+  - Luca Marcon
+  - Alberto Veronese
 
 = Ordine del giorno
 + Canali di ingresso e entità da gestire
@@ -108,7 +108,8 @@ Con la presente firma, la proponente conferma che il contenuto del presente verb
 
 #v(1cm)
 #align(right)[
-  *Per San Marco Informatica S.p.A.* \
+  *Per Sanmarco Informatica S.p.A.* \
+  Linda Benozzato (in collaborazione con Luca Marcon e Alberto Veronese) \
   #v(2.0cm)
   #line(length: 40%)
 ]
