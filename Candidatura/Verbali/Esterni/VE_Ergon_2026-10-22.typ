@@ -115,5 +115,5 @@ Con la presente firma, la proponente conferma che il contenuto del presente verb
 #align(right)[
   *Per Ergon* \
   Gianluca Carlesso  \
-  #image("../../approvazioni/assets/Ergon_2026-10-22.png", width: 30%)
+  #image("../../assets/approvazioni/Ergon_2026-10-22.png", width: 30%)
 ]

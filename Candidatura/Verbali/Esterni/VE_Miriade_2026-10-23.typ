@@ -134,5 +134,5 @@ Con la presente firma, la proponente conferma che il contenuto del presente verb
 #align(right)[
   *Per Miriade Srl* \
   Emanuele Righetto \
-  #image("../../approvazioni/assets/Miriade_2026-10-23.png", width: 30%)
+  #image("../../assets/approvazioni/Miriade_2026-10-23.png", width: 30%)
 ]
