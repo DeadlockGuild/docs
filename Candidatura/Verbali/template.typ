@@ -33,7 +33,7 @@
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
     #v(1.2cm)
     
-    #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[#titolo] \
+    #par(justify: false, text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"), hyphenate: false)[#titolo])
     #v(0.5cm)
     #text(size: 14pt)[Data: #data] \
     #text(size: 14pt)[Versione: #versione]
@@ -45,7 +45,12 @@
       inset: (x: 10pt, y: 5pt),
       text(weight: "bold")[Uso:], uso,
       text(weight: "bold")[Redattore:], redattore,
-      text(weight: "bold")[Verificatore:], verificatore,
+      // Con più verificatori (array) l'etichetta passa al plurale
+      ..if type(verificatore) == array {
+        (text(weight: "bold")[Verificatori:], verificatore.join([\ ]))
+      } else {
+        (text(weight: "bold")[Verificatore:], verificatore)
+      },
       text(weight: "bold")[Destinatari:], destinatari.join([\ ]),
     )
     
