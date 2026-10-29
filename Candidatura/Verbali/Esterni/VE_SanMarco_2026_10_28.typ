@@ -29,7 +29,10 @@
 - Mattia Scomparin
 
 *San Marco Informatica S.p.A.*
-- Riferimento: Linda Benozzato
+- Riferimenti:
+    - Linda Benozzato
+    - Luca Marcon
+    - Alberto Veronese
 
 = Ordine del giorno
 + Canali di ingresso e entità da gestire
@@ -100,14 +103,12 @@
 
 _*Nota*: le voci prive di ID Issue e assegnatari rappresentano macro-attività la cui effettiva istanziazione e presa in carico è strettamente vincolata all'eventuale aggiudicazione del capitolato._
 
-#v(1.5cm)
 = Approvazione
 Con la presente firma, la proponente conferma che il contenuto del presente verbale rispecchia fedelmente gli argomenti trattati.
 
 #v(1cm)
 #align(right)[
   *Per San Marco Informatica S.p.A.* \
-  Linda Benozzato
-  #v(2cm)
+  #v(2.0cm)
   #line(length: 40%)
 ]
