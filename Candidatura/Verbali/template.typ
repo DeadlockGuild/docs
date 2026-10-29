@@ -115,6 +115,7 @@
     "Giacomo Ravazzolo",
     "Mattia Scomparin",
   ),
+  registro_modifiche: (),
   body
 ) = {
   set text(lang: "it", font: "Atkinson Hyperlegible Next", weight: 400)
@@ -167,6 +168,22 @@
       )
     ],
   )
+
+  // Registro Modifiche
+  if registro_modifiche.len() > 0 {
+    heading([Registro delle modifiche], numbering: none, outlined: false)
+    text(
+      size: 10pt,
+      table(
+        columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
+        align: horizon + left,
+        table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
+        ..registro_modifiche.flatten()
+      )
+    )
+    pagebreak(weak: true)
+  }
+
   set par(spacing: 1.4em)
   set list(spacing: 1.2em)
   set smartquote(enabled: false)
