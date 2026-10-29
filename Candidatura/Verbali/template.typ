@@ -111,6 +111,7 @@
 #let lettera(
   titolo: "",
   data: "",
+  versione: "",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin"),
   mittenti: (
     "Godwin Agbleze",
@@ -146,6 +147,7 @@
     #par(justify: false, text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"), hyphenate: false)[#titolo])
     #v(0.5cm)
     #text(size: 14pt)[Data: #data]
+    #if versione != "" [ \ #text(size: 14pt)[Versione: #versione]]
 
     #v(1.5cm)
     #grid(
