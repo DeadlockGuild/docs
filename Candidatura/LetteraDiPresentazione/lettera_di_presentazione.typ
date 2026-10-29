@@ -1,15 +1,16 @@
 #import "../Verbali/template.typ": *
 
 #show: lettera.with(
-  titolo: "Lettera di presentazione candidatura",
+  titolo: "Lettera di presentazione",
   data: "2026-10-30",
   registro_modifiche: (
-    ([1.0.0], [2026-10-25], [Mattia Pasquato], [-], [- Prima stesura della lettera]),
-    ([1.1.0], [2026-10-29], [Mattia Pasquato], [-], [
+    ([1.0.2], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [- Correzioni minori]),
+    ([1.0.1], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [
       - Aggiunti costo stimato, ore totali e data di consegna
       - Aggiunto il registro delle modifiche
       - Aggiornato il link alla documentazione
     ]),
+    ([1.0.0], [2026-10-25], [Mattia Pasquato], [Carlo Nardin], [- Prima stesura della lettera]),
   ),
 )
 
