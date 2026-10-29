@@ -41,3 +41,7 @@ Per comunicazioni ufficiali è possibile contattare il gruppo all'indirizzo emai
 | Mattia Scomparin | 2110992 |
 
 </div>
+
+<div align="center">
+  <img src="assets/logo_text_nobg.png" alt="DeadlockGuild Logo" width="200"/>
+</div>
