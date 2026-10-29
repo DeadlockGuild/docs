@@ -2,16 +2,15 @@
 
 
 #show: verbale.with(
-  titolo: "Verbale - Miriade Srl (C5)",
+  titolo: "Verbale - Miriade (C5)",
   data: "2026-10-23",
-  versione: "1.0.2",
+  versione: "1.0.1",
   uso: "Esterno",
   redattore: "Carlo Nardin",
   verificatore: "Giacomo Ravazzolo",
-  destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Miriade Srl"),
+  destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Miriade"),
   riassunto: "Chiarimenti su Disease Pack, assistente, permessi e requisiti opzionali.",
   registro_modifiche: (
-    ([1.0.2], [2026-10-27], [Carlo Nardin], [Mattia Scomparin], [- Rettifica denominazione sociale proponente]),
     ([1.0.1], [2026-10-27], [Carlo Nardin], [Giacomo Ravazzolo], [- Aggiunta sezione per l'approvazione]),
     ([1.0.0], [2026-10-24], [Carlo Nardin], [Giacomo Ravazzolo], [- Prima stesura del verbale]),
   )
@@ -31,7 +30,7 @@
 - Giacomo Ravazzolo
 - Mattia Scomparin
 
-*Miriade Srl*
+*Miriade*
 - Riferimento: Emanuele Righetto
 
 = Ordine del giorno
@@ -131,7 +130,7 @@ Con la presente firma, la proponente conferma che il contenuto del presente verb
 
 #v(1cm)
 #align(right)[
-  *Per Miriade Srl* \
+  *Per Miriade* \
   Emanuele Righetto \
   #v(2cm)
   #line(length: 40%)
