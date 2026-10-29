@@ -8,10 +8,8 @@
     Mattia Pasquato \
     Giacomo Ravazzolo
   ],
-  verificatore: [
-    Carlo Nardin\
-    Godwin Agbleze
-  ],
+  versione: "1.0.3",
+  verificatore: ("Carlo Nardin", "Godwin Agbleze"),
   registro_modifiche: (
     ([1.0.3], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [- Correzioni varie]),
     ([1.0.2], [2026-10-29], [Ravazzolo Giacomo], [Carlo Nardin], [- Correzione Tabella 1 e Grafico 1 e aggiunta in sezione @4]),
