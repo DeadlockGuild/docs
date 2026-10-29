@@ -2,7 +2,7 @@
 #set heading(supplement: [])
 
 #show: verbale.with(
-  titolo: "Valutazione costi e ore",
+  titolo: "Preventivo costi e dichiarazione impegni",
   data: "2026-10-26",
   redattore: [
     Mattia Pasquato \
