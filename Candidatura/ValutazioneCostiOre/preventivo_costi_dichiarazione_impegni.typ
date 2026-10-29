@@ -13,6 +13,7 @@
     Godwin Agbleze
   ],
   registro_modifiche: (
+    ([1.0.3], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [- Correzioni varie]),
     ([1.0.2], [2026-10-29], [Ravazzolo Giacomo], [Carlo Nardin], [- Correzione Tabella 1 e Grafico 1 e aggiunta in sezione @4]),
     ([1.0.1], [2026-10-28], [Ravazzolo Giacomo], [Godwin Agbleze], [- Stesura delle sezioni @3, @4 e @5]),
     ([1.0.0], [2026-10-26], [Mattia Pasquato], [Godwin Agbleze], [- Stesura delle sezioni @1, @2 e @6]),
@@ -147,7 +148,7 @@ Il grafico seguente mostra come si distribuiscono le 546 ore complessive tra i v
 #figure(
   kind: image,
   grid(
-    columns: (130pt, 1fr),
+    columns: (auto, auto),
     gutter: 16pt,
     align: horizon,
     ciambella(ruoli.map(r => (valore: r.ore, colore: r.colore))),
