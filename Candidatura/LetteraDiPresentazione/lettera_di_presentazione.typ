@@ -3,6 +3,7 @@
 #show: lettera.with(
   titolo: "Lettera di presentazione",
   data: "2026-10-30",
+  versione: "1.0.2",
   registro_modifiche: (
     ([1.0.2], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [- Correzioni minori]),
     ([1.0.1], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [
