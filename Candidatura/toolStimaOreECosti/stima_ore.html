@@ -25,32 +25,17 @@
     --bg-main: #f8f9fa;
     --bg-section: #ffffff;
     --bg-bar: #e9ecef;
-    --border: #dee2e6;
-    --text-main: #2b3035;
+    --border: #000000; /* Bordi neri */
+    --text-main: #000000;
     --text-muted: #6c757d;
-    --accent: #c85815;
+    --accent: #c85815; /* Sfondo intestazione */
     --accent-soft: rgba(200, 88, 21, 0.12);
     --ok: #2e8540;
     --ok-soft: rgba(46, 133, 64, 0.18);
     --warn: #b7791f;
     --ko: #c53030;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg-main: #16181b;
-      --bg-section: #1f2226;
-      --bg-bar: #2b2f34;
-      --border: #3a3f45;
-      --text-main: #e9ecef;
-      --text-muted: #9aa1a8;
-      --accent: #e8702b;
-      --accent-soft: rgba(232, 112, 43, 0.16);
-      --ok: #4caf68;
-      --ok-soft: rgba(76, 175, 104, 0.22);
-      --warn: #e0a43a;
-      --ko: #ef5b5b;
-    }
-  }
+//qui manca un pezzo??
 
   * { box-sizing: border-box; }
 
@@ -68,7 +53,6 @@
     margin: 0 auto;
     padding: 16px 16px 32px;
   }
-
   /* Intestazione */
   header {
     display: flex;
@@ -77,14 +61,11 @@
     text-align: center;
     gap: 6px;
     margin-bottom: 16px;
-  }
+  }//manca un media che è diverso da questo header
   header img {
     height: 64px;
     width: auto;
     border-radius: 10px;
-  }
-  @media (prefers-color-scheme: dark) {
-    header img { background: #f8f9fa; }
   }
   h1 {
     font-family: "Montserrat", system-ui, sans-serif;
@@ -101,7 +82,7 @@
     font-size: 1rem;
     margin: 0 0 10px;
   }
-
+  
   /* Layout a due colonne: ruoli a sinistra, indicatori a destra */
   .layout {
     display: grid;
@@ -138,9 +119,9 @@
   input[type="number"] {
     font: inherit;
     color: var(--text-main);
-    background: var(--bg-main);
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 4px;
     padding: 4px 6px;
     width: 100%;
     min-width: 0;
@@ -150,7 +131,7 @@
     outline: 2px solid var(--accent);
     outline-offset: 1px;
   }
-
+  
   /* Parametri compatti */
   .parametri {
     display: flex;
@@ -179,7 +160,7 @@
   .valori div { font-size: 0.75rem; color: var(--text-muted); }
   .valori div:last-child { text-align: right; }
   .valori strong { display: block; font-size: 1.05rem; color: var(--text-main); }
-
+	
   /* Indicatore */
   .barra {
     position: relative;
@@ -249,64 +230,47 @@
   .stato.sotto { background: var(--accent-soft); color: var(--warn); }
   .stato.sopra { background: rgba(197, 48, 48, 0.14); color: var(--ko); }
 
-  /* Tabella ruoli */
+  /* Tabella personalizzata: Sfondo bianco, profili neri, header arancione */
   .tabella-wrap { overflow-x: auto; }
   table {
     width: 100%;
     border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #000000;
   }
   th, td {
-    padding: 6px 8px;
-    border-bottom: 1px solid var(--border);
+    padding: 8px 10px;
+    border: 1px solid #000000; /* Profili neri per tutte le celle */
     text-align: left;
     vertical-align: middle;
   }
   th {
-    background: var(--accent);
-    color: #fff;
+    background: #c85815; /* Sfondo intestazione richiesto */
+    color: #ffffff;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
   th.num, td.num { text-align: right; }
-  tbody tr:nth-child(even) { background: var(--bg-main); }
+  tbody tr { background: #ffffff !important; } /* Tutte le righe sfondo bianco */
   td .ruolo { font-weight: 700; }
-  td .descrizione { font-size: 0.72rem; color: var(--text-muted); line-height: 1.25; }
   td input[type="number"] { width: 76px; margin-left: auto; display: block; }
   td.totale { white-space: nowrap; }
   tfoot td {
     font-weight: 700;
-    border-top: 2px solid var(--accent);
-    border-bottom: none;
+    border-top: 2px solid #000000;
+    background: #ffffff;
   }
   .totale-generale { color: var(--accent); }
-  @media (max-width: 480px) {
-    table { font-size: 13px; }
-    th, td { padding: 6px 3px; }
-    td input[type="number"] { width: 56px; padding: 4px; }
-    td:nth-child(2) input[type="number"] { width: 46px; }
-  }
 
-  /* Grafico a torta: ripartizione delle ore per ruolo */
   .torta-box {
     margin-top: 16px;
-    --serie-1: #2a78d6;
-    --serie-2: #eb6834;
-    --serie-3: #1baf7a;
-    --serie-4: #eda100;
-    --serie-5: #e87ba4;
-    --serie-6: #008300;
+    --serie-1: #168AAD; 
+    --serie-2: #2A9D8F;
+    --serie-3: #E9C46A; 
+    --serie-4: #F4A261; 
+    --serie-5: #E76F51; 
+    --serie-6: #4A6FA5;
     --vuoto: #e9ecef;
-  }
-  @media (prefers-color-scheme: dark) {
-    .torta-box {
-      --serie-1: #3987e5;
-      --serie-2: #d95926;
-      --serie-3: #199e70;
-      --serie-4: #c98500;
-      --serie-5: #d55181;
-      --serie-6: #008300;
-      --vuoto: #2b2f34;
-    }
   }
   .torta {
     display: grid;
@@ -341,7 +305,7 @@
     position: absolute;
     pointer-events: none;
     background: var(--bg-section);
-    border: 1px solid var(--border);
+    border: 1px solid #000000;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     padding: 6px 8px;
@@ -354,11 +318,9 @@
   .legenda { width: 100%; max-width: 440px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
   .legenda td {
     padding: 4px 6px;
-    border-bottom: 1px solid var(--border);
+    border: 1px solid #000000;
     font-size: 0.85rem;
   }
-  .legenda tr:last-child td { border-bottom: none; }
-  .legenda tr.attiva td { background: var(--bg-main); }
   .legenda .colore {
     display: inline-block;
     width: 10px;
@@ -400,9 +362,10 @@
           <thead>
             <tr>
               <th>Ruolo</th>
-              <th class="num">€/h</th>
-              <th class="num">Ore</th>
-              <th class="num">Totale</th>
+              <th class="num">Costo orario</th>
+              <th class="num">Ore per ruolo</th>
+              <th class="num">Ore per membro</th>
+              <th class="num">Costo totale</th>
             </tr>
           </thead>
           <tbody id="ruoli"></tbody>
@@ -411,6 +374,7 @@
               <td>Totale</td>
               <td></td>
               <td class="num" id="footOre">0 h</td>
+              <td class="num" id="footOreMembro">0 h</td>
               <td class="num totale-generale" id="footCosto">0,00 €</td>
             </tr>
           </tfoot>
@@ -483,21 +447,14 @@
 
 <script>
   const RUOLI = [
-    { id: "responsabile", nome: "Responsabile", costo: 30,
-      descrizione: "Coordina piani, scadenze e attività del gruppo; approva i rilasci" },
-    { id: "amministratore", nome: "Amministratore", costo: 20,
-      descrizione: "Assicura l'efficienza di procedure, strumenti e tecnologie del way of working" },
-    { id: "analista", nome: "Analista", costo: 25,
-      descrizione: "Svolge le attività di analisi dei requisiti" },
-    { id: "progettista", nome: "Progettista", costo: 25,
-      descrizione: "Svolge le attività di progettazione (design)" },
-    { id: "programmatore", nome: "Programmatore", costo: 15,
-      descrizione: "Svolge le attività di codifica" },
-    { id: "verificatore", nome: "Verificatore", costo: 15,
-      descrizione: "Svolge le attività di verifica" },
+    { id: "responsabile", nome: "Responsabile", costo: 30 },
+    { id: "amministratore", nome: "Amministratore", costo: 20 },
+    { id: "analista", nome: "Analista", costo: 25 },
+    { id: "progettista", nome: "Progettista", costo: 25 },
+    { id: "programmatore", nome: "Programmatore", costo: 15 },
+    { id: "verificatore", nome: "Verificatore", costo: 15 },
   ];
 
-  // Parametri fissi del progetto (non modificabili dalla pagina)
   const COMPONENTI = 6;
   const ORE_MIN_PERSONA = 80;
   const ORE_MAX_PERSONA = 95;
@@ -515,19 +472,19 @@
   $("componenti").textContent = COMPONENTI;
   $("orePersona").textContent = `${ORE_MIN_PERSONA}–${ORE_MAX_PERSONA} h`;
 
-  // Costruzione righe della tabella
+  // Costruzione righe della tabella (senza descrizione, con colonna Ore per membro)
   const tbody = $("ruoli");
   for (const r of RUOLI) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><div class="ruolo">${r.nome}</div><div class="descrizione">${r.descrizione}</div></td>
-      <td class="num">${r.costo}</td>
+      <td><div class="ruolo">${r.nome}</div></td>
+      <td class="num">${r.costo} €/h</td>
       <td class="num"><input type="number" id="ore-${r.id}" min="0" step="1" placeholder="0" aria-label="Ore ${r.nome}"></td>
+      <td class="num" id="membro-${r.id}">0 h</td>
       <td class="num totale" id="totale-${r.id}">${euro.format(0)}</td>`;
     tbody.appendChild(tr);
   }
 
-  // Posiziona fascia, cursore e tacche di un indicatore; restituisce il colore usato
   function disegnaBarra(ids, valoreAttuale, minimo, massimo, fondoScala, testo, colore) {
     const pct = (v) => (v / fondoScala) * 100;
     const fineFascia = massimo === null ? 100 : pct(massimo);
@@ -554,9 +511,14 @@
       const costo = r.costo;
       oreTotali += ore;
       costoTotale += ore * costo;
+      
+      // Calcolo ore per membro (diviso 6)
+      const oreMembro = ore / COMPONENTI;
+      $("membro-" + r.id).textContent = numero.format(oreMembro) + " h";
       $("totale-" + r.id).textContent = euro.format(ore * costo);
     }
     $("footOre").textContent = numero.format(oreTotali) + " h";
+    $("footOreMembro").textContent = numero.format(oreTotali / COMPONENTI) + " h";
     $("footCosto").textContent = euro.format(costoTotale);
 
     aggiornaOre(oreTotali);
@@ -565,7 +527,6 @@
     salva();
   }
 
-  // Grafico a torta: una fetta per ruolo, colori fissi nell'ordine dei ruoli
   const percentuale = new Intl.NumberFormat("it-IT", { style: "percent", maximumFractionDigits: 1 });
   const legenda = $("legenda");
   for (const [i, r] of RUOLI.entries()) {
@@ -582,7 +543,6 @@
     return [100 + raggio * Math.sin(angolo), 100 - raggio * Math.cos(angolo)];
   }
 
-  // Percorso di una fetta di ciambella tra due angoli (in radianti, 0 = ore 12)
   function fetta(inizio, fine, rEsterno = 92, rInterno = 60) {
     if (fine - inizio >= 2 * Math.PI - 1e-6) fine = inizio + 2 * Math.PI - 1e-4;
     const grande = fine - inizio > Math.PI ? 1 : 0;
@@ -645,7 +605,6 @@
     const box = $("torta").getBoundingClientRect();
     tooltip.textContent = path.dataset.testo;
     tooltip.hidden = false;
-    // Il tooltip è centrato sul puntatore ma non deve uscire dal bordo dello schermo
     const metà = tooltip.offsetWidth / 2;
     const x = Math.min(Math.max(e.clientX, metà + 8), window.innerWidth - metà - 8);
     tooltip.style.left = x - box.left + "px";
@@ -698,7 +657,6 @@
     );
   }
 
-  // Indicatore del costo: un solo valore minimo, la zona valida è da lì in su
   function aggiornaCosto(costoTotale, oreTotali) {
     const minimo = valore($("costoMin"));
     const diff = costoTotale - minimo;
@@ -738,7 +696,7 @@
       const dati = {};
       for (const input of campi()) dati[input.id] = input.value;
       localStorage.setItem(CHIAVE_STORAGE, JSON.stringify(dati));
-    } catch (e) { /* storage non disponibile */ }
+    } catch (e) { }
   }
 
   function carica() {
@@ -747,7 +705,7 @@
       for (const input of campi()) {
         if (typeof dati[input.id] === "string") input.value = dati[input.id];
       }
-    } catch (e) { /* storage non disponibile */ }
+    } catch (e) { }
   }
 
   $("reset").addEventListener("click", () => {
