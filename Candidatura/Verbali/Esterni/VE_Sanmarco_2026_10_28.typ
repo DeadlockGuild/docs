@@ -10,7 +10,8 @@
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Sanmarco Informatica S.p.A."),
   riassunto: "",
   registro_modifiche: (
-    ([1.0.0], [2026-10-29], [Mattia Scomparin], [Godwin Agbleze], [- Prima stesura del verbale])
+    ([1.0.1], [2026-10-30], [Mattia Scomparin], [Carlo Nardin], [- Aggiunta approvazione della proponente]),
+    ([1.0.0], [2026-10-29], [Mattia Scomparin], [Godwin Agbleze], [- Prima stesura del verbale]),
   ),
 )
 
@@ -110,6 +111,5 @@ Con la presente firma, la proponente conferma che il contenuto del presente verb
 #align(right)[
   *Per Sanmarco Informatica S.p.A.* \
   Linda Benozzato (in collaborazione con Luca Marcon e Alberto Veronese) \
-  #v(2.0cm)
-  #line(length: 40%)
+  #image("../../../assets/approvazioni/Sanmarco_2026-10-30.png", width: 30%)
 ]
