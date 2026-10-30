@@ -3,13 +3,14 @@
 #show: verbale.with(
   titolo: "Verbale - Ergon Informatica Srl (C7)",
   data: "2026-10-22",
-  versione: "1.0.3",
+  versione: "1.0.4",
   uso: "Esterno",
   redattore: "Carlo Nardin",
-  verificatore: "Mattia Pasquato",
+  verificatore: ("Mattia Pasquato", "Mattia Scomparin"),
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Ergon Informatica Srl"),
   riassunto: "Chiarimenti su gestionale e Data Warehouse, widget e dashboard, assistente AI, ambiente di esecuzione e controllo degli accessi.",
   registro_modifiche: (
+    ([1.0.4], [2026-10-30], [Carlo Nardin], [Mattia Scomparin], [- Corretta la lista dei verificatori]),
     ([1.0.3], [2026-10-29], [Carlo Nardin], [Mattia Scomparin], [- Aggiunta approvazione della proponente]),
     ([1.0.2], [2026-10-27], [Carlo Nardin], [Mattia Scomparin], [- Rettifica denominazione sociale proponente]),
     ([1.0.1], [2026-10-27], [Carlo Nardin], [Mattia Pasquato], [- Aggiunta sezione per l'approvazione]),
