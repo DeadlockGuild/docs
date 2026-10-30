@@ -23,7 +23,7 @@
   #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[Valutazione dei Capitolati] \
   #v(0.5cm)
   #text(size: 14pt)[Data: 2026-10-27] \
-  #text(size: 14pt)[Versione: 1.0.0]
+  #text(size: 14pt)[Versione: 1.0.1]
   
   #v(1.5cm)
   #grid(
@@ -64,10 +64,18 @@
     columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
     align: horizon + left,
     table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
-    [1.0.0], [2026-10-27], [Carlo Nardin], [Nikola Miljanovic], [- Prima stesura del documento]
+    [1.0.1], [2026-10-30], [Carlo Nardin], [Godwin Agbleze], [- Aggiornamento valutazione C3, C4 e C5],
+    [1.0.0], [2026-10-27], [Carlo Nardin], [Nikola Miljanovic], [- Unificazione delle valutazioni in un documento Typst],
+    [0.3.0], [2026-10-26], [Godwin Agbleze], [Mattia Scomparin], [- Stesura valutazione C6, C7, C8 e C9],
+    [0.2.0], [2026-10-25], [Nikola Miljanovic], [Giacomo Ravazzolo], [- Stesura valutazione  C3, C4 e C5],
+    [0.1.0], [2026-10-24], [Giacomo Ravazzolo], [Godwin Agbleze], [- Stesura valutazione C0, C1 e C2]
   )
 )
 
+#v(0.5em)
+#text(size: 10pt)[
+  _*Nota*: le versioni 0.x.x documentano la fase di stesura dei contenuti, svolta senza occuparsi di presentazione e impaginazione. Il coordinamento e lo scambio di feedback tra redattore e verificatore sono avvenuti principalmente tramite le issue di GitHub. I contributi sono stati poi unificati e formattati nel presente documento a partire dalla versione 1.0.0._
+]
 
 #pagebreak(weak: true)
 
@@ -212,6 +220,10 @@ Stack, modelli e servizi di intelligenza artificiale da utilizzare per il Concie
 == Conclusioni
 Il capitolato è interessante e ben strutturato, ma rispetto agli altri è risultato meno accattivante e per questo il gruppo ha preferito orientarsi verso altre proposte.
 
+
+#pagebreak()
+
+
 = Capitolato C3: FossDot
 
 == Informazioni generali
@@ -220,9 +232,7 @@ Il capitolato è interessante e ben strutturato, ma rispetto agli altri è risul
 - *Committente*: Prof. Tullio Vardanega e Prof. Riccardo Cardin
 
 == Descrizione
-Il progetto chiede di realizzare un smart speaker open source (un assistente vocale da tavolo simile ad Amazon Echo o Google Nest) che sia però completamente aperto, modificabile e rispettoso della privacy.
-
-L'ecosistema copre l'intera catena del valore di un assistente vocale da tavolo, articolandosi in quattro componenti principali:
+Il progetto chiede di realizzare uno smart speaker open source (un assistente vocale da tavolo simile ad Amazon Echo o Google Nest) che sia completamente aperto, modificabile e rispettoso della privacy. L'ecosistema copre l'intera catena del valore di un assistente vocale da tavolo, articolandosi in quattro componenti principali:
 - Selezione dell'hardware
 - Firmware embedded (MVP)
 - Servizio di bridging (Backend)
@@ -230,78 +240,76 @@ L'ecosistema copre l'intera catena del valore di un assistente vocale da tavolo,
 
 == Finalità
 La finalità principale del progetto è superare i limiti strutturali, di privacy e commerciali dei dispositivi commerciali esistenti (come Amazon Echo, Google Nest e Apple HomePod), i quali risultano chiusi e legati indissolubilmente al cloud di un unico fornitore. Nello specifico, gli obiettivi chiave sono:
-- Eliminare il vincolo di lock-in e offrire libertà di scelta
-- Garantire la privacy e la conformità al GDPR
-- Contrastare l'obsolescenza programmata
-- Abilitare la cooperazione multi-dispositivo
+- Eliminare il vincolo di lock-in e offrire libertà di scelta.
+- Garantire la privacy e la conformità al GDPR.
+- Contrastare l'obsolescenza programmata.
+- Abilitare la cooperazione multi-dispositivo.
 
 == Tecnologie interessate
-- hardware di elaborazione (single-board computer o microcontrollore) scelto dal gruppo, array di microfoni e altoparlante
-- Rust e framework Embassy per lo sviluppo del firmware embedded
-- Silero VAD per l'identificazione del parlato
-- openWakeWorkd per il rilevamento delle "wake-word"
-- faster-whisper per garantire l'efficienza dello speech-to-text
-- Piper la sintesi vocale (text-to-speech)
-- Rust con Runtime Tokio e Axum per servizio di bridging (server e API)
-- Ollama per eseguire modelli linguistici in locale a garanzia della privacy
-- Docker per il servizio server
+- Hardware di elaborazione (single-board computer o microcontrollore) scelto dal gruppo, array di microfoni e altoparlante.
+- Rust e framework Embassy per lo sviluppo del firmware embedded.
+- Silero VAD per l'identificazione del parlato.
+- openWakeWord per il rilevamento delle wake-word.
+- faster-whisper per garantire l'efficienza dello speech-to-text.
+- Piper per la sintesi vocale (text-to-speech).
+- Rust con Runtime Tokio e Axum per il servizio di bridging (server e API).
+- Ollama per eseguire modelli linguistici in locale a garanzia della privacy.
+- Docker per il servizio server.
 
 == Aspetti positivi
-- offre ottime competenze verticali da inserire nel proprio protfolio (uso di Rust per ecosistemi moderni, modelli IA locali e protocolli emergenti come MCP)
-- libertà di scelta tecnologica e supporto aziendale
-- proprietà intellettuale aperta (il progetto rimane del gruppo con licenza permissiva)
+- Offre ottime competenze verticali da inserire nel proprio portfolio (uso di Rust per ecosistemi moderni, modelli AI locali e protocolli emergenti come MCP).
+- Libertà di scelta tecnologica e supporto aziendale.
+- Proprietà intellettuale aperta (il progetto rimane del gruppo con licenza permissiva).
 
 == Criticità e fattori di rischio
-- problema troppo eterogeneo nel suo insieme (non si tratta solo di software ma anche di selezione di componenti fisici)
-- gestire la cattura a distanza, il rilevamento delle "wake-word", la riduzione del rumore e le altre funzionalità specifiche del capitolato può rivelarsi troppo complesso
-- per completare l'MVP e verificare il funzionamento del prodotto con diversi dispositivi e interfacce è richiesta una considerevole mole di test
+- Problema troppo eterogeneo nel suo insieme (non si tratta solo di software ma anche di selezione di componenti fisici).
+- Gestire la cattura a distanza, il rilevamento delle wake-word, la riduzione del rumore e le altre funzionalità specifiche del capitolato può rivelarsi troppo complesso.
+- Per completare l'MVP e verificare il funzionamento del prodotto con diversi dispositivi e interfacce è richiesta una considerevole mole di test.
 
 == Conclusioni
-A causa della forte eterogeneità tra hardware e software, della complessità nella gestione dei flussi audio in tempo reale e dell'onerosità per il completamento del MVP, il gruppo ha deciso di scartare questo capitolato e di orientarsi verso alternative più sostenibili.
+A causa della forte eterogeneità tra hardware e software, della complessità nella gestione dei flussi audio in tempo reale e dell'onere sproporzionato dei test per l'MVP, il gruppo ha deciso di scartare questo capitolato e di orientarsi verso alternative più sostenibili.
 
 
 #pagebreak()
 
 
-= Capitolato C4: GVSPV
+= Capitolato C4: Gestione Veicoli e Servizi Post-Vendita
 
 == Informazioni generali
-- *Progetto*: GVSPV
+- *Progetto*: Gestione Veicoli e Servizi Post-Vendita
 - *Proponente*: M31 s.r.l.
 - *Committente*: Prof. Tullio Vardanega e Prof. Riccardo Cardin
 
 == Descrizione
-Il progetto consiste nello sviluppo di una piattaforma software centralizzata e distribuita per il settore automotive, pensata per gestire l'intero ciclo di vita post-vendita di un veicolo.
-
-Il sistema deve far collaborare tre attori principali attraverso livelli architetturali dedicati:
-- La Casa Automobilistica (Central Management) che gestisce i cataloghi dei modelli, l'immatricolazione iniziale dei veicoli e l'emissione di eventuali campagne di richiamo di sicurezza.
-- Le Concessionarie e i Centri di Assistenza (Operations) che gestiscono le vendite ai clienti finali, la ricezione delle richieste di manutenzione, la pianificazione degli appuntamenti e l'esecuzione dei richiami.
+Il progetto consiste nello sviluppo di una piattaforma software centralizzata e distribuita per il settore automotive, pensata per gestire l'intero ciclo di vita post-vendita di un veicolo. Il sistema deve far collaborare tre attori principali attraverso livelli architetturali dedicati:
+- La Casa Automobilistica (Central Management), che gestisce i cataloghi dei modelli, l'immatricolazione iniziale dei veicoli e l'emissione di eventuali campagne di richiamo di sicurezza.
+- Le Concessionarie e i Centri di Assistenza (Operations), che gestiscono le vendite ai clienti finali, la ricezione delle richieste di manutenzione, la pianificazione degli appuntamenti e l'esecuzione dei richiami.
 - I Proprietari Finali (Customer Services), a cui viene messo a disposizione un punto di accesso dedicato per consultare i dati dei propri veicoli, prenotare interventi di manutenzione e ricevere notifiche.
 
 == Finalità
-L'obiettivo principale del progetto è superare la frammentazione delle informazioni e dei sistemi nel settore post-vendita automotive centralizzando le informazioni, migliorando la collaborazione tra i vari attori coinvolti, offrendo un punto di accesso unificato e garantendo un accesso sicuro e profilato in base ai differenti ruoli utente.
+L'obiettivo principale del progetto è superare la frammentazione delle informazioni e dei sistemi nel settore post-vendita automotive, centralizzando le informazioni, migliorando la collaborazione tra i vari attori coinvolti, offrendo un punto di accesso unificato e garantendo un accesso sicuro e profilato in base ai differenti ruoli utente.
 
 == Tecnologie interessate
-- Node.js e Nest.js con TypeScript
-- Go
-- PostgreSQL e MongoDB per la persistenza dei dati
-- Redis
-- NATS come message broker per la comunicazione asincrona
-- Kubernetes per l'orchestrazione
-- Angular per lo sviluppo frontend
-- Architettura a microservizi
+- Node.js e Nest.js con TypeScript.
+- Go.
+- PostgreSQL e MongoDB per la persistenza dei dati.
+- Redis.
+- NATS come message broker per la comunicazione asincrona.
+- Kubernetes per l'orchestrazione.
+- Angular per lo sviluppo frontend.
+- Architettura a microservizi.
 
 == Aspetti positivi
-- si tratta di un progetto con un dominio molto reale e ben strutturato (i processi del post-vendita del settore automotive sono standardizzati e logici, il che rende semplice la stesura dei casi d'uso)
-- richiede l'uso di tecnologie molto richieste nel mercato dello sviluppo software come Nest.js, TypeScript, PostgreSQL e Angular
+- Si tratta di un progetto con un dominio molto reale e ben strutturato (i processi del post-vendita del settore automotive sono standardizzati e logici, il che rende semplice la stesura dei casi d'uso).
+- Richiede l'uso di tecnologie molto richieste nel mercato dello sviluppo software come Nest.js, TypeScript, PostgreSQL e Angular.
 
 == Criticità e fattori di rischio
-- possibile overengineering infrastrutturale: viene fatta intuire l'adozione di un'architettura distribuita a microservizi (gestione di cluster Kubernetes, gestione di comunicazione asincrona con un message broker, implementazione di un sistema di persistenza poliglotta)
-- possibili difficoltà nella gestione delle campagne di richiamo (bisogna poter identificare migliaia di veicoli associati ad un comune difetto di fabbrica, coordinare la comunicazione casa madre-concessionarie e gestire le modalità di contatto e notifica verso i clienti)
-- necessità di creare molteplici interfacce e dashboard profondamente diverse a seconda della tipologia di utente
+- Possibile overengineering infrastrutturale: viene fatta intuire l'adozione di un'architettura distribuita a microservizi (gestione di cluster Kubernetes, gestione di comunicazione asincrona con un message broker, implementazione di un sistema di persistenza poliglotta).
+- Possibili difficoltà nella gestione delle campagne di richiamo (bisogna poter identificare migliaia di veicoli associati a un comune difetto di fabbrica, coordinare la comunicazione casa madre-concessionarie e gestire le modalità di contatto e notifica verso i clienti).
+- Necessità di creare molteplici interfacce e dashboard profondamente diverse a seconda della tipologia di utente.
 
 == Conclusioni
-In considerazione dei marcati rischi infrastrutturali e delle possibili difficoltà legate al dominio del progetto, il gruppo ha deciso di non voler approfondire ulteriormente il capitolato
+In considerazione dei marcati rischi infrastrutturali e delle possibili difficoltà legate al dominio del progetto, il gruppo ha deciso di non voler approfondire ulteriormente il capitolato.
 
 
 #pagebreak()
@@ -315,32 +323,38 @@ In considerazione dei marcati rischi infrastrutturali e delle possibili difficol
 - *Committente*: Prof. Tullio Vardanega e Prof. Riccardo Cardin
 
 == Descrizione
-RareCare Navigator è una piattaforma digitale e mobile (cross-platform) dotata di un assistente virtuale basato su Intelligenza Artificiale, progettata per la gestione e il supporto delle persone affette da malattie rare e complesse.
-
-La soluzione si compone di:
+RareCare Navigator è una piattaforma digitale e mobile (cross-platform) dotata di un assistente virtuale basato su intelligenza artificiale, progettata per la gestione e il supporto delle persone affette da malattie rare e complesse. La soluzione si compone di:
 - Un Hub di Coordinamento Multilivello: Una dashboard collaborativa con controlli d'accesso granulari per connettere in sicurezza i diversi attori della rete di cura.
-- Un Assistente RAG: implementato come chat AI per orientare i familiari tra protocolli clinici e pratiche burocratiche attingendo esclusivamente a fonti verificate.
-- Un Fascicolo Digitale e Checklist Dinamiche: Un archivio cifrato per la gestione sicura dei documenti clinici/scolastici (come referti, PAI e PEI) e il tracciamento automatizzato di scadenze e promemoria.
+- Un Assistente RAG: Implementato come chat AI per orientare i familiari tra protocolli clinici e pratiche burocratiche attingendo esclusivamente a fonti verificate.
+- Un Fascicolo Digitale e Checklist Dinamiche: Un archivio cifrato per la gestione sicura dei documenti clinici e scolastici (come referti, PAI e PEI) e il tracciamento automatizzato di scadenze e promemoria.
 - Un'Architettura Cloud Serverless e Modulare: Strutturata separando il Core della piattaforma dai pacchetti specifici di patologia (Disease Pack), così da risultare facilmente estendibile ad altre malattie rare.
 
 == Finalità
-La finalità principale del progetto è superare l'isolamento e la frammentazione dei servizi che le famiglie con pazienti affetti da malattie rare affrontano quotidianamente, alleggerendo il pesante carico organizzativo ed emotivo.
+La finalità principale del progetto è superare l'isolamento e la frammentazione dei servizi che le famiglie con pazienti affetti da malattie rare affrontano quotidianamente, alleggerendo il pesante carico organizzativo ed emotivo. Il sistema intende affiancare e potenziare la figura del Care Navigator, sfruttando le moderne tecnologie per trasformare un percorso assistenziale spesso discontinuo in un'esperienza più integrata, accessibile e sicura per tutti, garantendo alle famiglie un punto di riferimento stabile e continuo.
 
-Il sistema intende affiancare e potenziare la figura del Care Navigator, sfruttando le moderne tecnologie per trasformare un percorso assistenziale spesso discontinuo in un'esperienza più integrata, accessibile e sicura per tutti, garantendo alle famiglie un punto di riferimento stabile e continuo.
+== Tecnologie interessate
+- Cloud AWS (architettura serverless con AWS Lambda, API Gateway, Amazon Bedrock, Aurora Serverless v2, S3, EventBridge).
+- Flutter o React Native per lo sviluppo frontend cross-platform (iOS, Android, Web).
+- Modelli di GenAI e RAG (tramite Amazon Bedrock e modelli linguistici).
+- Amazon Cognito per l'autenticazione e gestione identità.
 
 == Aspetti positivi
-- elevato impatto etico e sociale: si tratta di un progetto estremamente concreto (testato sul campo con Sanfilippo Fighters) con una finalità reale e tangibile
-- la separazione tra il nucleo e i "pacchetti di patologia" permette di sperimentare e applicare in modo rigoroso i pattern tipici del Domain-Driven Design garantendo lo sviluppo di un'architettura portatile e "pulita"
-- L'utilizzo delle principali tecnologie cloud (es. AWS) disponibili sul mercato arricchisce il nostro curriculum personale
-- L'azienda ha fornito un capitolato estremamente dettagliato fornendo in questo modo un'ottima base di partenza, offrendo inoltre la propria disponibilità per una formazione specifica iniziale e periodici incontri di allineamento e chiarimenti per il gruppo
+- Elevato impatto etico e sociale: si tratta di un progetto estremamente concreto (testato sul campo con Sanfilippo Fighters) con una finalità reale e tangibile.
+- La separazione tra il nucleo e i "pacchetti di patologia" permette di sperimentare e applicare in modo rigoroso i pattern tipici del Domain-Driven Design, garantendo lo sviluppo di un'architettura portatile e pulita.
+- L'utilizzo delle principali tecnologie cloud (es. AWS) disponibili sul mercato arricchisce il nostro curriculum personale.
+- L'azienda ha fornito un capitolato estremamente dettagliato, offrendo un'ottima base di partenza e la propria disponibilità per una formazione specifica iniziale e periodici incontri di allineamento e chiarimenti per il gruppo.
 
 == Criticità e fattori di rischio
-- rigidità normativa e di sicurezza da considerare nello sviluppo del progetto trattandosi di dati sanitari particolarmente sensibili
-- occorre porre particolare attenzione alla gestione delle allucinazioni e implementare rigorosi metodi di controllo e validazione per le risposte fornite dai modelli IA
-- fase iniziale lenta per lo studio delle tecnologie richieste (Flutter/React Native, il prodotto finale deve essere multi-piattaforma es. iOS, Android, Web)
+- Rigidità normativa e di sicurezza da considerare nello sviluppo del progetto, trattandosi di dati sanitari particolarmente sensibili.
+- Occorre porre particolare attenzione alla gestione delle allucinazioni e implementare rigorosi metodi di controllo e validazione per le risposte fornite dai modelli AI.
+- Fase iniziale lenta per lo studio delle tecnologie richieste (Flutter o React Native, con un prodotto finale multi-piattaforma per iOS, Android e Web).
 
 == Conclusioni
-Considerati i punti a sfavore il gruppo concorda, comunque, che le motivazioni a vantaggio del capitolato ne rendono interessante un'approfondimento con l'azienda proponente e un possibile sviluppo
+Considerati i punti a sfavore, il gruppo concorda comunque sul fatto che le motivazioni a vantaggio del capitolato ne rendano interessante un approfondimento con l'azienda proponente e un possibile sviluppo.
+
+
+#pagebreak()
+
 
 = Capitolato C6: Sistema AI di caching semantico e dashboard FinOps
 
