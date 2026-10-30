@@ -29,16 +29,16 @@
     #text(size: 12pt)[Corso di Laurea in Informatica] \
     #text(size: 12pt)[Ingegneria del Software -- A.A. 2026/2027]
     
-    #v(1.2cm)
+    #v(1.0cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(1.2cm)
+    #v(1.0cm)
     
     #par(justify: false, text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"), hyphenate: false)[#titolo])
     #v(0.5cm)
     #text(size: 14pt)[Data: #data] \
     #text(size: 14pt)[Versione: #versione]
     
-    #v(1.4cm)
+    #v(1.2cm)
     #grid(
       columns: (1fr, 1fr),
       align: (right, left),
@@ -54,9 +54,9 @@
       text(weight: "bold")[Destinatari:], destinatari.join([\ ]),
     )
     
-    #v(0.8cm)
+    #v(0.7cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(0.8cm)
+    #v(0.7cm)
     
     #if riassunto != "" [
       #text(size: 14pt, weight: "bold")[Riassunto del verbale] \
