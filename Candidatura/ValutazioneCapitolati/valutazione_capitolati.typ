@@ -23,7 +23,7 @@
   #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[Valutazione dei Capitolati] \
   #v(0.5cm)
   #text(size: 14pt)[Data: 2026-10-27] \
-  #text(size: 14pt)[Versione: 1.0.1]
+  #text(size: 14pt)[Versione: 1.0.2]
   
   #v(1.5cm)
   #grid(
@@ -64,11 +64,12 @@
     columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
     align: horizon + left,
     table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
+    [1.0.2], [2026-10-30], [Carlo Nardin], [Godwin Agbleze], [- Aggiornati verificatori],
     [1.0.1], [2026-10-30], [Carlo Nardin], [Godwin Agbleze], [- Aggiornamento valutazione C3, C4 e C5],
     [1.0.0], [2026-10-27], [Carlo Nardin], [Nikola Miljanovic], [- Unificazione delle valutazioni in un documento Typst],
     [0.3.0], [2026-10-26], [Godwin Agbleze], [Mattia Scomparin], [- Stesura valutazione C6, C7, C8 e C9],
-    [0.2.0], [2026-10-25], [Nikola Miljanovic], [Giacomo Ravazzolo], [- Stesura valutazione  C3, C4 e C5],
-    [0.1.0], [2026-10-24], [Giacomo Ravazzolo], [Godwin Agbleze], [- Stesura valutazione C0, C1 e C2]
+    [0.2.0], [2026-10-25], [Nikola Miljanovic], [Godwin Agbleze], [- Stesura valutazione  C3, C4 e C5],
+    [0.1.0], [2026-10-24], [Giacomo Ravazzolo], [Mattia Scomparin], [- Stesura valutazione C0, C1 e C2]
   )
 )
 
