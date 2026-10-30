@@ -6,7 +6,7 @@
   versione: "1.0.4",
   uso: "Esterno",
   redattore: "Carlo Nardin",
-  verificatore: ("Mattia Pasquato", "Mattia Scomparin")
+  verificatore: ("Mattia Pasquato", "Mattia Scomparin"),
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Ergon Informatica Srl"),
   riassunto: "Chiarimenti su gestionale e Data Warehouse, widget e dashboard, assistente AI, ambiente di esecuzione e controllo degli accessi.",
   registro_modifiche: (
