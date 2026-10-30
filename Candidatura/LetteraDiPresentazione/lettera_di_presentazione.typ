@@ -5,6 +5,7 @@
   data: "2026-10-30",
   versione: "1.0.2",
   registro_modifiche: (
+    ([1.0.3], [2026-10-30], [Mattia Scomparin], [Giacomo Ravazzolo], [- Correzione nomi documenti correlati]),
     ([1.0.2], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [- Correzioni minori]),
     ([1.0.1], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [
       - Aggiunti costo stimato, ore totali e data di consegna
@@ -23,11 +24,11 @@ Tutta la documentazione viene resa disponibile pubblicamente all'indirizzo
 
 dove nella sezione candidatura si possono consultare i seguenti documenti:
 
-- Dichiarazione impegni e preventivo costi;
+- Preventivo costi e dichiarazione impegni;
 - Valutazione dei capitolati;
 - Verbali interni ed esterni.
 
-Come riportato nel documento _"Dichiarazione impegni e preventivo costi"_ il costo stimato del prodotto è di *11.220,00 €*, corrispondente a un impegno complessivo di *546 ore*, e la data prevista di consegna è il *09/04/2027*.
+Come riportato nel documento _"Preventivo costi e dichiarazione impegni"_ il costo stimato del prodotto è di *11.220,00 €*, corrispondente a un impegno complessivo di *546 ore*, e la data prevista di consegna è il *09/04/2027*.
 
 Si riporta di seguito l'elenco dei componenti del gruppo con il relativo numero di matricola:
 
