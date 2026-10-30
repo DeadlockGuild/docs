@@ -4,13 +4,14 @@
 #show: verbale.with(
   titolo: "Verbale - Miriade Srl (C5)",
   data: "2026-10-23",
-  versione: "1.0.3",
+  versione: "1.0.4",
   uso: "Esterno",
   redattore: "Carlo Nardin",
-  verificatore: "Giacomo Ravazzolo",
+  verificatore: ("Giacomo Ravazzolo", "Mattia Scomparin")
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Miriade Srl"),
   riassunto: "Chiarimenti su Disease Pack, assistente, permessi e requisiti opzionali.",
   registro_modifiche: (
+    ([1.0.4], [2026-10-30], [Carlo Nardin], [Mattia Scomparin], [- Corretta la lista dei verificatori]),
     ([1.0.3], [2026-10-29], [Carlo Nardin], [Mattia Scomparin], [- Aggiunta approvazione della proponente]),
     ([1.0.2], [2026-10-27], [Carlo Nardin], [Mattia Scomparin], [- Rettifica denominazione sociale proponente]),
     ([1.0.1], [2026-10-27], [Carlo Nardin], [Giacomo Ravazzolo], [- Aggiunta sezione per l'approvazione]),
