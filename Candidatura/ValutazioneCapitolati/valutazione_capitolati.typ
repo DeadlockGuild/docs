@@ -32,7 +32,7 @@
     inset: (x: 10pt, y: 5pt),
     row-gutter: 0.7em, 
     text(weight: "bold")[Redattore:], [Godwin Agbleze \ Nikola Miljanovic \ Carlo Nardin \ Giacomo Ravazzolo],
-    text(weight: "bold")[Verificatore:], [Godwin Agbleze \ Nikola Miljanovic \ Giacomo Ravazzolo \ Mattia Scomparin],
+    text(weight: "bold")[Verificatore:], [Godwin Agbleze \ Nikola Miljanovic \ Mattia Scomparin],
     text(weight: "bold")[Destinatari:], [Prof. Tullio Vardanega \ Prof. Riccardo Cardin],
   )
   
