@@ -1,15 +1,25 @@
 #import "../Verbali/template.typ": *
 
 #show: lettera.with(
-  titolo: "Lettera di presentazione candidatura",
+  titolo: "Lettera di presentazione",
   data: "2026-10-30",
+  versione: "1.0.2",
+  registro_modifiche: (
+    ([1.0.2], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [- Correzioni minori]),
+    ([1.0.1], [2026-10-29], [Mattia Pasquato], [Carlo Nardin], [
+      - Aggiunti costo stimato, ore totali e data di consegna
+      - Aggiunto il registro delle modifiche
+      - Aggiornato il link alla documentazione
+    ]),
+    ([1.0.0], [2026-10-25], [Mattia Pasquato], [Carlo Nardin], [- Prima stesura della lettera]),
+  ),
 )
 
 Con la presente il gruppo *DeadlockGuild* si candida alla realizzazione del progetto descritto nel capitolato *C5* intitolato *_RareCare: Piattaforma AI per la raccolta dati e il supporto decisionale nelle malattie rare_*, proposto dall'azienda *MIRIADE srl*.
 
 Tutta la documentazione viene resa disponibile pubblicamente all'indirizzo
 
-#align(center, link("https://github.com/DeadlockGuild/docs"))
+#align(center, link("https://deadlockguild.github.io/docs/"))
 
 dove nella sezione candidatura si possono consultare i seguenti documenti:
 
@@ -17,7 +27,7 @@ dove nella sezione candidatura si possono consultare i seguenti documenti:
 - Valutazione dei capitolati;
 - Verbali interni ed esterni.
 
-Come riportato nel documento _"Dichiarazione impegni e preventivo costi"_ il costo stimato del prodotto è di *11.190,00 €*, corrispondente a un impegno complessivo di *546 ore*, e la data prevista di consegna è il *09/04/2027*.
+Come riportato nel documento _"Dichiarazione impegni e preventivo costi"_ il costo stimato del prodotto è di *11.220,00 €*, corrispondente a un impegno complessivo di *546 ore*, e la data prevista di consegna è il *09/04/2027*.
 
 Si riporta di seguito l'elenco dei componenti del gruppo con il relativo numero di matricola:
 

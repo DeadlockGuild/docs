@@ -33,25 +33,30 @@
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
     #v(1.2cm)
     
-    #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[#titolo] \
+    #par(justify: false, text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"), hyphenate: false)[#titolo])
     #v(0.5cm)
     #text(size: 14pt)[Data: #data] \
     #text(size: 14pt)[Versione: #versione]
     
-    #v(1.5cm)
+    #v(1.4cm)
     #grid(
       columns: (1fr, 1fr),
       align: (right, left),
       inset: (x: 10pt, y: 5pt),
       text(weight: "bold")[Uso:], uso,
       text(weight: "bold")[Redattore:], redattore,
-      text(weight: "bold")[Verificatore:], verificatore,
+      // Con più verificatori (array) l'etichetta passa al plurale
+      ..if type(verificatore) == array {
+        (text(weight: "bold")[Verificatori:], verificatore.join([\ ]))
+      } else {
+        (text(weight: "bold")[Verificatore:], verificatore)
+      },
       text(weight: "bold")[Destinatari:], destinatari.join([\ ]),
     )
     
-    #v(1.0cm)
+    #v(0.8cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(1.0cm)
+    #v(0.8cm)
     
     #if riassunto != "" [
       #text(size: 14pt, weight: "bold")[Riassunto del verbale] \
@@ -106,6 +111,7 @@
 #let lettera(
   titolo: "",
   data: "",
+  versione: "",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin"),
   mittenti: (
     "Godwin Agbleze",
@@ -115,6 +121,7 @@
     "Giacomo Ravazzolo",
     "Mattia Scomparin",
   ),
+  registro_modifiche: (),
   body
 ) = {
   set text(lang: "it", font: "Atkinson Hyperlegible Next", weight: 400)
@@ -140,6 +147,7 @@
     #par(justify: false, text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"), hyphenate: false)[#titolo])
     #v(0.5cm)
     #text(size: 14pt)[Data: #data]
+    #if versione != "" [ \ #text(size: 14pt)[Versione: #versione]]
 
     #v(1.5cm)
     #grid(
@@ -167,6 +175,22 @@
       )
     ],
   )
+
+  // Registro Modifiche
+  if registro_modifiche.len() > 0 {
+    heading([Registro delle modifiche], numbering: none, outlined: false)
+    text(
+      size: 10pt,
+      table(
+        columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
+        align: horizon + left,
+        table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
+        ..registro_modifiche.flatten()
+      )
+    )
+    pagebreak(weak: true)
+  }
+
   set par(spacing: 1.4em)
   set list(spacing: 1.2em)
   set smartquote(enabled: false)

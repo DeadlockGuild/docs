@@ -79,7 +79,7 @@
     margin-bottom: 16px;
   }
   header img {
-    height: 64px;
+    height: 96px;
     width: auto;
     border-radius: 10px;
   }
@@ -116,16 +116,21 @@
   }
   .box-ruoli .tabella-wrap { flex: 1 1 auto; }
   .box-ruoli table { height: 100%; }
+  /* I box a destra si allungano fino all'altezza del box dei ruoli */
   aside {
-    position: sticky;
-    top: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+  aside > section {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   @media (max-width: 860px) {
     .layout { grid-template-columns: minmax(0, 1fr); }
-    aside { position: static; order: -1; }
+    aside { order: -1; }
   }
 
   section {
@@ -308,11 +313,13 @@
       --vuoto: #2b2f34;
     }
   }
+  .torta-box h2 { text-align: center; }
   .torta {
     display: grid;
-    grid-template-columns: 200px minmax(0, 1fr);
+    grid-template-columns: 200px minmax(0, 440px);
     gap: 24px;
     align-items: center;
+    justify-content: center;
   }
   @media (max-width: 560px) {
     .torta { grid-template-columns: minmax(0, 1fr); justify-items: center; }
@@ -402,6 +409,7 @@
               <th>Ruolo</th>
               <th class="num">€/h</th>
               <th class="num">Ore</th>
+              <th class="num">Ore per membro</th>
               <th class="num">Totale</th>
             </tr>
           </thead>
@@ -411,6 +419,7 @@
               <td>Totale</td>
               <td></td>
               <td class="num" id="footOre">0 h</td>
+              <td class="num" id="footOreMembro">0 h</td>
               <td class="num totale-generale" id="footCosto">0,00 €</td>
             </tr>
           </tfoot>
@@ -523,6 +532,7 @@
       <td><div class="ruolo">${r.nome}</div><div class="descrizione">${r.descrizione}</div></td>
       <td class="num">${r.costo}</td>
       <td class="num"><input type="number" id="ore-${r.id}" min="0" step="1" placeholder="0" aria-label="Ore ${r.nome}"></td>
+      <td class="num" id="membro-${r.id}">0 h</td>
       <td class="num totale" id="totale-${r.id}">${euro.format(0)}</td>`;
     tbody.appendChild(tr);
   }
@@ -554,9 +564,11 @@
       const costo = r.costo;
       oreTotali += ore;
       costoTotale += ore * costo;
+      $("membro-" + r.id).textContent = numero.format(ore / COMPONENTI) + " h";
       $("totale-" + r.id).textContent = euro.format(ore * costo);
     }
     $("footOre").textContent = numero.format(oreTotali) + " h";
+    $("footOreMembro").textContent = numero.format(oreTotali / COMPONENTI) + " h";
     $("footCosto").textContent = euro.format(costoTotale);
 
     aggiornaOre(oreTotali);
