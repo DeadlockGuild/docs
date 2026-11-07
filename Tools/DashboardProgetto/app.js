@@ -611,7 +611,7 @@ function disegnaSprint() {
       <span><b>Costo</b>${euro.format(costoSprint(sp))}</span>
     </div>
     <div class="collegamenti" style="margin: 0 0 12px">
-      <a class="bottone" href="${esc(sp.link || dati.progetto.linkGithubProject)}" target="_blank" rel="noopener">Task dello sprint su GitHub</a>
+      <a class="bottone" href="${esc(sp.link || dati.progetto.linkGithubProject)}" target="_blank" rel="noopener">Grafico task GitHub</a>
     </div>
     <div class="dettaglio-sprint">
       <div class="tabella-wrap">
