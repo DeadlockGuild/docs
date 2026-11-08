@@ -48,7 +48,7 @@
       </div>
       <div class="legenda-grafico">
         <span><i style="border-color: var(--serie-1)"></i>Costo effettivo</span>
-        <span><i style="border-color: var(--text-muted); border-top-style: dashed"></i>Andamento ideale</span>
+        <span><i style="border-color: var(--text-muted); border-top-style: dashed"></i>Andamento stimato</span>
         <span><i style="border-color: var(--ko)"></i>Costo massimo</span>
       </div>
       <div class="grafico" id="graficoCosto"></div>
@@ -86,6 +86,7 @@
     <div class="intestazione-sezione">
       <h2>Dettaglio sprint</h2>
       <div class="azioni-sprint">
+        <button type="button" id="registraOreSprint" hidden>+ Registra ore</button>
         <button type="button" id="modificaSprint" hidden>Modifica sprint</button>
         <button type="button" class="primario" id="chiudiSprint" hidden>Chiudi sprint</button>
       </div>
@@ -117,7 +118,11 @@
     </div>
     <p class="nota">Le ore si aggiungono con «+ Registra ore».</p>
 
-    <label class="campo" style="margin-top: 10px">Link al grafico dei task su GitHub (se vuoto si apre la board del progetto)
+    <div class="titolo-blocco">Ore stimate per ruolo</div>
+    <div class="campi" id="sStime"></div>
+    <p class="nota" id="sStimaTotale" style="margin-top: -6px"></p>
+
+    <label class="campo" style="margin-top: 10px">Link al grafico dei task su GitHub (facoltativo)
       <input type="url" id="sLink" placeholder="https://github.com/users/DeadlockGuild/projects/1/…">
     </label>
     <label class="campo" style="margin-top: 10px">Note<textarea id="sNote" rows="2"></textarea></label>

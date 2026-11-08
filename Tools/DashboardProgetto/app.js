@@ -104,6 +104,12 @@ function coloreRuolo(id) { return `var(--serie-${(indiceRuolo(id) % 6) + 1})`; }
 function costoSprint(s) {
   return s.assegnazioni.reduce((t, a) => t + (Number(a.ore) || 0) * (ruolo(a.ruolo)?.costoOrario ?? 0), 0);
 }
+function costoStimato(s) {
+  return dati.ruoli.reduce((t, r) => t + (Number(s.stima?.[r.id]) || 0) * r.costoOrario, 0);
+}
+function oreStimate(s) {
+  return dati.ruoli.reduce((t, r) => t + (Number(s.stima?.[r.id]) || 0), 0);
+}
 function oreSprint(s) {
   return s.assegnazioni.reduce((t, a) => t + (a.ruolo ? Number(a.ore) || 0 : 0), 0);
 }
@@ -309,11 +315,20 @@ function disegnaCosto(c) {
   const ultimo = dati.sprint.at(-1);
   if (ultimo && data(ultimo.fine) > fine) fine = data(ultimo.fine);
   const max = dati.progetto.costoMassimo;
-  const yMax = massimoComodo(Math.max(max, c.costoTotale) * 1.08);
+
+  // Una riga per sprint con costo stimato ed effettivo, singolo e cumulato
+  let totStima = 0;
+  const righe = c.cumulato.map((p) => {
+    totStima += costoStimato(p.sprint);
+    return { ...p, stima: costoStimato(p.sprint), totStima, iniziato: data(p.sprint.inizio) <= OGGI };
+  });
+  const conStima = righe.some((r) => r.stima > 0);
+
+  const yMax = massimoComodo(Math.max(max, c.costoTotale, totStima) * 1.08);
   const x = (d) => m.s + ((d - inizio) / Math.max(1, fine - inizio)) * (W - m.s - m.d);
   const y = (v) => H - m.b - (v / yMax) * (H - m.a - m.b);
 
-  const s = svg("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Costo cumulativo per sprint rispetto al costo massimo" });
+  const s = svg("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Costo cumulativo effettivo e stimato per sprint rispetto al costo massimo" });
 
   // Griglia e assi
   const griglia = svg("g", { class: "griglia" });
@@ -329,14 +344,9 @@ function disegnaCosto(c) {
     s.appendChild(svg("text", { x: x(d), y: H - 8, "text-anchor": "middle" }, mese.format(d)));
   }
 
-  // Costo massimo e andamento ideale (lineare fino alla consegna)
+  // Costo massimo
   s.appendChild(svg("line", { x1: m.s, x2: W - m.d, y1: y(max), y2: y(max), stroke: "var(--ko)", "stroke-width": 1.5 }));
   s.appendChild(svg("text", { x: W - m.d, y: y(max) - 6, "text-anchor": "end" }, `Massimo ${euro.format(max)}`));
-  const scad = data(dati.progetto.scadenza);
-  s.appendChild(svg("line", {
-    x1: x(inizio), y1: y(0), x2: x(scad), y2: y(max),
-    stroke: "var(--text-muted)", "stroke-width": 1.5, "stroke-dasharray": "5 4",
-  }));
 
   // Oggi
   if (OGGI >= inizio && OGGI <= fine) {
@@ -344,39 +354,57 @@ function disegnaCosto(c) {
     s.appendChild(svg("text", { x: x(OGGI) + 4, y: m.a + 8 }, "oggi"));
   }
 
-  // Costo effettivo: un punto alla fine di ogni sprint
-  const punti = [{ x: x(inizio), y: y(0) }, ...c.cumulato.map((p) => ({ x: x(data(p.sprint.fine)), y: y(p.totale), p }))];
-  if (c.cumulato.length) {
+  const percorso = (punti) => punti.map((p, i) => `${i ? "L" : "M"}${p.x},${p.y}`).join(" ");
+  const origine = { x: x(inizio), y: y(0) };
+
+  // Andamento stimato: somma delle ore stimate per ruolo di ogni sprint, anche futuri
+  if (conStima) {
+    const punti = [origine, ...righe.map((r) => ({ x: x(data(r.sprint.fine)), y: y(r.totStima) }))];
     s.appendChild(svg("path", {
-      d: punti.map((p, i) => `${i ? "L" : "M"}${p.x},${p.y}`).join(" "),
-      fill: "none", stroke: "var(--serie-1)", "stroke-width": 2, "stroke-linejoin": "round",
+      d: percorso(punti), fill: "none", stroke: "var(--text-muted)", "stroke-width": 2, "stroke-dasharray": "5 4", "stroke-linejoin": "round",
+    }));
+    for (const p of punti.slice(1)) {
+      s.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 4, fill: "var(--bg-section)", stroke: "var(--text-muted)", "stroke-width": 2 }));
+    }
+  }
+
+  // Costo effettivo: solo sprint già iniziati, un punto alla fine di ognuno
+  const effettivi = righe.filter((r) => r.iniziato);
+  if (effettivi.length) {
+    const punti = [origine, ...effettivi.map((r) => ({ x: x(data(r.sprint.fine)), y: y(r.totale) }))];
+    s.appendChild(svg("path", {
+      d: percorso(punti), fill: "none", stroke: "var(--serie-1)", "stroke-width": 2, "stroke-linejoin": "round",
     }));
     for (const p of punti.slice(1)) {
       s.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 4.5, fill: "var(--serie-1)", stroke: "var(--bg-section)", "stroke-width": 2 }));
     }
     const ultimoPunto = punti.at(-1);
     s.appendChild(svg("text", { x: ultimoPunto.x + 8, y: ultimoPunto.y - 8, style: "fill: var(--text-main); font-weight: 700" }, euroTondo.format(c.costoTotale)));
-  } else {
+  }
+  if (!righe.length) {
     s.appendChild(svg("text", { x: W / 2, y: H / 2, "text-anchor": "middle" }, "Nessuno sprint registrato"));
   }
 
-  // Interazione: mirino sul punto più vicino
+  // Interazione: mirino sulla fine dello sprint più vicino
   const mirino = svg("line", { y1: m.a, y2: y(0), stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden" });
   s.appendChild(mirino);
   const area = svg("rect", { x: m.s, y: m.a, width: W - m.s - m.d, height: H - m.a - m.b, fill: "transparent" });
   s.appendChild(area);
   area.addEventListener("mousemove", (e) => {
-    if (!c.cumulato.length) return;
+    if (!righe.length) return;
     const r = s.getBoundingClientRect();
     const px = ((e.clientX - r.left) / r.width) * W;
-    const vicino = punti.slice(1).reduce((a, b) => (Math.abs(b.x - px) < Math.abs(a.x - px) ? b : a));
-    mirino.setAttribute("x1", vicino.x);
-    mirino.setAttribute("x2", vicino.x);
+    const vicino = righe.reduce((a, b) => (Math.abs(x(data(b.sprint.fine)) - px) < Math.abs(x(data(a.sprint.fine)) - px) ? b : a));
+    const vx = x(data(vicino.sprint.fine));
+    mirino.setAttribute("x1", vx);
+    mirino.setAttribute("x2", vx);
     mirino.setAttribute("visibility", "visible");
-    const sp = vicino.p.sprint;
+    const sp = vicino.sprint;
     mostraTip(`<strong>${esc(sp.nome)}</strong>${dataIt(sp.inizio)} – ${dataIt(sp.fine)}<br>
-      Costo sprint: ${euro.format(vicino.p.costo)}<br>
-      Cumulato: ${euro.format(vicino.p.totale)} (${percento.format(vicino.p.totale / max)} del massimo)`, e);
+      Stimato: ${euro.format(vicino.stima)} · cumulato ${euro.format(vicino.totStima)}<br>
+      ${vicino.iniziato
+        ? `Effettivo: ${euro.format(vicino.costo)} · cumulato ${euro.format(vicino.totale)} (${percento.format(vicino.totale / max)} del massimo)`
+        : "Sprint non ancora iniziato"}`, e);
   });
   area.addEventListener("mouseleave", () => { mirino.setAttribute("visibility", "hidden"); nascondiTip(); });
 
@@ -571,6 +599,7 @@ function disegnaSprint() {
   pillole.innerHTML = "";
   $("modificaSprint").hidden = true;
   $("chiudiSprint").hidden = true;
+  $("registraOreSprint").hidden = true;
   if (!dati.sprint.length) {
     dettaglio.innerHTML = `<div class="vuoto">Nessuno sprint registrato. Usa «+ Nuovo sprint» per aggiungere il primo.</div>`;
     return;
@@ -587,6 +616,7 @@ function disegnaSprint() {
   const sp = dati.sprint.find((s) => s.id === sprintSelezionato) ?? dati.sprint.at(-1);
   sprintSelezionato = sp.id;
   $("modificaSprint").hidden = Boolean(sp.chiuso);
+  $("registraOreSprint").hidden = Boolean(sp.chiuso);
   $("chiudiSprint").hidden = Boolean(sp.chiuso);
 
   const st = statoSprint(sp);
@@ -609,10 +639,12 @@ function disegnaSprint() {
       <span><b>Tempo rimanente</b>${rimanenti}</span>
       <span><b>Ore</b>${numero.format(oreSprint(sp))} h</span>
       <span><b>Costo</b>${euro.format(costoSprint(sp))}</span>
+      <span><b>Ore stimate</b>${numero.format(oreStimate(sp))} h</span>
+      <span><b>Costo stimato</b>${euro.format(costoStimato(sp))}</span>
     </div>
-    <div class="collegamenti" style="margin: 0 0 12px">
-      <a class="bottone" href="${esc(sp.link || dati.progetto.linkGithubProject)}" target="_blank" rel="noopener">Grafico task GitHub</a>
-    </div>
+    ${sp.link ? `<div class="collegamenti" style="margin: 0 0 12px">
+      <a class="bottone" href="${esc(sp.link)}" target="_blank" rel="noopener">Grafico task GitHub</a>
+    </div>` : ""}
     <div class="dettaglio-sprint">
       <div class="tabella-wrap">
         <table>
@@ -696,6 +728,10 @@ function apriSprint(sp) {
     return `<tr><td>${esc(mb)}</td>
       <td><select data-ruolo="${i}">${opzioniRuolo(a.ruolo)}</select></td></tr>`;
   }).join("");
+  $("sStime").innerHTML = dati.ruoli.map((r) => `<label class="campo">
+      <span><span class="colore" style="background:${coloreRuolo(r.id)}; margin-right:4px"></span>${esc(r.nome)}</span>
+      <input type="number" min="0" step="0.5" data-stima="${r.id}" value="${Number(sp?.stima?.[r.id]) || 0}">
+    </label>`).join("");
   $("sLink").value = sp?.link ?? "";
   $("sNote").value = sp?.note ?? "";
   $("sElimina").hidden = !sp;
@@ -724,6 +760,7 @@ function leggiBozza() {
       ruolo: document.querySelector(`[data-ruolo="${i}"]`).value,
       ore: Number(sprintInModifica?.assegnazioni.find((a) => a.membro === mb)?.ore) || 0,
     })),
+    stima: Object.fromEntries(dati.ruoli.map((r) => [r.id, Number(document.querySelector(`[data-stima="${r.id}"]`).value) || 0])),
     link: $("sLink").value.trim(),
     note: $("sNote").value.trim(),
   };
@@ -746,6 +783,12 @@ function validaSprint(b) {
   const resp = b.assegnazioni.filter((a) => a.ruolo === "responsabile").length;
   if (resp !== 1) errori.push(`Serve esattamente un responsabile (ora ${resp}).`);
   if (b.assegnazioni.some((a) => a.ore < 0)) errori.push("Le ore non possono essere negative.");
+  if (Object.values(b.stima).some((v) => v < 0)) errori.push("Le ore stimate non possono essere negative.");
+  // Stime di tutti gli sprint confrontate con il preventivo
+  for (const r of dati.ruoli) {
+    const stimate = [...altri, b].reduce((t, s) => t + (Number(s.stima?.[r.id]) || 0), 0);
+    if (stimate > r.orePreviste) avvisi.push(`Stime ${r.nome}: ${numero.format(stimate)} h in totale su ${r.orePreviste} h previste.`);
+  }
 
   // Effetto dello sprint sui totali del progetto
   const tutti = [...altri, b].sort((x, y) => x.inizio.localeCompare(y.inizio));
@@ -770,6 +813,7 @@ function validaSprint(b) {
 
 function aggiornaBozza() {
   const b = leggiBozza();
+  $("sStimaTotale").textContent = `Stima dello sprint: ${numero.format(oreStimate(b))} h · ${euro.format(costoStimato(b))}`;
   const v = validaSprint(b);
   // Cambiare ruolo a chi ha già registrato ore sposta quelle ore sul nuovo ruolo
   for (const a of b.assegnazioni) {
@@ -855,10 +899,11 @@ function aggiornaLog() {
   return errori;
 }
 
-$("registraOre").addEventListener("click", () => {
+// Apre la registrazione ore; dal dettaglio sprint propone lo sprint selezionato
+function apriLog(idSprint) {
   if (!dati) return;
   const aperti = sprintAperti();
-  const predefinito = sprintCorrente() ?? aperti.at(-1);
+  const predefinito = aperti.find((s) => s.id === idSprint) ?? sprintCorrente() ?? aperti.at(-1);
   $("lMembro").innerHTML = dati.membri.map((m) => `<option>${esc(m)}</option>`).join("");
   $("lSprint").innerHTML = aperti.map((s) =>
     `<option value="${s.id}" ${s === predefinito ? "selected" : ""}>${esc(s.nome)} (${dataIt(s.inizio)} – ${dataIt(s.fine)})</option>`).join("");
@@ -867,7 +912,9 @@ $("registraOre").addEventListener("click", () => {
   $("lNota").value = "";
   aggiornaLog();
   dialogLog.showModal();
-});
+}
+$("registraOre").addEventListener("click", () => apriLog());
+$("registraOreSprint").addEventListener("click", () => apriLog(sprintSelezionato));
 $("formLog").addEventListener("input", aggiornaLog);
 $("lAnnulla").addEventListener("click", () => dialogLog.close());
 $("formLog").addEventListener("submit", (e) => {

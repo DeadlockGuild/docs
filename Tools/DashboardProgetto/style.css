@@ -432,3 +432,5 @@ td input[type="text"], td input[type="date"] { min-width: 130px; }
 .registro-ore { max-height: 260px; overflow-y: auto; margin-top: 8px; }
 .registro-ore td.attivita { white-space: normal; min-width: 160px; }
 button.piccolo { padding: 2px 7px; font-size: 0.75rem; }
+#sStime { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 600px) { #sStime { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
