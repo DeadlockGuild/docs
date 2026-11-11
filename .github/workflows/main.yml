@@ -35,12 +35,11 @@ jobs:
             cp "$file" "public/$file"
           done
 
-          find Candidatura -name "*.typ" ! -name "template.typ" -type f | while read -r file; do
+          find Candidatura RTB -name "*.typ" ! -name "template.typ" -type f | while read -r file; do
             dir_path=$(dirname "$file")
             mkdir -p "public/pdf/$dir_path"
             typst compile --root . --font-path assets/fonts "$file" "public/pdf/${file%.typ}.pdf"
           done
-
       
       - name: Upload PDF Preview Artifact (Solo PR)
         if: github.event_name == 'pull_request'
