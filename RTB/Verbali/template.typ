@@ -45,13 +45,18 @@
       inset: (x: 10pt, y: 5pt),
       text(weight: "bold")[Uso:], uso,
       text(weight: "bold")[Redattore:], redattore,
-      text(weight: "bold")[Verificatore:], verificatore,
+      // Con più verificatori (array) l'etichetta passa al plurale
+      ..if type(verificatore) == array {
+        (text(weight: "bold")[Verificatori:], verificatore.join([\ ]))
+      } else {
+        (text(weight: "bold")[Verificatore:], verificatore)
+      },
       text(weight: "bold")[Destinatari:], destinatari.join([\ ]),
     )
     
-    #v(1.3cm)
+    #v(0.7cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    #v(1.3cm)
+    #v(0.7cm)
     
     #if riassunto != "" [
       #text(size: 14pt, weight: "bold")[Riassunto del verbale] \
@@ -125,7 +130,7 @@
 // Tabella Decisioni e Azioni
 // Mette in relazione: ID decisione (scritta nelle sottosezioni, qui solo richiamata) -> azioni associate -> issue, assegnatario, verificatore, scadenza.
 // Ogni decisione e' un dizionario:
-//   (id: [D_1], azioni: ((azione: [..], issue: [..], ass: [..], ver: [..], scad: [..]), ..))
+//   (id: [D1], azioni: ((azione: [..], issue: [..], ass: [..], ver: [..], scad: [..]), ..))
 // La cella della decisione si estende (rowspan) su tutte le sue azioni.
 #let tabella_decisioni(..decisioni) = {
   let brand = rgb("#c85815")
@@ -159,7 +164,7 @@
 }
 
 // Riquadro "Fonte decisione": postilla con ID della/e decisione/i e breve spiegazione.
-// Uso: #fonte_decisione([D_1], [Spiegazione della decisione.])
+// Uso: #fonte_decisione([D1], [Spiegazione della decisione.])
 #let fonte_decisione(id, body) = block(
   width: 100%,
   breakable: false,
@@ -175,7 +180,7 @@
 
 // Tabella Tracciamento Decisioni Precedenti
 // Per ogni decisione di riunioni precedenti (ID) elenca le azioni associate, l'issue e lo stato.
-//   (id: [D_12], azioni: ((azione: [..], issue: [..], stato: [In Corso]), ..))
+//   (id: [D12], azioni: ((azione: [..], issue: [..], stato: [In Corso]), ..))
 #let tabella_decisioni_precedenti(..decisioni) = {
   let brand = rgb("#c85815")
   let hd(t) = table.cell(fill: brand, text(fill: white, weight: "bold")[#t])
