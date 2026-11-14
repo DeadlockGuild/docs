@@ -104,9 +104,9 @@
     <h2 id="titoloDialogSprint">Nuovo sprint</h2>
     <div class="campi">
       <label class="campo">Nome<input type="text" id="sNome" required></label>
-      <label class="campo">Data di inizio<input type="date" id="sInizio" required></label>
+      <label class="campo">Data di inizio<input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" id="sInizio" required></label>
       <label class="campo">Durata (settimane)<input type="number" id="sDurata" min="0.5" step="0.5"></label>
-      <label class="campo">Data di fine<input type="date" id="sFine" required></label>
+      <label class="campo">Data di fine<input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" id="sFine" required></label>
     </div>
 
     <div class="titolo-blocco">Ruoli dei membri</div>
@@ -145,7 +145,7 @@
     <div class="campi">
       <label class="campo">Membro<select id="lMembro"></select></label>
       <label class="campo">Sprint<select id="lSprint"></select></label>
-      <label class="campo">Data<input type="date" id="lData"></label>
+      <label class="campo">Data<input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" id="lData"></label>
       <label class="campo">Ore<input type="number" id="lOre" min="0.5" step="0.5" value="1"></label>
     </div>
     <label class="campo">Attività svolta (facoltativa)<input type="text" id="lNota" placeholder="Es. stesura verbale, revisione analisi dei requisiti…"></label>

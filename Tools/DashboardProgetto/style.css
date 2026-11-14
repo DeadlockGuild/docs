@@ -434,3 +434,38 @@ td input[type="text"], td input[type="date"] { min-width: 130px; }
 button.piccolo { padding: 2px 7px; font-size: 0.75rem; }
 #sStime { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 600px) { #sStime { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Campo data di testo (AAAA/MM/GG) con icona calendario */
+.campo-data { position: relative; display: flex; }
+.campo-data input[type="text"] { padding-right: 32px; }
+.icona-calendario {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.campo-data:hover .icona-calendario { color: var(--accent); }
+/* Campo data nativo trasparente sopra l'icona: riceve il clic e apre il calendario */
+.campo-data input.data-calendario {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.campo-data input.data-calendario::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+}

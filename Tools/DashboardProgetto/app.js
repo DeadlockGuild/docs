@@ -11,7 +11,6 @@ const euro = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR"
 const euroTondo = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR", maximumFractionDigits: 0, useGrouping: "always" });
 const numero = new Intl.NumberFormat("it-IT", { maximumFractionDigits: 1, useGrouping: "always" });
 const percento = new Intl.NumberFormat("it-IT", { style: "percent", maximumFractionDigits: 0 });
-const mese = new Intl.DateTimeFormat("it-IT", { month: "short" });
 
 // Le date sono stringhe "AAAA-MM-GG" interpretate come giorni locali
 function data(s) {
@@ -22,10 +21,52 @@ function data(s) {
 function iso(d) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
-function dataIt(s) {
+// Tutte le date mostrate nella pagina sono nel formato AAAA/MM/GG
+function formattaData(s) {
   const d = data(s);
-  return d ? `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}` : "–";
+  return d ? `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}` : "–";
 }
+// Legge una data scritta come AAAA/MM/GG (accetta anche i trattini) e la restituisce come AAAA-MM-GG;
+// stringa vuota se il campo è vuoto o la data non esiste
+function leggiData(testo) {
+  const m = String(testo).trim().match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);
+  if (!m) return "";
+  const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  if (d.getMonth() !== Number(m[2]) - 1 || d.getDate() !== Number(m[3])) return "";
+  return iso(d);
+}
+// Affianca a un campo data di testo l'icona del calendario. Sopra l'icona c'è un campo data
+// nativo trasparente: il clic arriva direttamente al browser, che apre il suo calendario.
+// La data scelta viene riscritta nel campo di testo nel formato AAAA/MM/GG.
+const ICONA_CALENDARIO = `<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+  <rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3"/></svg>`;
+function aggiungiCalendario(campo) {
+  const box = document.createElement("span");
+  box.className = "campo-data";
+  campo.replaceWith(box);
+  const icona = document.createElement("span");
+  icona.className = "icona-calendario";
+  icona.innerHTML = ICONA_CALENDARIO;
+  const nativo = document.createElement("input");
+  nativo.type = "date";
+  nativo.className = "data-calendario";
+  nativo.tabIndex = -1;
+  nativo.title = "Apri il calendario";
+  box.append(campo, icona, nativo);
+  // Prima che il calendario si apra, lo posiziona sulla data già scritta (o su oggi)
+  const sincronizza = () => { nativo.value = leggiData(campo.value) || iso(OGGI); };
+  nativo.addEventListener("pointerdown", sincronizza);
+  nativo.addEventListener("click", () => {
+    try { nativo.showPicker(); } catch (e) { /* il browser lo apre già da solo */ }
+  });
+  nativo.addEventListener("change", () => {
+    if (!nativo.value) return;
+    campo.value = formattaData(nativo.value);
+    campo.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+}
+// Etichetta dei mesi sugli assi dei grafici: AAAA/MM
+function formattaMese(d) { return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, "0")}`; }
 function giorni(da, a) { return Math.round((a - da) / GIORNO); }
 function nGiorni(n) { return `${n} ${n === 1 ? "giorno" : "giorni"}`; }
 function aggiungiGiorni(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
@@ -236,7 +277,7 @@ function disegnaKpi(c) {
     const inCorso = statoSprint(corrente) === "in corso";
     const g = inCorso ? giorni(OGGI, data(corrente.fine)) : giorni(OGGI, data(corrente.inizio));
     sprintHtml = `<div class="valore">${esc(corrente.nome)}</div>
-      <div class="dettaglio">${inCorso ? `Termina tra ${nGiorni(g)} (${dataIt(corrente.fine)})` : `Inizia tra ${nGiorni(g)} (${dataIt(corrente.inizio)})`}</div>`;
+      <div class="dettaglio">${inCorso ? `Termina tra ${nGiorni(g)} (${formattaData(corrente.fine)})` : `Inizia tra ${nGiorni(g)} (${formattaData(corrente.inizio)})`}</div>`;
   }
 
   $("kpi").innerHTML = `
@@ -255,13 +296,13 @@ function disegnaKpi(c) {
     <section>
       <span class="etichetta">Consegna del progetto</span>
       <div class="valore">${gConsegna >= 0 ? `${gConsegna} <small>giorni</small>` : "Scaduta"}</div>
-      <div class="dettaglio">${dataIt(p.scadenza)} · circa ${numero.format(Math.max(0, gConsegna) / 7)} settimane</div>
+      <div class="dettaglio">${formattaData(p.scadenza)} · circa ${numero.format(Math.max(0, gConsegna) / 7)} settimane</div>
     </section>
     <section>
       <span class="etichetta">Prossima milestone</span>
       ${prossima
         ? `<div class="valore" style="font-size:1.05rem">${esc(prossima.nome)}</div>
-           <div class="dettaglio">${dataIt(prossima.data)} · tra ${nGiorni(giorni(OGGI, data(prossima.data)))}</div>`
+           <div class="dettaglio">${formattaData(prossima.data)} · tra ${nGiorni(giorni(OGGI, data(prossima.data)))}</div>`
         : `<div class="valore">–</div><div class="dettaglio">Nessuna milestone futura</div>`}
     </section>
     <section>
@@ -270,7 +311,7 @@ function disegnaKpi(c) {
     </section>`;
 
   $("andamentoCosto").innerHTML = stato(and.classe, and.testo);
-  $("giorniConsegna").textContent = `Oggi ${dataIt(iso(OGGI))} · consegna tra ${nGiorni(gConsegna)}`;
+  $("giorniConsegna").textContent = `Oggi ${formattaData(iso(OGGI))} · consegna tra ${nGiorni(gConsegna)}`;
 }
 
 function disegnaOreRuolo(c) {
@@ -341,7 +382,7 @@ function disegnaCosto(c) {
   s.appendChild(svg("line", { class: "asse", x1: m.s, x2: W - m.d, y1: y(0), y2: y(0) }));
   for (let d = new Date(inizio.getFullYear(), inizio.getMonth() + 1, 1); d <= fine; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
     s.appendChild(svg("line", { class: "asse", x1: x(d), x2: x(d), y1: y(0), y2: y(0) + 4 }));
-    s.appendChild(svg("text", { x: x(d), y: H - 8, "text-anchor": "middle" }, mese.format(d)));
+    s.appendChild(svg("text", { x: x(d), y: H - 8, "text-anchor": "middle" }, formattaMese(d)));
   }
 
   // Costo massimo
@@ -400,7 +441,7 @@ function disegnaCosto(c) {
     mirino.setAttribute("x2", vx);
     mirino.setAttribute("visibility", "visible");
     const sp = vicino.sprint;
-    mostraTip(`<strong>${esc(sp.nome)}</strong>${dataIt(sp.inizio)} – ${dataIt(sp.fine)}<br>
+    mostraTip(`<strong>${esc(sp.nome)}</strong>${formattaData(sp.inizio)} – ${formattaData(sp.fine)}<br>
       Stimato: ${euro.format(vicino.stima)} · cumulato ${euro.format(vicino.totStima)}<br>
       ${vicino.iniziato
         ? `Effettivo: ${euro.format(vicino.costo)} · cumulato ${euro.format(vicino.totale)} (${percento.format(vicino.totale / max)} del massimo)`
@@ -427,7 +468,7 @@ function disegnaTimeline() {
   s.appendChild(svg("line", { class: "asse", x1: m.s, x2: W - m.d, y1: yAsse, y2: yAsse }));
   for (let d = new Date(inizio.getFullYear(), inizio.getMonth() + 1, 1); d <= fine; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
     s.appendChild(svg("line", { class: "asse", x1: x(d), x2: x(d), y1: yAsse, y2: yAsse + 5 }));
-    s.appendChild(svg("text", { x: x(d), y: yAsse + 18, "text-anchor": "middle" }, `${mese.format(d)} ${String(d.getFullYear()).slice(2)}`));
+    s.appendChild(svg("text", { x: x(d), y: yAsse + 18, "text-anchor": "middle" }, formattaMese(d)));
   }
 
   // Sprint: grigio se conclusi, arancione se in corso, contorno se futuri
@@ -447,7 +488,7 @@ function disegnaTimeline() {
         style: `fill: ${st === "in corso" ? "#fff" : "var(--text-main)"}; font-weight: 700`,
       }, sp.nome.replace(/^Sprint\s*/i, "S")));
     }
-    collegaTip(g, `<strong>${esc(sp.nome)}</strong>${dataIt(sp.inizio)} – ${dataIt(sp.fine)} (${st})<br>
+    collegaTip(g, `<strong>${esc(sp.nome)}</strong>${formattaData(sp.inizio)} – ${formattaData(sp.fine)} (${st})<br>
       ${numero.format(oreSprint(sp))} h · ${euro.format(costoSprint(sp))}`);
     g.addEventListener("click", () => { sprintSelezionato = sp.id; disegnaSprint(); $("pillole").scrollIntoView({ behavior: "smooth", block: "center" }); });
     s.appendChild(g);
@@ -467,8 +508,8 @@ function disegnaTimeline() {
     const yTesto = i % 2 ? 14 : 34;
     const ancora = cx > W - 150 ? "end" : cx < 150 ? "start" : "middle";
     g.appendChild(svg("text", { x: cx, y: yTesto, "text-anchor": ancora, style: "fill: var(--text-main); font-weight: 700" }, ms.nome));
-    g.appendChild(svg("text", { x: cx, y: yTesto + 13, "text-anchor": ancora }, dataIt(ms.data)));
-    collegaTip(g, `<strong>${esc(ms.nome)}</strong>${dataIt(ms.data)} · ${st.testo}${ms.descrizione ? `<br>${esc(ms.descrizione)}` : ""}`);
+    g.appendChild(svg("text", { x: cx, y: yTesto + 13, "text-anchor": ancora }, formattaData(ms.data)));
+    collegaTip(g, `<strong>${esc(ms.nome)}</strong>${formattaData(ms.data)} · ${st.testo}${ms.descrizione ? `<br>${esc(ms.descrizione)}` : ""}`);
     s.appendChild(g);
   });
 
@@ -482,7 +523,7 @@ function disegnaTimeline() {
   $("tabellaMilestone").innerHTML = dati.milestone.length
     ? dati.milestone.map((ms) => {
       const st = statoMilestone(ms);
-      return `<tr><td><b>${esc(ms.nome)}</b></td><td>${dataIt(ms.data)}</td>
+      return `<tr><td><b>${esc(ms.nome)}</b></td><td>${formattaData(ms.data)}</td>
         <td class="num">${st.g >= 0 ? st.g : `${-st.g} fa`}</td><td>${stato(st.classe, st.testo)}</td>
         <td style="white-space: normal">${esc(ms.descrizione)}</td></tr>`;
     }).join("")
@@ -621,7 +662,7 @@ function disegnaSprint() {
 
   const st = statoSprint(sp);
   const durata = giorni(data(sp.inizio), data(sp.fine)) + 1;
-  const rimanenti = st === "chiuso" ? `chiuso il ${dataIt(sp.dataChiusura)}` : st === "in corso" ? nGiorni(giorni(OGGI, data(sp.fine))) : st === "futuro" ? `inizia tra ${nGiorni(giorni(OGGI, data(sp.inizio)))}` : "concluso";
+  const rimanenti = st === "chiuso" ? `chiuso il ${formattaData(sp.dataChiusura)}` : st === "in corso" ? nGiorni(giorni(OGGI, data(sp.fine))) : st === "futuro" ? `inizia tra ${nGiorni(giorni(OGGI, data(sp.inizio)))}` : "concluso";
   const righe = dati.membri.map((mb) => {
     const a = sp.assegnazioni.find((x) => x.membro === mb);
     const r = a && ruolo(a.ruolo);
@@ -633,7 +674,7 @@ function disegnaSprint() {
 
   dettaglio.innerHTML = `
     <div class="fatti">
-      <span><b>Periodo</b>${dataIt(sp.inizio)} – ${dataIt(sp.fine)}</span>
+      <span><b>Periodo</b>${formattaData(sp.inizio)} – ${formattaData(sp.fine)}</span>
       <span><b>Durata</b>${durata} giorni (${numero.format(durata / 7)} settimane)</span>
       <span><b>Stato</b>${st === "chiuso" ? stato("ok", "Chiuso, non modificabile") : st}</span>
       <span><b>Tempo rimanente</b>${rimanenti}</span>
@@ -669,7 +710,7 @@ function registroHtml(sp) {
   return `<div class="tabella-wrap registro-ore"><table>
     <thead><tr><th>Data</th><th>Membro</th><th>Ruolo</th><th class="num">Ore</th><th>Attività</th>${sp.chiuso ? "" : "<th></th>"}</tr></thead>
     <tbody>${voci.map((v) => `<tr>
-      <td>${dataIt(v.data)}</td><td>${esc(v.membro)}</td><td>${esc(ruolo(v.ruolo)?.nome ?? v.ruolo)}</td>
+      <td>${formattaData(v.data)}</td><td>${esc(v.membro)}</td><td>${esc(ruolo(v.ruolo)?.nome ?? v.ruolo)}</td>
       <td class="num">${numero.format(v.ore)} h</td><td class="attivita">${esc(v.nota)}</td>
       ${sp.chiuso ? "" : `<td><button type="button" class="pericolo piccolo" data-rimuovi="${v.i}" aria-label="Annulla registrazione">✕</button></td>`}
     </tr>`).join("")}</tbody>
@@ -679,7 +720,7 @@ function registroHtml(sp) {
 // Annulla una registrazione: toglie le ore dal totale del membro nello sprint
 function rimuoviLog(sp, i) {
   const v = sp.registro[i];
-  if (!v || sp.chiuso || !confirm(`Annullare ${numero.format(v.ore)} h di ${v.membro} del ${dataIt(v.data)}?`)) return;
+  if (!v || sp.chiuso || !confirm(`Annullare ${numero.format(v.ore)} h di ${v.membro} del ${formattaData(v.data)}?`)) return;
   const a = sp.assegnazioni.find((x) => x.membro === v.membro);
   if (a) a.ore = Math.max(0, Math.round(((Number(a.ore) || 0) - v.ore) * 10) / 10);
   sp.registro.splice(i, 1);
@@ -720,8 +761,8 @@ function apriSprint(sp) {
   }
   $("titoloDialogSprint").textContent = sp ? `Modifica ${sp.nome}` : "Nuovo sprint";
   $("sNome").value = sp ? sp.nome : `Sprint ${dati.sprint.length + 1}`;
-  $("sInizio").value = inizio;
-  $("sFine").value = fine;
+  $("sInizio").value = formattaData(inizio);
+  $("sFine").value = formattaData(fine);
   aggiornaDurata();
   $("sAssegnazioni").innerHTML = dati.membri.map((mb, i) => {
     const a = assegnazioni.find((x) => x.membro === mb) || {};
@@ -740,20 +781,20 @@ function apriSprint(sp) {
 }
 
 function aggiornaDurata() {
-  const i = data($("sInizio").value), f = data($("sFine").value);
+  const i = data(leggiData($("sInizio").value)), f = data(leggiData($("sFine").value));
   if (i && f && f >= i) $("sDurata").value = Math.round(((giorni(i, f) + 1) / 7) * 10) / 10;
 }
 function aggiornaFine() {
-  const i = data($("sInizio").value), s = Number($("sDurata").value);
-  if (i && s > 0) $("sFine").value = iso(aggiungiGiorni(i, Math.round(s * 7) - 1));
+  const i = data(leggiData($("sInizio").value)), s = Number($("sDurata").value);
+  if (i && s > 0) $("sFine").value = formattaData(iso(aggiungiGiorni(i, Math.round(s * 7) - 1)));
 }
 
 function leggiBozza() {
   return {
     id: sprintInModifica?.id ?? Math.max(0, ...dati.sprint.map((s) => s.id)) + 1,
     nome: $("sNome").value.trim(),
-    inizio: $("sInizio").value,
-    fine: $("sFine").value,
+    inizio: leggiData($("sInizio").value),
+    fine: leggiData($("sFine").value),
     // Le ore non si modificano qui: restano quelle accumulate con il registro ore
     assegnazioni: dati.membri.map((mb, i) => ({
       membro: mb,
@@ -771,12 +812,12 @@ function validaSprint(b) {
   const avvisi = [];
   const altri = dati.sprint.filter((s) => s.id !== b.id);
   if (!b.nome) errori.push("Inserisci il nome dello sprint.");
-  if (!b.inizio || !b.fine) errori.push("Inserisci le date di inizio e di fine.");
+  if (!b.inizio || !b.fine) errori.push("Inserisci date di inizio e di fine valide nel formato AAAA/MM/GG.");
   else if (b.fine < b.inizio) errori.push("La data di fine è precedente a quella di inizio.");
   else {
     const sovr = altri.find((s) => b.inizio <= s.fine && s.inizio <= b.fine);
-    if (sovr) errori.push(`Le date si sovrappongono a ${sovr.nome} (${dataIt(sovr.inizio)} – ${dataIt(sovr.fine)}).`);
-    if (b.fine > dati.progetto.scadenza) avvisi.push(`Lo sprint termina dopo la consegna del ${dataIt(dati.progetto.scadenza)}.`);
+    if (sovr) errori.push(`Le date si sovrappongono a ${sovr.nome} (${formattaData(sovr.inizio)} – ${formattaData(sovr.fine)}).`);
+    if (b.fine > dati.progetto.scadenza) avvisi.push(`Lo sprint termina dopo la consegna del ${formattaData(dati.progetto.scadenza)}.`);
   }
   const senza = b.assegnazioni.filter((a) => !a.ruolo).map((a) => a.membro);
   if (senza.length) errori.push(`Ogni membro deve avere un ruolo: manca per ${senza.join(", ")}.`);
@@ -867,7 +908,7 @@ function leggiLog() {
   return {
     sp: dati.sprint.find((s) => String(s.id) === $("lSprint").value),
     membro: $("lMembro").value,
-    data: $("lData").value,
+    data: leggiData($("lData").value),
     ore: Number($("lOre").value) || 0,
     nota: $("lNota").value.trim(),
   };
@@ -890,9 +931,9 @@ function aggiornaLog() {
       if (c.oreRuolo[r.id] + l.ore > r.orePreviste) avvisi.push(`${r.nome}: si arriva a ${numero.format(c.oreRuolo[r.id] + l.ore)} h su ${r.orePreviste} h previste.`);
       if (c.oreMembro[l.membro] + l.ore > dati.progetto.orePerMembro) avvisi.push(`${l.membro}: si arriva a ${numero.format(c.oreMembro[l.membro] + l.ore)} h su ${dati.progetto.orePerMembro} h.`);
     }
-    if (l.data && (l.data < l.sp.inizio || l.data > l.sp.fine)) avvisi.push(`La data è fuori dal periodo di ${l.sp.nome} (${dataIt(l.sp.inizio)} – ${dataIt(l.sp.fine)}).`);
+    if (l.data && (l.data < l.sp.inizio || l.data > l.sp.fine)) avvisi.push(`La data è fuori dal periodo di ${l.sp.nome} (${formattaData(l.sp.inizio)} – ${formattaData(l.sp.fine)}).`);
   }
-  if (!l.data) errori.push("Inserisci la data.");
+  if (!l.data) errori.push("Inserisci una data valida nel formato AAAA/MM/GG.");
   if (l.ore <= 0) errori.push("Le ore devono essere maggiori di zero.");
   $("lRiepilogo").textContent = riepilogo;
   $("lMessaggi").innerHTML = [...errori.map((t) => stato("ko", t)), ...avvisi.map((t) => stato("warn", t))].join("");
@@ -906,8 +947,8 @@ function apriLog(idSprint) {
   const predefinito = aperti.find((s) => s.id === idSprint) ?? sprintCorrente() ?? aperti.at(-1);
   $("lMembro").innerHTML = dati.membri.map((m) => `<option>${esc(m)}</option>`).join("");
   $("lSprint").innerHTML = aperti.map((s) =>
-    `<option value="${s.id}" ${s === predefinito ? "selected" : ""}>${esc(s.nome)} (${dataIt(s.inizio)} – ${dataIt(s.fine)})</option>`).join("");
-  $("lData").value = iso(OGGI);
+    `<option value="${s.id}" ${s === predefinito ? "selected" : ""}>${esc(s.nome)} (${formattaData(s.inizio)} – ${formattaData(s.fine)})</option>`).join("");
+  $("lData").value = formattaData(iso(OGGI));
   $("lOre").value = 1;
   $("lNota").value = "";
   aggiornaLog();
@@ -943,7 +984,7 @@ $("chiudiSprint").addEventListener("click", () => {
     alert(`${sp.nome} non può essere chiuso finché non sono corretti questi problemi:\n\n- ${errori.join("\n- ")}`);
     return;
   }
-  const anticipo = OGGI < data(sp.fine) ? `\nAttenzione: lo sprint termina il ${dataIt(sp.fine)}, lo stai chiudendo in anticipo.` : "";
+  const anticipo = OGGI < data(sp.fine) ? `\nAttenzione: lo sprint termina il ${formattaData(sp.fine)}, lo stai chiudendo in anticipo.` : "";
   if (!confirm(`Chiudere ${sp.nome}?${anticipo}\n\nDopo la chiusura non sarà più possibile modificarlo né registrare ore.`)) return;
   sp.chiuso = true;
   sp.dataChiusura = iso(OGGI);
@@ -960,11 +1001,12 @@ function rigaMilestone(ms = {}) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
     <td><input type="text" data-campo="nome" value="${esc(ms.nome)}"></td>
-    <td><input type="date" data-campo="data" value="${esc(ms.data)}"></td>
+    <td><input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" data-campo="data" value="${ms.data ? formattaData(ms.data) : ""}"></td>
     <td><input type="text" data-campo="descrizione" value="${esc(ms.descrizione)}"></td>
     <td style="text-align:center"><input type="checkbox" data-campo="raggiunta" ${ms.raggiunta ? "checked" : ""} style="width:auto"></td>
     <td><button type="button" class="pericolo" aria-label="Rimuovi milestone">✕</button></td>`;
-  tr.querySelector("button").addEventListener("click", () => tr.remove());
+  tr.querySelector("button.pericolo").addEventListener("click", () => tr.remove());
+  aggiungiCalendario(tr.querySelector('[data-campo="data"]'));
   return tr;
 }
 $("gestisciMilestone").addEventListener("click", () => {
@@ -981,12 +1023,12 @@ $("formMilestone").addEventListener("submit", (e) => {
   e.preventDefault();
   const nuove = [...$("mRighe").rows].map((tr) => {
     const v = (c) => tr.querySelector(`[data-campo="${c}"]`);
-    const ms = { nome: v("nome").value.trim(), data: v("data").value, descrizione: v("descrizione").value.trim() };
+    const ms = { nome: v("nome").value.trim(), data: leggiData(v("data").value), descrizione: v("descrizione").value.trim() };
     if (v("raggiunta").checked) ms.raggiunta = true;
     return ms;
   });
   if (nuove.some((m) => !m.nome || !m.data)) {
-    $("mMessaggi").innerHTML = stato("ko", "Ogni milestone deve avere nome e data.");
+    $("mMessaggi").innerHTML = stato("ko", "Ogni milestone deve avere un nome e una data valida nel formato AAAA/MM/GG.");
     return;
   }
   dati.milestone = nuove;
@@ -1040,4 +1082,5 @@ window.addEventListener("beforeunload", (e) => {
   if (modificato) e.preventDefault();
 });
 
+for (const id of ["sInizio", "sFine", "lData"]) aggiungiCalendario($(id));
 caricaDati();
