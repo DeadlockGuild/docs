@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard di progetto</title>
+<link rel="icon" type="image/png" href="../../assets/logo_nobg.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="contenitore">
+  <header>
+    <img src="../../assets/logo_nobg.png" alt="Logo DeadlockGuild">
+    <h1>Dashboard di progetto</h1>
+    <p class="sottotitolo">DeadlockGuild — <span id="nomeProgetto">C5 – RareCare</span> · Ingegneria del Software A.A. 2026/2027</p>
+  </header>
+
+  <div class="barra-azioni">
+    <button type="button" class="primario" id="registraOre">+ Registra ore</button>
+    <button type="button" id="nuovoSprint">+ Nuovo sprint</button>
+    <button type="button" id="gestisciMilestone">Milestone</button>
+    <button type="button" id="esporta">Esporta JSON</button>
+    <label class="bottone" for="apriFile">Apri file JSON</label>
+    <input type="file" id="apriFile" accept="application/json,.json" hidden>
+    <span class="fonte" id="fonte">Caricamento dati…</span>
+  </div>
+
+  <div class="avviso" id="avviso" hidden>
+    <span class="stato warn">Ci sono modifiche non ancora salvate nel file dei dati: esporta il JSON per non perderle.</span>
+    <button type="button" id="esportaAvviso">Esporta JSON</button>
+  </div>
+
+  <div class="kpi" id="kpi"></div>
+
+  <div class="griglia-2">
+    <section>
+      <div class="intestazione-sezione">
+        <h2>Ore utilizzate per ruolo</h2>
+        <span class="fonte" id="oreRuoloTotale"></span>
+      </div>
+      <div class="righe-ruolo" id="oreRuolo"></div>
+      <p class="nota">Barra piena = ore previste dal preventivo per il ruolo.</p>
+    </section>
+    <section>
+      <div class="intestazione-sezione">
+        <h2>Costo cumulativo</h2>
+        <span id="andamentoCosto"></span>
+      </div>
+      <div class="legenda-grafico">
+        <span><i style="border-color: var(--serie-1)"></i>Costo effettivo</span>
+        <span><i style="border-color: var(--text-muted); border-top-style: dashed"></i>Andamento stimato</span>
+        <span><i style="border-color: var(--ko)"></i>Costo massimo</span>
+      </div>
+      <div class="grafico" id="graficoCosto"></div>
+    </section>
+  </div>
+
+  <section class="blocco">
+    <div class="intestazione-sezione">
+      <h2>Sprint e milestone</h2>
+      <span class="fonte" id="giorniConsegna"></span>
+    </div>
+    <div class="grafico" id="timeline"></div>
+    <div class="tabella-wrap" style="margin-top: 10px">
+      <table>
+        <thead>
+          <tr><th>Milestone</th><th>Data</th><th class="num">Giorni</th><th>Stato</th><th>Descrizione</th></tr>
+        </thead>
+        <tbody id="tabellaMilestone"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="blocco">
+    <h2>Ore per membro e ruolo</h2>
+    <div class="tabella-wrap" id="matrice"></div>
+    <p class="nota">Ore effettive sommate su tutti gli sprint. Ogni membro dispone di <span id="orePerMembro">91</span> ore produttive.</p>
+  </section>
+
+  <section class="blocco">
+    <h2>Controllo delle regole</h2>
+    <ul class="controlli" id="controlli"></ul>
+  </section>
+
+  <section class="blocco">
+    <div class="intestazione-sezione">
+      <h2>Dettaglio sprint</h2>
+      <div class="azioni-sprint">
+        <button type="button" id="registraOreSprint" hidden>+ Registra ore</button>
+        <button type="button" id="modificaSprint" hidden>Modifica sprint</button>
+        <button type="button" class="primario" id="chiudiSprint" hidden>Chiudi sprint</button>
+      </div>
+    </div>
+    <div class="pillole" id="pillole"></div>
+    <div id="dettaglioSprint"></div>
+  </section>
+</div>
+
+<div class="tooltip" id="tooltip" hidden></div>
+
+<!-- Modifica / creazione sprint -->
+<dialog id="dialogSprint">
+  <form method="dialog" id="formSprint" novalidate>
+    <h2 id="titoloDialogSprint">Nuovo sprint</h2>
+    <div class="campi">
+      <label class="campo">Nome<input type="text" id="sNome" required></label>
+      <label class="campo">Data di inizio<input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" id="sInizio" required></label>
+      <label class="campo">Durata (settimane)<input type="number" id="sDurata" min="0.5" step="0.5"></label>
+      <label class="campo">Data di fine<input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" id="sFine" required></label>
+    </div>
+
+    <div class="titolo-blocco">Ruoli dei membri</div>
+    <div class="tabella-wrap">
+      <table>
+        <thead><tr><th>Membro</th><th>Ruolo</th></tr></thead>
+        <tbody id="sAssegnazioni"></tbody>
+      </table>
+    </div>
+    <p class="nota">Le ore si aggiungono con «+ Registra ore».</p>
+
+    <div class="titolo-blocco">Ore stimate per ruolo</div>
+    <div class="campi" id="sStime"></div>
+    <p class="nota" id="sStimaTotale" style="margin-top: -6px"></p>
+
+    <label class="campo" style="margin-top: 10px">Link al grafico dei task su GitHub (facoltativo)
+      <input type="url" id="sLink" placeholder="https://github.com/users/DeadlockGuild/projects/1/…">
+    </label>
+    <label class="campo" style="margin-top: 10px">Note<textarea id="sNote" rows="2"></textarea></label>
+
+    <div class="messaggi" id="sMessaggi"></div>
+    <div class="piede-dialog">
+      <button type="button" class="pericolo" id="sElimina">Elimina sprint</button>
+      <div>
+        <button type="button" id="sAnnulla">Annulla</button>
+        <button type="submit" class="primario" id="sSalva">Salva sprint</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<!-- Registrazione ore -->
+<dialog id="dialogLog">
+  <form method="dialog" id="formLog" novalidate>
+    <h2>Registra ore</h2>
+    <div class="campi">
+      <label class="campo">Membro<select id="lMembro"></select></label>
+      <label class="campo">Sprint<select id="lSprint"></select></label>
+      <label class="campo">Data<input type="text" inputmode="numeric" placeholder="AAAA/MM/GG" maxlength="10" autocomplete="off" id="lData"></label>
+      <label class="campo">Ore<input type="number" id="lOre" min="0.5" step="0.5" value="1"></label>
+    </div>
+    <label class="campo">Attività svolta (facoltativa)<input type="text" id="lNota" placeholder="Es. stesura verbale, revisione analisi dei requisiti…"></label>
+    <div class="messaggi" id="lMessaggi"></div>
+    <div class="piede-dialog">
+      <span class="fonte" id="lRiepilogo"></span>
+      <div>
+        <button type="button" id="lAnnulla">Annulla</button>
+        <button type="submit" class="primario">Registra</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<!-- Milestone -->
+<dialog id="dialogMilestone">
+  <form method="dialog" id="formMilestone" novalidate>
+    <h2>Milestone</h2>
+    <div class="tabella-wrap">
+      <table>
+        <thead><tr><th>Nome</th><th>Data</th><th>Descrizione</th><th>Raggiunta</th><th></th></tr></thead>
+        <tbody id="mRighe"></tbody>
+      </table>
+    </div>
+    <div class="messaggi" id="mMessaggi"></div>
+    <div class="piede-dialog">
+      <button type="button" id="mAggiungi">+ Aggiungi milestone</button>
+      <div>
+        <button type="button" id="mAnnulla">Annulla</button>
+        <button type="submit" class="primario">Salva milestone</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<!-- Esportazione -->
+<dialog id="dialogEsporta">
+  <div class="corpo">
+    <h2>Esporta dati</h2>
+    <p class="nota">Questo è il contenuto aggiornato di <code>dati.json</code>. Il salvataggio automatico non è ancora implementato: per ora copia il testo e sostituisci il file nel repository.</p>
+    <textarea id="jsonEsportato" rows="16" readonly spellcheck="false" style="font-family: ui-monospace, monospace; font-size: 0.78rem; margin-top: 8px"></textarea>
+    <div class="piede-dialog">
+      <span class="fonte" id="copiato"></span>
+      <div>
+        <button type="button" id="chiudiEsporta">Chiudi</button>
+        <button type="button" class="primario" id="copiaJson">Copia JSON</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
