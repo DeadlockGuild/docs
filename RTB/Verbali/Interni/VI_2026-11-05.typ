@@ -3,13 +3,14 @@
 #show: verbale.with(
   titolo: "Verbale Incontro #5",
   data: "2026-11-05",
-  versione: "0.1.2",
+  versione: "1.0.0",
   uso: "Interno",
   redattore: "Nikola Miljanovic",
   verificatore: "Mattia Scomparin",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin",),
   riassunto: "Considerazioni generali a seguito dell'aggiudicazione dell'appalto. Riflessioni sulle correzioni del committente in merito alla candidatura. Discussione sulla rotazione e assegnazione dei ruoli e frequenza degli incontri.",
   registro_modifiche: (
+    ("1.0.0", "2026-11-15", "Giacomo Ravazzolo", "-", "Approvazione del responsabile"),
     ("0.1.2", "2026-11-11", "Nikola Miljanovic", "Mattia Scomparin", "Corretto formato della versione"),
     ("0.1.1", "2026-11-10", "Nikola Miljanovic", "Mattia Scomparin", "Correzioni minori"),
     ("0.1.0", "2026-11-06", "Nikola Miljanovic", "Mattia Scomparin", "Prima stesura"),
