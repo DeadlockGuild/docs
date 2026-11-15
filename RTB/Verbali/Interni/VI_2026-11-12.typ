@@ -3,13 +3,14 @@
 #show: verbale.with(
   titolo: "Verbale Incontro #6",
   data: "2026-11-12",
-  versione: "0.1.0",
+  versione: "0.1.1",
   uso: "Interno",
   redattore: "Nikola Miljanovic",
   verificatore: "Mattia Scomparin",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin",),
   riassunto: "Brevi considerazioni sull'andamento dello sprint. Discussione in merito a struttura dei verbali e formato delle versioni nei file. Presentazione della prima bozza del glossario e del nuovo template del diario di bordo.",
   registro_modifiche: (
+    ("0.1.1", "2026-11-15", "Nikola Miljanovic", "Mattia Scomparin", "Correzioni minori"),
     ("0.1.0", "2026-11-14", "Nikola Miljanovic", "Mattia Scomparin", "Prima stesura"),
   ),
 )
@@ -65,7 +66,7 @@ Gli analisti Carlo Nardin e Godwin Agbleze comunicano a Nikola Miljanovic di ave
 
 La riunione prosegue con l'analisi delle osservazioni rivolte dal committente a diversi gruppi durante la presentazione del diario di bordo di lunedì 9 novembre. È emerso infatti che l'impaginazione attuale gestisce male le proporzioni, attirando l'occhio del lettore sulle aree vuote anziché sui contenuti effettivi. Al termine del confronto, il team definisce il nuovo stile grafico, che verrà adottato a partire dal prossimo incontro di lunedì 16 novembre.
 
-#fonte_decisione([D1], [Modificare il template del diario di bordo per gestire meglio le proporzioni.])
+#fonte_decisione([D6], [Modificare il template del diario di bordo per gestire meglio le proporzioni.])
 
 = Tracciamento Azioni
 
