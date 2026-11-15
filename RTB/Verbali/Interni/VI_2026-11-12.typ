@@ -3,13 +3,14 @@
 #show: verbale.with(
   titolo: "Verbale Incontro #6",
   data: "2026-11-12",
-  versione: "0.1.1",
+  versione: "1.0.0",
   uso: "Interno",
   redattore: "Nikola Miljanovic",
   verificatore: "Mattia Scomparin",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin",),
   riassunto: "Brevi considerazioni sull'andamento dello sprint. Discussione in merito a struttura dei verbali e formato delle versioni nei file. Presentazione della prima bozza del glossario e del nuovo template del diario di bordo.",
   registro_modifiche: (
+    ("1.0.0", "2026-11-15", "Giacomo Ravazzolo", "-", "Approvazione del responsabile"),
     ("0.1.1", "2026-11-15", "Nikola Miljanovic", "Mattia Scomparin", "Correzioni minori"),
     ("0.1.0", "2026-11-14", "Nikola Miljanovic", "Mattia Scomparin", "Prima stesura"),
   ),
