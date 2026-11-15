@@ -1,0 +1,107 @@
+{
+  "versione": 1,
+  "progetto": {
+    "nome": "C5 – RareCare",
+    "costoMassimo": 11220,
+    "orePerMembro": 91,
+    "scadenza": "2027-04-09",
+    "durataSprintPredefinita": 2,
+    "linkGithubProject": "https://github.com/users/DeadlockGuild/projects/1",
+    "linkPreventivo": "https://deadlockguild.github.io/docs/pdf/Candidatura/ValutazioneCostiOre/preventivo_costi_dichiarazione_impegni.pdf"
+  },
+  "ruoli": [
+    {
+      "id": "responsabile",
+      "nome": "Responsabile",
+      "costoOrario": 30,
+      "orePreviste": 54
+    },
+    {
+      "id": "amministratore",
+      "nome": "Amministratore",
+      "costoOrario": 20,
+      "orePreviste": 48
+    },
+    {
+      "id": "analista",
+      "nome": "Analista",
+      "costoOrario": 25,
+      "orePreviste": 90
+    },
+    {
+      "id": "progettista",
+      "nome": "Progettista",
+      "costoOrario": 25,
+      "orePreviste": 108
+    },
+    {
+      "id": "programmatore",
+      "nome": "Programmatore",
+      "costoOrario": 15,
+      "orePreviste": 132
+    },
+    {
+      "id": "verificatore",
+      "nome": "Verificatore",
+      "costoOrario": 15,
+      "orePreviste": 114
+    }
+  ],
+  "membri": [
+    "Godwin Agbleze",
+    "Nikola Miljanovic",
+    "Carlo Nardin",
+    "Mattia Pasquato",
+    "Giacomo Ravazzolo",
+    "Mattia Scomparin"
+  ],
+  "milestone": [
+    {
+      "nome": "Consegna del progetto",
+      "data": "2027-04-09",
+      "descrizione": "Scadenza indicata nel Preventivo costi e dichiarazione impegni"
+    }
+  ],
+  "sprint": [
+    {
+      "id": 1,
+      "nome": "Sprint 1",
+      "inizio": "2026-11-05",
+      "fine": "2026-11-18",
+      "assegnazioni": [
+        {
+          "membro": "Godwin Agbleze",
+          "ruolo": "analista",
+          "ore": 0
+        },
+        {
+          "membro": "Nikola Miljanovic",
+          "ruolo": "amministratore",
+          "ore": 0
+        },
+        {
+          "membro": "Carlo Nardin",
+          "ruolo": "analista",
+          "ore": 0
+        },
+        {
+          "membro": "Mattia Pasquato",
+          "ruolo": "amministratore",
+          "ore": 0
+        },
+        {
+          "membro": "Giacomo Ravazzolo",
+          "ruolo": "responsabile",
+          "ore": 0
+        },
+        {
+          "membro": "Mattia Scomparin",
+          "ruolo": "verificatore",
+          "ore": 0
+        }
+      ],
+      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/2",
+      "registro": []
+    }
+  ]
+}

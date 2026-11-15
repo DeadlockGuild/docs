@@ -35,6 +35,9 @@ jobs:
             cp "$file" "public/$file"
           done
 
+          # Pubblica gli strumenti interni (es. dashboard di progetto con i suoi file)
+          cp -r Tools public/ 2>/dev/null || true
+
           find Candidatura -name "*.typ" ! -name "template.typ" -type f | while read -r file; do
             dir_path=$(dirname "$file")
             mkdir -p "public/pdf/$dir_path"
