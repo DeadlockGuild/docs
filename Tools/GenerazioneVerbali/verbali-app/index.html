@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verbali · DeadlockGuild</title>
+<style>
+@font-face{font-family:"Atkinson";src:url("fonts/AtkinsonHyperlegibleNext-Regular.ttf");font-weight:400}
+@font-face{font-family:"Atkinson";src:url("fonts/AtkinsonHyperlegibleNext-Medium.ttf");font-weight:500}
+@font-face{font-family:"Atkinson";src:url("fonts/AtkinsonHyperlegibleNext-SemiBold.ttf");font-weight:600}
+@font-face{font-family:"Atkinson";src:url("fonts/AtkinsonHyperlegibleNext-Bold.ttf");font-weight:700}
+@font-face{font-family:"Atkinson";src:url("fonts/AtkinsonHyperlegibleNext-Italic.ttf");font-weight:400;font-style:italic}
+@font-face{font-family:"Montserrat";src:url("fonts/Montserrat-ExtraBold.ttf");font-weight:800}
+
+:root{
+  --bg:#f5f6f8; --card:#fff; --ink:#0d1017; --muted:#5d6572; --line:#dde0e6;
+  --brand:#c85815; --brand-d:#a54610; --brand-soft:#fbeee5; --ok:#1f7a4d;
+  --radius:12px;
+}
+:root[data-theme="dark"]{
+  --bg:#0d1017; --card:#171b24; --ink:#eef0f4; --muted:#9aa3b2; --line:#2a303c;
+  --brand:#e27a35; --brand-d:#f08f4e; --brand-soft:#2a1b12; --ok:#4cc38a;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Atkinson","Liberation Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--card);border-bottom:2px solid var(--brand)}
+header.top img{height:34px;display:block}
+:root[data-theme="dark"] header.top img{filter:invert(1) hue-rotate(180deg)}
+header.top h1{font-family:"Montserrat";font-weight:800;font-size:17px;margin:0;color:var(--brand)}
+header.top .sp{flex:1}
+.btn{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 13px;border-radius:8px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-d);color:#fff}
+.btn.sm{padding:4px 9px;font-size:13px}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.danger:hover{border-color:#c0392b;color:#c0392b}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--brand);outline-offset:1px}
+
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:18px;padding:18px 20px;max-width:1700px;margin:auto}
+@media(max-width:1000px){main{grid-template-columns:1fr}}
+.col-form{display:flex;flex-direction:column;gap:14px;min-width:0}
+.col-out{position:sticky;top:68px;align-self:start;height:calc(100vh - 86px);display:flex;flex-direction:column;min-width:0}
+@media(max-width:1000px){.col-out{position:static;height:auto}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.card h2,.card>summary{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);margin:0 0 10px;font-weight:700}
+details.card>summary{cursor:pointer;margin:0;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.card>summary::after{content:"＋";font-weight:700}
+details.card[open]>summary::after{content:"－"}
+details.card[open]>summary{margin-bottom:10px}
+.grid{display:grid;gap:10px 12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.grid .w2{grid-column:span 2}.grid .wall{grid-column:1/-1}
+label.f{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--muted);font-weight:600;min-width:0}
+input,textarea,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;width:100%;min-width:0}
+input:focus,textarea:focus,select:focus{border-color:var(--brand);background:var(--card)}
+textarea{resize:vertical;min-height:70px;line-height:1.4}
+.hint{font-size:12.5px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--line);border-radius:99px;cursor:pointer;user-select:none;background:var(--bg);font-weight:600;font-size:14px}
+.chip input{width:auto;margin:0;accent-color:var(--brand)}
+.chip.on{background:var(--brand-soft);border-color:var(--brand);color:var(--brand)}
+.row-tools{display:flex;gap:6px;align-items:center}
+
+/* blocks */
+.block{border-left:4px solid var(--brand)}
+.block .bh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.block .bh .tag{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);background:var(--brand-soft);padding:2px 8px;border-radius:99px}
+.block .bh .sp{flex:1}
+.block.h{border-left-color:var(--ink)}
+.hrow{display:grid;grid-template-columns:90px 1fr;gap:8px}
+.tbl{width:100%;border-collapse:collapse}
+.tbl td,.tbl th{padding:3px 4px;text-align:left;font-size:12.5px;color:var(--muted)}
+.tbl td input{font-size:14px}
+.tbl .idc{width:72px}.tbl .dc{width:140px}
+.dec{border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:10px;padding:8px 10px;margin-bottom:10px;background:var(--bg)}
+.dnum{width:62px;padding:1px 5px;font-weight:700;color:var(--brand);text-align:center}
+.stato.done{color:var(--ok);font-weight:600}
+.dec textarea{background:var(--card);margin-bottom:6px}.tbl .xc{width:34px}
+.addbar{position:sticky;bottom:0;background:var(--bg);padding:10px 0 4px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1px dashed var(--line)}
+.addbar .lab{font-size:12.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+
+/* sezioni */
+.sec{border-left:4px solid var(--brand);scroll-margin-top:70px}
+.sh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sh .num{font-weight:700;color:var(--brand);min-width:2.4em}
+.stitle{font-weight:700;font-size:17px}
+.stitle.sm{font-size:15px}
+.sub{margin:12px 0 0 14px;padding:10px 12px;border:1px solid var(--line);border-left:3px solid var(--muted);border-radius:10px;scroll-margin-top:70px;background:var(--bg)}
+.sub .stitle{background:var(--card)}
+.block{border:0;padding:0;margin-bottom:8px}
+.block .bh{margin-bottom:4px}
+.block textarea,.block .tbl{background:var(--card)}
+.adder{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.adder .lab{font-size:11.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.idx{display:flex;flex-direction:column;gap:2px}
+.idx a{color:var(--ink);text-decoration:none;padding:2px 6px;border-radius:6px;display:flex;gap:8px}
+.idx a:hover{background:var(--brand-soft);color:var(--brand)}
+.idx .ix1{font-weight:700;margin-top:4px}
+.idx .ix2{padding-left:26px;font-size:14px}
+
+.lock{opacity:.6;padding:0 8px;cursor:default}
+input[readonly]{background:transparent;border-color:transparent;cursor:default}
+
+.fmt{display:flex;gap:4px;padding-right:10px;border-right:1px solid var(--line);margin-right:2px}
+.fmt .btn{min-width:34px;justify-content:center;font-size:15px}
+
+.block.decisione{border-left:3px solid var(--brand);background:var(--brand-soft);padding:8px 10px;border-radius:0 8px 8px 0}
+.block.decisione textarea{background:var(--card)}
+
+/* output */
+.out-head{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.out-head h2{margin:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);flex:1}
+pre#out{flex:1;margin:0;overflow:auto;background:#10141c;color:#e7eaf0;border-radius:var(--radius);padding:14px 16px;font:13px/1.5 ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;tab-size:2;white-space:pre-wrap;word-break:break-word}
+.status{font-size:12.5px;color:var(--muted);margin-top:6px;min-height:18px}
+.status b{color:var(--brand)}
+.warn{color:#b8860b}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;opacity:0;transition:.2s;pointer-events:none;font-weight:600;z-index:50}
+#toast.show{opacity:1;transform:translateX(-50%)}
+.kbd{font:12px ui-monospace,monospace;background:var(--bg);border:1px solid var(--line);padding:1px 5px;border-radius:5px}
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="assets/logo_text_nobg.png" alt="deadlockguild">
+  <h1>Redazione verbali</h1>
+  <span class="sp"></span>
+  <div class="fmt" title="Formatta il testo selezionato (anche Ctrl+B / Ctrl+I)"><button class="btn sm" id="f-b" type="button"><b>B</b></button><button class="btn sm" id="f-i" type="button"><i>I</i></button></div>
+  <button class="btn" id="b-new" title="Nuovo verbale (mantiene membri e impostazioni)">Nuovo</button>
+  <button class="btn" id="b-imp">Importa</button>
+  <button class="btn" id="b-exp">Esporta JSON</button>
+  <button class="btn ghost" id="b-theme" title="Tema chiaro/scuro">Tema</button>
+  <input type="file" id="file" accept=".json,application/json" hidden>
+</header>
+
+<main>
+  <div class="col-form" id="form"></div>
+  <div class="col-out">
+    <div class="out-head">
+      <h2>Sorgente Typst</h2>
+      <button class="btn" id="b-copy">Copia</button>
+      <button class="btn primary" id="b-dl">Scarica .typ</button>
+    </div>
+    <pre id="out" tabindex="0"></pre>
+    <div class="status" id="status"></div>
+  </div>
+</main>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ============ utilities ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const uid = () => Math.random().toString(36).slice(2, 9);
+function h(tag, attrs={}, ...kids){
+  const e = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs||{})){
+    if (v==null || v===false) continue;
+    if (k==="class") e.className=v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else if (k==="value") e.value=v;
+    else if (k==="checked") e.checked=!!v;
+    else e.setAttribute(k, v===true?"":v);
+  }
+  for (const c of kids.flat()) if (c!=null && c!==false) e.append(c.nodeType?c:document.createTextNode(c));
+  return e;
+}
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),1600)}
+const today = () => { const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+/* tutte le date del verbale sono in formato AAAA-MM-GG (quello dei campi data) */
+const fmtDate = iso => iso||"";
+
+/* ============ state ============ */
+const KEY_STATE="dg-verbali-state-v2", KEY_OLD="dg-verbali-state-v1", KEY_SET="dg-verbali-settings-v1";
+const defaultSettings = () => ({
+  members: [],
+  importPath: "template.typ",
+  destInterno: ["Prof. Tullio Vardanega","Prof. Riccardo Cardin"],
+  destEsterno: ["Prof. Tullio Vardanega","Prof. Riccardo Cardin"],
+  theme: ""
+});
+const DEF_APPR="Con la presente firma, la proponente conferma che il contenuto del presente verbale rispecchia fedelmente gli argomenti trattati.";
+const DEF_NOTA="le voci prive di ID Issue e assegnatari rappresentano macro-attività la cui effettiva istanziazione e presa in carico è strettamente vincolata all'eventuale aggiudicazione del capitolato.";
+let DM=new Map();   /* id interno decisione -> "Dn" (solo decisioni attive, in ordine di documento) */
+const verifs = () => (S.meta.verificatori||[]).map(x=>x.trim()).filter(Boolean);
+const azFull = r => r.id||r.titolo||r.ass||r.ver||r.scad;
+const docBlocks = () => S.sections.flatMap(x=>[...x.blocks,...x.subs.flatMap(u=>u.blocks)]);
+const allDecisionBlocks = () => docBlocks().filter(b=>b.type==="decisione");
+/* numerazione progressiva; una decisione con numero impostato a mano (b.num) fa ripartire il conteggio da lì */
+function decMap(){ const m=new Map(); let n=0; allDecisionBlocks().forEach(b=>{
+  const act=String(b.text||"").trim();
+  if(Number.isInteger(b.num)&&b.num>=1) n=b.num; else if(act) n++;
+  if(act) m.set(b.id,"D"+n); }); return m; }
+const mkAz = (prev) => ({id:"",titolo:"",ass:"",ver:prev?prev.ver:"",scad:""});
+const mkDec = () => ({id:uid(), refs:[], azioni:[mkAz()]});
+const mkPrecAz = () => ({titolo:"",id:"",stato:"In Corso"});
+const mkPrecDec = () => ({id:uid(), did:"", azioni:[mkPrecAz()]});
+const mkBlock = (type, extra={}) => Object.assign({id:uid(), type, text:""}, type==="azioni"?{decisioni:[mkDec()]}:type==="prec"?{decisioni:[mkPrecDec()]}:{}, extra);
+const mkSub = (title, o={}) => Object.assign({id:uid(), title, blocks:[], auto:"" }, o);
+const mkSec = (title, o={}) => Object.assign({id:uid(), title, blocks:[], subs:[], col:false}, o);
+function defaultSections(){
+  return [
+    mkSec("Informazioni generali",{locked:true,subs:[mkSub("Luogo e data della riunione",{auto:"luogo",locked:true}), mkSub("Partecipanti",{auto:"partecipanti",locked:true})]}),
+    mkSec("Ordine del giorno",{blocks:[mkBlock("ol")]}),
+    mkSec("Discussione",{blocks:[mkBlock("p")]}),
+    mkSec("Tracciamento Azioni",{blocks:[mkBlock("azioni")]}),
+    mkSec("Tracciamento Decisioni Precedenti",{blocks:[mkBlock("prec")]})
+  ];
+}
+const defaultState = (set) => ({
+  meta:{ titolo:"Verbale interno", data:today(), versione:"0.1.0", uso:"Interno",
+         redattore:"", verificatori:[""], destinatari:[...set.destInterno], riassunto:"" },
+  reg:[],
+  precMig:true,
+  appr:{testo:DEF_APPR, azienda:"", dest:""},
+  next:{on:true,tbd:false,data:"",ora:"",luogo:""},
+  info:{ luogo:"Google Meet", inizio:"", fine:"", durata:"", presenti:[], ospiti:"" },
+  sections: defaultSections()
+});
+/* porta a struttura corrente anche i dati salvati con versioni precedenti */
+function migrate(St){
+  if(St.meta && !St.meta.verificatori){ St.meta.verificatori = St.meta.verificatore?[St.meta.verificatore]:[""]; delete St.meta.verificatore; }
+  if(!St.next) St.next={on:true,tbd:false,data:"",ora:"",luogo:""};
+  if(!St.appr){ const f=St.firma||{}; St.appr={testo:DEF_APPR, azienda:f.azienda||"", dest:[f.nome,f.ruolo&&("("+f.ruolo+")")].filter(Boolean).join(" ")}; }
+  delete St.firma;
+  if(St.info && St.info.assenti===undefined) St.info.assenti=false;
+  if(!St.info) St.info={luogo:"",inizio:"",fine:"",durata:"",presenti:[],ospiti:""};
+  if(St.info.durata===undefined) St.info.durata="";
+  if(!St.sections){
+    const old=(St.blocks||[]);
+    const secs = old.length ? [defaultSections()[0]] : defaultSections();
+    let cs=null, cb=null;
+    old.forEach(b=>{
+      if(b.type==="h"){
+        if((b.level||1)<=1||!cs){ cs=mkSec(b.text); secs.push(cs); cb=null; }
+        else { cb=mkSub(b.text); cs.subs.push(cb); }
+      } else {
+        if(!cs){ cs=mkSec("Contenuto"); secs.push(cs); }
+        (cb||cs).blocks.push(b);
+      }
+    });
+    St.sections=secs; delete St.blocks;
+  }
+  const fixBlocks=a=>a.forEach(b=>{ if(b.type==="azioni"&&!b.decisioni){ b.decisioni=[{id:uid(),testo:"",azioni:(b.rows||[]).map(r=>({id:r.id||"",titolo:r.titolo||"",ass:r.ass||"",ver:r.ver||"",scad:""}))}]; if(!b.decisioni[0].azioni.length) b.decisioni[0].azioni.push(mkAz()); delete b.rows; } });
+  St.sections.forEach(x=>{ fixBlocks(x.blocks); x.subs.forEach(u=>fixBlocks(u.blocks)); });
+  /* le decisioni si scrivono nelle sottosezioni; la tabella le richiama per ID */
+  const allB=()=>St.sections.flatMap(x=>[x.blocks,...x.subs.map(u=>u.blocks)]);
+  allB().forEach(arr=>arr.forEach(b=>{ if(b.type==="fonte"){ b.type="decisione"; delete b.decs; } }));
+  const disc=St.sections.find(x=>/^\s*discussione\s*$/i.test(x.title));
+  const target = disc ? (disc.subs[0]?disc.subs[0].blocks:disc.blocks) : (St.sections.find(x=>!x.locked)||{}).blocks;
+  allB().forEach(arr=>arr.forEach(b=>{ if(b.type==="azioni") (b.decisioni||[]).forEach(d=>{
+    if(!d.refs) d.refs=[];
+    if(d.testo!==undefined){ if(String(d.testo).trim()&&target){ const nb=mkBlock("decisione",{text:d.testo}); target.push(nb); d.refs.push(nb.id); } delete d.testo; }
+  }); }));
+  if(!St.precMig){ St.precMig=true; if(!allB().some(arr=>arr.some(b=>b.type==="prec"))) St.sections.push(mkSec("Tracciamento Decisioni Precedenti",{blocks:[mkBlock("prec")]})); }
+  /* "Informazioni generali": sempre presente, in cima, con le sue sottosezioni fisse */
+  let info=St.sections.find(x=>x.locked)||St.sections.find(x=>/^\s*informazioni generali\s*$/i.test(x.title));
+  if(!info){ info=defaultSections()[0]; St.sections.unshift(info); }
+  info.locked=true; info.title="Informazioni generali";
+  [["luogo","Luogo e data della riunione",0],["partecipanti","Partecipanti",1]].forEach(([k,t,pos])=>{
+    let u=info.subs.find(x=>x.auto===k);
+    if(!u){ u=mkSub(t,{auto:k}); info.subs.splice(Math.min(pos,info.subs.length),0,u); }
+    u.locked=true;
+  });
+  const k0=St.sections.indexOf(info); if(k0>0){ St.sections.splice(k0,1); St.sections.unshift(info); }
+  return St;
+}
+let settings, S;
+function load(){
+  try{ settings = Object.assign(defaultSettings(), JSON.parse(localStorage.getItem(KEY_SET)||"{}")); }catch(e){ settings=defaultSettings(); }
+  try{ S = JSON.parse(localStorage.getItem(KEY_STATE)||localStorage.getItem(KEY_OLD)||"null"); }catch(e){ S=null; }
+  S = S ? migrate(S) : defaultState(settings);
+}
+function save(){ try{ localStorage.setItem(KEY_STATE, JSON.stringify(S)); localStorage.setItem(KEY_SET, JSON.stringify(settings)); }catch(e){} }
+
+/* ============ Typst generation ============ */
+const q = s => JSON.stringify(String(s??"").replace(/\s*\n\s*/g," ").trim());
+const esc0 = s => s.replace(/[\\#$*_`<>@~\[\]]/g, m=>"\\"+m).replace(/\/\//g,"/\\/");
+const tEsc = s => esc0(s).replace(/^(\s*)([-+=\/])(\s)/,"$1\\$2$3");
+/* Testo con formattazione stile Word:  **grassetto**  *corsivo*  ***entrambi***  #42 = link issue */
+function inline(s){
+  s=String(s); const T=[]; let buf="";
+  const flush=()=>{ if(buf){T.push({x:buf});buf="";} };
+  for(let k=0;k<s.length;){
+    if(s[k]!=="*"){ buf+=s[k++]; continue; }
+    let n=0; while(s[k+n]==="*") n++;
+    const prev=k>0?s[k-1]:"", next=s[k+n]||"";
+    const open=next!==""&&!/\s/.test(next), close=prev!==""&&!/\s/.test(prev);
+    if(n>3) buf+="*".repeat(n);
+    else { flush(); (n===1?["i"]:n===2?["b"]:["b","i"]).forEach(kd=>T.push({m:kd,open,close,lit:kd==="b"?"**":"*"})); }
+    k+=n;
+  }
+  flush();
+  const op={b:null,i:null};
+  T.forEach((t,ix)=>{ if(!t.m) return;
+    if(op[t.m]!=null && t.close){ t.pair=true; T[op[t.m]].pair=true; op[t.m]=null; }
+    else if(t.open && op[t.m]==null) op[t.m]=ix; });
+  const out=[]; let st={b:false,i:false}, cur="";
+  const emit=()=>{ if(cur==="") return;
+    const parts=cur.split(/(#\d+\b)/).filter(x=>x!=="").map(x=>/^#\d+$/.test(x)?{s:"#issue("+x.slice(1)+")",w:true}:{s:esc0(x),w:false});
+    if(st.b||st.i){ let body=parts.map(x=>x.s).join(""); if(st.i) body="#emph["+body+"]"; if(st.b) body="#strong["+body+"]"; out.push({s:body,w:true}); }
+    else out.push(...parts);
+    cur=""; };
+  T.forEach(t=>{ if(t.m&&t.pair){ emit(); st={...st,[t.m]:!st[t.m]}; } else cur+= t.m? t.lit : t.x; });
+  emit();
+  let res="", pw=false;
+  for(const o of out){ if(pw && /^\.[A-Za-z_]/.test(o.s)) res+="#[]"; res+=o.s; pw=o.w; }
+  return res.replace(/^(\s*)([-+=\/])(\s)/,"$1\\$2$3");
+}
+const lines = t => String(t||"").split("\n").map(l=>l.replace(/\s+$/,"")).filter(l=>l.trim()!=="");
+function lineFix(l){ return l.replace(/^(\s*)([-+=\/])(\s)/,"$1\\$2$3"); }
+function listItems(t, mark){
+  return lines(t).map(l=>{
+    const ind = l.match(/^\s*/)[0].replace(/\t/g,"  ");
+    return ind + mark + " " + inline(l.trim());
+  }).join("\n");
+}
+function genBlock(b){
+  switch(b.type){
+    case "p": {
+      const paras = String(b.text||"").split(/\n\s*\n/).map(p=>{ const t=p.split("\n").map(l=>l.trim()).filter(Boolean).join("\n"); return t? inline(t).split("\n").map(lineFix).join("\n") : ""; }).filter(Boolean);
+      return paras.join("\n\n");
+    }
+    case "ul": return listItems(b.text,"-");
+    case "ol": return listItems(b.text,"+");
+    case "azioni": {
+      const cell = v => "["+(String(v||"").trim()?inline(v):"-")+"]";
+      const idc = r => { const d=String(r.id||"").replace(/\D/g,""); return d? "[#issue("+d+")]" : "[-]"; };
+      const scad = r => "["+(r.scad?tEsc(r.scad):"-")+"]";
+      const full = azFull;
+      const decs=(b.decisioni||[]).map(d=>({d,az:d.azioni.filter(full),ids:(d.refs||[]).map(x=>DM.get(x)).filter(Boolean)})).filter(x=>x.ids.length||x.az.length);
+      const out=[];
+      if(decs.length) out.push("#tabella_decisioni(\n"+decs.map(({d,az,ids})=>{
+        const rows = (az.length?az:[{}]).map(r=>"      (azione: "+cell(r.titolo)+", issue: "+idc(r)+", ass: "+cell(r.ass)+", ver: "+cell(r.ver)+", scad: "+scad(r)+"),").join("\n");
+        return "  (id: ["+(ids.length?esc0(ids.join(", ")):"-")+"], azioni: (\n"+rows+"\n  )),";
+      }).join("\n")+"\n)");
+      if(b.nota!==undefined && b.nota.trim()) out.push("#emph[#strong[Nota]: "+inline(b.nota.trim())+"]");
+      return out.join("\n\n");
+    }
+    case "prec": {
+      const groups=(b.decisioni||[]).map(d=>({d,az:d.azioni.filter(r=>r.titolo.trim()||String(r.id).trim())})).filter(x=>x.d.did.trim()||x.az.length);
+      if(!groups.length) return "";
+      const c=v=>"["+(String(v||"").trim()?inline(v):"-")+"]";
+      const iss=r=>{const n=String(r.id||"").replace(/\D/g,""); return n?"[#issue("+n+")]":"[-]";};
+      return "#tabella_decisioni_precedenti(\n"+groups.map(({d,az})=>{
+        const rows=(az.length?az:[null]).map(r=>r?"      (azione: "+c(r.titolo)+", issue: "+iss(r)+", stato: ["+tEsc(r.stato||"In Corso")+"]),":"      (azione: [-], issue: [-], stato: [-]),").join("\n");
+        return "  (id: ["+(d.did.trim()?esc0(d.did.trim().replace(/^D_(\d+)$/i,"D$1")):"-")+"], azioni: (\n"+rows+"\n  )),";
+      }).join("\n")+"\n)";
+    }
+    case "decisione": {
+      const id=DM.get(b.id); if(!id) return "";
+      return "#fonte_decisione(["+esc0(id)+"], ["+genBlock({type:"p",text:b.text})+"])";
+    }
+    case "raw": return String(b.text||"").replace(/\s+$/,"");
+  }
+  return "";
+}
+const h2m = t => { const m=/^(\d{1,2}):(\d\d)$/.exec(t||""); return m?(+m[1])*60+(+m[2]):null; };
+function durata(i){
+  if((i.durata||"").trim()) return i.durata.trim();
+  const a=h2m(i.inizio), b=h2m(i.fine); if(a==null||b==null) return "";
+  const m=(b-a+1440)%1440, hh=Math.floor(m/60), mm=m%60, out=[];
+  if(hh) out.push(hh===1?"1 ora":hh+" ore");
+  if(mm) out.push(mm===1?"1 minuto":mm+" minuti");
+  return out.join(" e ");
+}
+function genAuto(kind){
+  const i=S.info, items=[];
+  if(kind==="luogo"){
+    if(i.luogo) items.push("- *Luogo*: "+inline(i.luogo));
+    if(S.meta.data) items.push("- *Data*: "+tEsc(S.meta.data));
+    if(i.inizio) items.push("- *Ora*: "+tEsc(i.inizio));
+    const d=durata(i); if(d) items.push("- *Durata*: "+inline(d));
+  } else if(kind==="partecipanti"){
+    const ospiti=lines(i.ospiti.replace(/,/g,"\n")).map(x=>x.trim());
+    i.presenti.forEach(n=>items.push("- "+tEsc(n)));
+    if(i.assenti && i.presenti.length) settings.members.filter(m=>!i.presenti.includes(m)).forEach(n=>items.push("- "+tEsc(n)+" (assente)"));
+    ospiti.forEach(o=>items.push("- "+inline(o)+" (ospite)"));
+  }
+  return items.join("\n");
+}
+function genSub(s){
+  const out=[];
+  if(s.title.trim()) out.push("== "+inline(s.title.trim()));
+  if(s.auto) out.push(genAuto(s.auto));
+  s.blocks.forEach(b=>out.push(genBlock(b)));
+  return out.filter(Boolean).join("\n\n");
+}
+function genSection(sec){
+  const out=[];
+  if(sec.title.trim()) out.push("= "+inline(sec.title.trim()));
+  sec.blocks.forEach(b=>out.push(genBlock(b)));
+  sec.subs.forEach(s=>out.push(genSub(s)));
+  return out.filter(Boolean).join("\n\n");
+}
+function genNext(){
+  const n=S.next; if(!n||!n.on) return "";
+  if(n.tbd) return "*Prossimo incontro:* da definire.";
+  if(!n.data) return "";
+  const luogo=(n.luogo||S.info.luogo||"").trim();
+  const bits=[tEsc(n.data), n.ora&&("alle "+tEsc(n.ora)), luogo&&("su "+inline(luogo))].filter(Boolean);
+  return "*Prossimo incontro:* "+bits.join(" ")+".";
+}
+function genAppr(){
+  if(S.meta.uso!=="Esterno") return "";
+  const a=S.appr;
+  const head="Per "+(a.azienda.trim()?inline(a.azienda.trim()):"l'azienda");
+  const dest=lines(a.dest).map(l=>inline(l.trim()));
+  const who="#strong["+head+"]"+dest.map(d=>" \\\n    "+d).join("");
+  return "= Approvazione\n\n"+genBlock({type:"p",text:a.testo})
+   +"\n\n#v(1cm)\n#block(breakable: false)[\n  #align(right)[\n    "+who+"\n    #v(1.6cm)\n    #line(length: 4.5cm, stroke: 0.5pt)\n  ]\n]";
+}
+/* registro modifiche: dalla più recente (data, poi versione) alla più vecchia */
+const cmpVer=(a,b)=>{ const x=String(a||"").split(/[.\-]/).map(n=>parseInt(n)||0), y=String(b||"").split(/[.\-]/).map(n=>parseInt(n)||0);
+  for(let i=0;i<Math.max(x.length,y.length);i++){ const d=(x[i]||0)-(y[i]||0); if(d) return d; } return 0; };
+const sortReg=a=>a.map((r,i)=>({r,i})).sort((A,B)=>(B.r.data||"").localeCompare(A.r.data||"")||cmpVer(B.r.ver,A.r.ver)||A.i-B.i).map(x=>x.r);
+function generate(){
+  DM=decMap();
+  const m=S.meta;
+  const strs = a => "("+a.map(q).join(", ")+(a.length?",":"")+")";
+  let o = "#import "+q(settings.importPath||"template.typ")+": *\n\n#show: verbale.with(\n";
+  o+="  titolo: "+q(m.titolo)+",\n";
+  o+="  data: "+q(fmtDate(m.data))+",\n";
+  o+="  versione: "+q(m.versione)+",\n";
+  o+="  uso: "+q(m.uso)+",\n";
+  o+="  redattore: "+q(m.redattore)+",\n";
+  const vf=verifs();   /* più verificatori -> array: il template mette al plurale l'etichetta */
+  o+="  verificatore: "+(vf.length>1?strs(vf):q(vf[0]||""))+",\n";
+  o+="  destinatari: "+strs(m.destinatari.filter(x=>x.trim()))+",\n";
+  o+="  riassunto: "+q(m.riassunto)+",\n";
+  const reg=sortReg(S.reg).filter(r=>r.ver||r.desc);
+  if(reg.length){
+    o+="  registro_modifiche: (\n"+reg.map(r=>"    ("+[r.ver,fmtDate(r.data),r.red,r.vrf,r.desc].map(q).join(", ")+"),").join("\n")+"\n  ),\n";
+  }
+  o+=")\n\n";
+  const parts=[...S.sections.map(genSection),genNext(),genAppr()].filter(Boolean);
+  o+=parts.join("\n\n")+"\n";
+  return o;
+}
+
+/* ============ UI ============ */
+const form = $("#form");
+let outEl=$("#out");
+let pendingFocus=null;
+const allBlocks = () => S.sections.flatMap(s=>[...s.blocks,...s.subs.flatMap(u=>u.blocks)]);
+function refresh(){
+  save(); DM=decMap();
+  document.querySelectorAll("[data-dnum]").forEach(e=>{ if(document.activeElement===e) return; const id=DM.get(e.dataset.dnum); e.value=id?id.slice(1):""; });
+  document.querySelectorAll(".fchips").forEach(fillRefs);
+  const src=generate(); outEl.textContent=src;
+  const w=[]; const m=S.meta;
+  if(!m.redattore) w.push("manca il redattore"); if(!verifs().length) w.push("manca il verificatore");
+  if(m.redattore && verifs().includes(m.redattore.trim())) w.push("redattore = verificatore");
+  if(m.uso==="Esterno" && !S.appr.azienda.trim()) w.push("manca la ragione sociale dell'azienda");
+  if(docBlocks().some(b=>b.type==="azioni"&&(b.decisioni||[]).some(d=>d.azioni.some(azFull)&&!(d.refs||[]).some(x=>DM.has(x))))) w.push("azioni senza decisione collegata");
+  if(S.next.on && !S.next.tbd && !S.next.data) w.push("manca la data del prossimo incontro");
+  const nIss = allBlocks().filter(b=>b.type==="azioni").reduce((n,b)=>n+(b.decisioni||[]).reduce((m,d)=>m+d.azioni.filter(r=>r.id||r.titolo).length,0),0);
+  $("#status").innerHTML = `<b>${src.split("\n").length}</b> righe · <b>${nIss}</b> azioni`+(w.length?` · <span class="warn">⚠ ${w.join(", ")}</span>`:"")+" · salvato in automatico";
+  renderIndex();
+}
+function renderIndex(){
+  const box=$("#idx"); if(!box) return;
+  box.replaceChildren(...S.sections.flatMap((s,i)=>[
+    h("a",{class:"ix1",href:"#sec-"+s.id,onclick:e=>{e.preventDefault();jump("sec-"+s.id)}},h("b",{},(i+1)+"."),s.title||"(senza titolo)"),
+    ...s.subs.map((u,j)=>h("a",{class:"ix2",href:"#sec-"+u.id,onclick:e=>{e.preventDefault();jump("sec-"+u.id)}},(i+1)+"."+(j+1)+".",u.title||"(senza titolo)"))
+  ]).concat(S.meta.uso==="Esterno"?[h("a",{class:"ix1",href:"#appr",onclick:e=>{e.preventDefault();jump("appr")}},h("b",{},(S.sections.length+1)+"."),"Approvazione")]:[]));
+}
+function jump(id){ const el=document.getElementById(id); if(el){ if(el.classList.contains("collapsed")){} el.scrollIntoView({block:"start",behavior:"smooth"}); } }
+function field(label, key, obj, opts={}){
+  const tag = opts.area?"textarea":"input";
+  const el = h(tag,{type:opts.type||"text",value:obj[key]??"",placeholder:opts.ph||"",list:opts.list,rows:opts.rows,"data-rich":opts.rich,
+    oninput:e=>{obj[key]=e.target.value; opts.on&&opts.on(e.target.value); refresh();}});
+  if(opts.area) el.value=obj[key]??"";
+  return h("label",{class:"f"+(opts.cls?" "+opts.cls:"")},label,el);
+}
+function memberList(){ return h("datalist",{id:"dl-members"},settings.members.map(m=>h("option",{value:m}))); }
+function moveIn(arr,i,d){ const j=i+d; if(j<0||j>=arr.length) return; if(arr===S.sections&&(arr[i].locked||arr[j].locked)) return; [arr[i],arr[j]]=[arr[j],arr[i]]; render(); refresh(); }
+
+function verifField(){
+  const m=S.meta;
+  const lab=h("span",{}), upd=()=>{ lab.textContent=verifs().length>1?"Verificatori":"Verificatore"; };
+  const list=h("div",{style:"display:flex;flex-direction:column;gap:6px"});
+  m.verificatori.forEach((v,i)=>list.append(h("div",{class:"row-tools"},
+    h("input",{value:v,list:"dl-members",placeholder:"Nome Cognome",oninput:e=>{m.verificatori[i]=e.target.value;upd();refresh();}}),
+    m.verificatori.length>1&&h("button",{class:"btn sm ghost danger",title:"Rimuovi verificatore",onclick:()=>{m.verificatori.splice(i,1);render();refresh();}},"✕"))));
+  upd();
+  return h("div",{style:"display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--muted);font-weight:600;min-width:0"},lab,list,
+    h("button",{class:"btn sm",style:"align-self:start;margin-top:4px",onclick:()=>{m.verificatori.push("");pendingFocus="verif-last";render();refresh();}},"＋ Verificatore"));
+}
+function render(){
+  const keepY=window.scrollY; form.innerHTML=""; DM=decMap();
+  form.append(memberList());
+  /* --- Copertina --- */
+  const m=S.meta;
+  const usoSel=h("select",{onchange:e=>{m.uso=e.target.value; m.destinatari=[...(m.uso==="Esterno"?settings.destEsterno:settings.destInterno)]; if(/^Verbale (interno|esterno)$/i.test(m.titolo)) m.titolo="Verbale "+m.uso.toLowerCase(); render(); refresh();}},
+    ["Interno","Esterno"].map(v=>h("option",{value:v,selected:m.uso===v},v)));
+  form.append(h("section",{class:"card"},
+    h("h2",{},"Copertina"),
+    h("div",{class:"grid"},
+      field("Titolo","titolo",m,{cls:"w2"}),
+      field("Data","data",m,{type:"date"}),
+      field("Versione","versione",m,{ph:"0.1.0"}),
+      h("label",{class:"f"},"Uso",usoSel),
+      field("Redattore","redattore",m,{list:"dl-members",ph:"Nome Cognome"}),
+      verifField(),
+      h("label",{class:"f wall"},"Destinatari (uno per riga)",
+        h("textarea",{rows:2,value:m.destinatari.join("\n"),oninput:e=>{m.destinatari=e.target.value.split("\n");refresh();}})),
+      field("Riassunto del verbale","riassunto",m,{area:true,rows:3,cls:"wall",ph:"Due righe su cosa è stato discusso/deciso"})
+    )));
+
+  /* --- Indice --- */
+  form.append(h("section",{class:"card"},h("h2",{},"Indice (clic per saltare alla sezione)"),h("div",{id:"idx",class:"idx"})));
+
+  /* --- Sezioni --- */
+  S.sections.forEach((s,i)=>form.append(renderSection(s,i)));
+  form.append(h("div",{class:"addbar"},
+    h("button",{class:"btn primary",onclick:()=>{const s=mkSec("Nuova sezione"); S.sections.push(s); pendingFocus="sec-"+s.id; render(); refresh();}},"＋ Macrocategoria"),
+    h("select",{class:"btn",style:"width:auto",title:"Sostituisce tutte le sezioni",onchange:e=>{const v=e.target.value; e.target.value=""; if(!v) return;
+        if(!confirm("Sostituire tutte le sezioni con la struttura scelta?")) return;
+        S.sections = v==="vuoto"?[defaultSections()[0]]:defaultSections(); render(); refresh();}},
+      h("option",{value:""},"Ripristina struttura…"),h("option",{value:"std"},"Standard (5 macrocategorie)"),h("option",{value:"vuoto"},"Solo Informazioni generali"))));
+
+  /* --- Prossimo incontro --- */
+  const nx=S.next;
+  form.append(h("section",{class:"card"},
+    h("div",{style:"display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"},
+      h("h2",{style:"margin:0 0 10px"},"Prossimo incontro"),
+      h("div",{class:"row-tools"},
+        h("label",{class:"chip"+(nx.tbd?" on":"")},h("input",{type:"checkbox",checked:nx.tbd,onchange:e=>{nx.tbd=e.target.checked;render();refresh();}}),"Da definire"),
+        h("label",{class:"chip"+(nx.on?" on":"")},h("input",{type:"checkbox",checked:nx.on,onchange:e=>{nx.on=e.target.checked;render();refresh();}}),"Includi"))),
+    nx.on && !nx.tbd && h("div",{class:"grid"},
+      field("Data","data",nx,{type:"date"}),
+      field("Ora (opzionale)","ora",nx,{type:"time"}),
+      field("Luogo","luogo",nx,{ph:S.info.luogo||"es. Google Meet"}),
+      h("p",{class:"hint wall",style:"margin:0"},"Se lasci vuoto il luogo viene usato quello della riunione. Nel verbale: «Prossimo incontro: 2026-10-20 su Google Meet.»"))));
+
+  /* --- Approvazione (solo esterni) --- */
+  if(m.uso==="Esterno"){
+    const ap=S.appr;
+    form.append(h("section",{class:"card sec",id:"appr"},
+      h("div",{class:"sh"},h("span",{class:"num"},(S.sections.length+1)+"."),h("input",{class:"stitle",value:"Approvazione",readonly:true}),h("span",{class:"lock",title:"Sezione fissa dei verbali esterni"},"🔒")),
+      h("div",{class:"grid"},
+        field("Testo","testo",ap,{area:true,rows:3,cls:"wall",rich:true}),
+        field("Ragione sociale azienda destinataria","azienda",ap,{ph:"es. Sanmarco Informatica S.p.A.",cls:"wall"}),
+        field("Destinatari nell'azienda (uno per riga, sotto la ragione sociale)","dest",ap,{area:true,rows:2,cls:"wall",rich:true,ph:"es. Linda Benozzato (in collaborazione con Luca Marcon e Alberto Veronese)"}),
+        h("div",{class:"wall hint"},"Sezione aggiunta in automatico ai soli verbali esterni, con lo spazio per la firma a destra. ",
+          h("button",{class:"btn sm",onclick:()=>{ap.testo=DEF_APPR;render();refresh();}},"Ripristina testo standard")))));
+  }
+
+  /* --- Registro modifiche --- */
+  const regCard=h("details",{class:"card",id:"reg",open:S.reg.length>0},h("summary",{},"Registro delle modifiche"));
+  S.reg.forEach((r,ri)=>{
+    regCard.append(h("div",{class:"grid",style:"margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed var(--line)"},
+      field("Ver.","ver",r),field("Data","data",r,{type:"date"}),
+      field("Redattore","red",r,{list:"dl-members"}),field("Verificatore","vrf",r,{list:"dl-members"}),
+      field("Descrizione","desc",r,{cls:"w2"}),
+      h("div",{style:"display:flex;align-items:end"},h("button",{class:"btn sm danger",onclick:()=>{S.reg.splice(ri,1);render();refresh();}},"Rimuovi"))));
+  });
+  regCard.append(h("div",{class:"row-tools"},
+    h("button",{class:"btn sm",onclick:()=>{ const first=!S.reg.length; S.reg.unshift({ver:S.meta.versione,data:S.meta.data,red:S.meta.redattore,vrf:verifs().join(", "),desc:first?"Prima stesura":""}); render(); refresh();
+      const f=document.querySelector("#reg .w2 input"); f&&f.focus(); }},"＋ Nuova modifica (in cima)"),
+    h("button",{class:"btn sm",title:"Riordina le righe dalla più recente",onclick:()=>{S.reg=sortReg(S.reg);render();refresh();toast("Righe riordinate");}},"↕ Ordina dalla più recente"),
+    h("span",{class:"hint"},"Nel verbale le modifiche sono sempre ordinate dalla più recente.")));
+  form.append(regCard);
+
+  /* --- Impostazioni --- */
+  const set=h("details",{class:"card"},h("summary",{},"Impostazioni"));
+  set.append(h("div",{class:"grid"},
+    h("label",{class:"f wall"},"Membri del gruppo (uno per riga) – usati per autocompletare e per le presenze",
+      h("textarea",{rows:6,value:settings.members.join("\n"),oninput:e=>{settings.members=e.target.value.split("\n").map(s=>s.trim()).filter(Boolean);save();$("#dl-members").replaceChildren(...settings.members.map(m=>h("option",{value:m})));},
+        onchange:()=>{render();refresh();}})),
+    h("label",{class:"f wall"},"Percorso import del template nel .typ",
+      h("input",{value:settings.importPath,oninput:e=>{settings.importPath=e.target.value;refresh();}})),
+    h("label",{class:"f"},"Destinatari – verbali interni",h("textarea",{rows:2,value:settings.destInterno.join("\n"),oninput:e=>{settings.destInterno=e.target.value.split("\n").filter(Boolean);save();}})),
+    h("label",{class:"f"},"Destinatari – verbali esterni",h("textarea",{rows:2,value:settings.destEsterno.join("\n"),oninput:e=>{settings.destEsterno=e.target.value.split("\n").filter(Boolean);save();}}))
+  ));
+  form.append(set);
+  form.append(h("p",{class:"hint"},"Suggerimenti: scrivi ",h("span",{class:"kbd"},"#42")," per linkare l’issue 42 · ",h("span",{class:"kbd"},"B / I")," (o Ctrl+B / Ctrl+I) per grassetto e corsivo sul testo selezionato; nel testo compaiono come ",h("span",{class:"kbd"},"**grassetto**")," e ",h("span",{class:"kbd"},"*corsivo*")," · negli elenchi una voce per riga, due spazi iniziali per annidare · ",h("span",{class:"kbd"},"Ctrl+Invio")," nella tabella azioni aggiunge una riga."));
+  renderIndex();
+  window.scrollTo(0,keepY);
+  if(pendingFocus==="verif-last"){ pendingFocus=null; const ins=[...document.querySelectorAll('input[placeholder="Nome Cognome"][list="dl-members"]')]; const f=ins.filter(x=>x.closest(".grid")&&x.closest(".grid").querySelector("textarea"))[0]; const all=form.querySelectorAll('.card:first-of-type .row-tools input'); all.length&&all[all.length-1].focus(); }
+  if(pendingFocus){ const el=document.getElementById(pendingFocus); pendingFocus=null; if(el){ el.scrollIntoView({block:"center",behavior:"smooth"}); const f=(el.id.startsWith("blk-")&&el.querySelector("textarea"))||el.querySelector("input:not([type=checkbox]):not(.dnum),textarea"); if(f){ f.focus(); f.select&&f.select(); } } }
+}
+
+/* controlli ↑ ↓ ✕ */
+function ctl(arr,i,opts={}){
+  return h("div",{class:"row-tools"},
+    opts.collapse && h("button",{class:"btn sm ghost",title:"Comprimi/espandi",onclick:()=>{opts.collapse.col=!opts.collapse.col;render();}},opts.collapse.col?"▸":"▾"),
+    !opts.noMove && h("button",{class:"btn sm ghost",title:"Su",onclick:()=>moveIn(arr,i,-1)},"↑"),
+    !opts.noMove && h("button",{class:"btn sm ghost",title:"Giù",onclick:()=>moveIn(arr,i,1)},"↓"),
+    opts.noDelete ? h("span",{class:"lock",title:"Sezione fissa: non eliminabile"},"🔒") :
+    h("button",{class:"btn sm ghost danger",title:"Elimina",onclick:()=>{ if(opts.confirm&&!confirm(opts.confirm)) return; arr.splice(i,1); render(); refresh(); }},"✕"));
+}
+function renderSection(sec,si){
+  const box=h("section",{class:"card sec",id:"sec-"+sec.id});
+  box.append(h("div",{class:"sh"},
+    h("span",{class:"num"},String(si+1)+"."),
+    h("input",{class:"stitle",value:sec.title,readonly:sec.locked,placeholder:"Titolo macrocategoria",oninput:e=>{sec.title=e.target.value;refresh();}}),
+    ctl(S.sections,si,{collapse:sec,noDelete:sec.locked,noMove:sec.locked,confirm:(sec.subs.length||sec.blocks.length)?"Eliminare la sezione “"+sec.title+"” con tutto il suo contenuto?":null})));
+  if(sec.col) { box.append(h("div",{class:"hint"},sec.subs.length+" sottocategorie · "+sec.blocks.length+" blocchi")); return box; }
+  box.append(blocksUI(sec.blocks));
+  sec.subs.forEach((u,ui)=>box.append(renderSub(sec,si,u,ui)));
+  box.append(h("button",{class:"btn sm",style:"margin-top:10px",onclick:()=>{const u=mkSub("Nuova sottocategoria"); sec.subs.push(u); pendingFocus="sec-"+u.id; render(); refresh();}},"＋ Sottocategoria"));
+  return box;
+}
+function renderSub(sec,si,u,ui){
+  const box=h("div",{class:"sub",id:"sec-"+u.id});
+  box.append(h("div",{class:"sh"},
+    h("span",{class:"num"},(si+1)+"."+(ui+1)+"."),
+    h("input",{class:"stitle sm",value:u.title,readonly:u.locked,placeholder:"Titolo sottocategoria",oninput:e=>{u.title=e.target.value;refresh();}}),
+    ctl(sec.subs,ui,{noDelete:u.locked})));
+  if(u.auto==="luogo"){
+    box.append(h("div",{class:"grid"},
+      field("Luogo","luogo",S.info,{ph:"Google Meet, Discord, Aula…",cls:"w2"}),
+      field("Ora inizio","inizio",S.info,{type:"time",on:()=>durHint()}),
+      field("Ora fine","fine",S.info,{type:"time",on:()=>durHint()}),
+      field("Durata (opzionale, sostituisce il calcolo)","durata",S.info,{ph:"es. 2 ore",on:()=>durHint(),cls:"w2"}),
+      h("p",{class:"hint wall",id:"durhint",style:"margin:0"}),
+    ));
+    durHint();
+  } else if(u.auto==="partecipanti"){
+    const i=S.info;
+    const chips = h("div",{class:"chips"}, settings.members.length? settings.members.map(n=>{
+      const cb=h("input",{type:"checkbox",checked:i.presenti.includes(n)});
+      const c=h("label",{class:"chip"+(cb.checked?" on":"")},cb,n);
+      cb.addEventListener("change",()=>{ i.presenti = cb.checked? [...i.presenti,n] : i.presenti.filter(x=>x!==n); c.classList.toggle("on",cb.checked); refresh(); });
+      return c;
+    }) : h("span",{class:"hint"},"Aggiungi i membri del gruppo in “Impostazioni” per spuntare le presenze con un click."));
+    box.append(h("div",{class:"grid"},
+      h("div",{class:"wall"},h("div",{class:"row-tools",style:"margin-bottom:6px"},h("span",{class:"hint"},"Presenti"),
+        h("button",{class:"btn sm",onclick:()=>{i.presenti=[...settings.members];render();refresh();}},"Tutti"),
+        h("button",{class:"btn sm",onclick:()=>{i.presenti=[];render();refresh();}},"Nessuno"),
+        h("label",{class:"chip"+(i.assenti?" on":""),title:"Aggiunge in coda gli altri membri con «(assente)»"},h("input",{type:"checkbox",checked:i.assenti,onchange:e=>{i.assenti=e.target.checked;render();refresh();}}),"Elenca anche gli assenti")),chips),
+      field("Ospiti (separati da virgola)","ospiti",i,{cls:"wall"})));
+  }
+  box.append(blocksUI(u.blocks));
+  return box;
+}
+function durHint(){ const e=$("#durhint"); if(e) e.textContent="Data: "+(S.meta.data||"—")+" (dalla copertina) · Durata nel verbale: "+(durata(S.info)||"—"); }
+function blocksUI(arr){
+  const wrap=h("div",{class:"blocks"});
+  arr.forEach((b,i)=>wrap.append(renderBlock(b,arr,i)));
+  const add=(label,type)=>h("button",{class:"btn sm",onclick:()=>{const b=mkBlock(type); arr.push(b); pendingFocus="blk-"+b.id; render(); refresh();}},label);
+  wrap.append(h("div",{class:"adder"},h("span",{class:"lab"},"Contenuto"),add("＋ Paragrafo","p"),add("＋ Elenco","ul"),add("＋ Numerato","ol"),add("＋ Decisione","decisione"),add("＋ Tabella decisioni e azioni","azioni"),add("＋ Tabella decisioni precedenti","prec"),add("＋ Typst","raw")));
+  return wrap;
+}
+const FG={};
+function fillRefs(el){
+  const d=FG[el.dataset.gid]; if(!d) return;
+  const opts=allDecisionBlocks().filter(x=>DM.has(x.id));
+  const sig=opts.map(x=>x.id+DM.get(x.id)+x.text).join("|"); if(el.dataset.sig===sig) return; el.dataset.sig=sig;
+  el.replaceChildren(...(opts.length? opts.map(x=>{
+    const cb=h("input",{type:"checkbox",checked:(d.refs||[]).includes(x.id)});
+    const t=x.text.trim(), lab=h("label",{class:"chip"+(cb.checked?" on":""),title:t},cb,h("b",{},DM.get(x.id)),"· "+(t.length>34?t.slice(0,34)+"…":t));
+    cb.addEventListener("change",()=>{ d.refs=cb.checked?[...(d.refs||[]),x.id]:(d.refs||[]).filter(y=>y!==x.id); lab.classList.toggle("on",cb.checked); refresh(); });
+    return lab; }) : [h("span",{class:"hint"},"Nessuna decisione scritta: aggiungila in una sottosezione con «＋ Decisione».")]));
+}
+const TAGS={prec:"Tracciamento decisioni precedenti",decisione:"Decisione",p:"Paragrafo",ul:"Elenco",ol:"Elenco numerato",azioni:"Tabella decisioni e azioni",raw:"Typst grezzo"};
+function renderBlock(b,arr,idx){
+  const head=h("div",{class:"bh"},(b.type==="decisione"
+      ? h("span",{class:"tag",title:"Numero della decisione: modificalo per far ripartire la numerazione da qui (le successive proseguono)"},"Decisione D",
+          h("input",{type:"number",min:1,class:"dnum","data-dnum":b.id,value:(DM.get(b.id)||"").slice(1),placeholder:"n",
+            oninput:e=>{ const v=parseInt(e.target.value,10); if(v>=1) b.num=v; else delete b.num; refresh(); }}))
+      : h("span",{class:"tag"},TAGS[b.type]||b.type)),h("span",{class:"sp"}),ctl(arr,idx));
+  const box=h("div",{class:"block "+b.type,id:"blk-"+b.id},head);
+  if(b.type==="azioni"){
+    const dEl=h("div",{class:"decs"});
+    b.decisioni.forEach((d,di)=>{
+      const addAz=()=>{ d.azioni.push(mkAz(d.azioni[d.azioni.length-1])); render(); refresh(); const ins=document.querySelectorAll("#dec-"+d.id+" tr:last-child input"); ins.length&&ins[0].focus(); };
+      const t=h("table",{class:"tbl"},h("tr",{},h("th",{},"Azioni associate"),h("th",{},"Issue #"),h("th",{},"Assegnatario"),h("th",{},"Verificatore"),h("th",{},"Scadenza"),h("th",{})));
+      d.azioni.forEach((r,ri)=>{
+        const mk=(k,ph,ls,type)=>h("input",{type:type||"text",value:r[k],placeholder:ph,list:ls,"data-rich":k==="titolo",oninput:e=>{r[k]=e.target.value;refresh();},
+          onkeydown:e=>{ if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();addAz();} }});
+        t.append(h("tr",{},h("td",{},mk("titolo","Cosa va fatto")),h("td",{class:"idc"},mk("id","42")),h("td",{},mk("ass","","dl-members")),h("td",{},mk("ver","","dl-members")),h("td",{class:"dc"},mk("scad","","","date")),
+          h("td",{class:"xc"},h("button",{class:"btn sm ghost danger",title:"Rimuovi azione",onclick:()=>{d.azioni.splice(ri,1);if(!d.azioni.length)d.azioni.push(mkAz());render();refresh();}},"✕"))));
+      });
+      dEl.append(h("div",{class:"dec",id:"dec-"+d.id},
+        h("div",{class:"bh"},h("span",{class:"tag"},"Decisione/i di riferimento (solo ID nella tabella)"),h("span",{class:"sp"}),ctl(b.decisioni,di,{confirm:null})),
+        (FG[d.id]=d, h("div",{class:"chips fchips","data-gid":d.id,style:"margin-bottom:8px"})),
+        t,h("button",{class:"btn sm",style:"margin-top:6px",onclick:addAz},"＋ Azione")));
+    });
+    box.append(dEl);
+    dEl.querySelectorAll(".fchips").forEach(fillRefs);
+    box.append(h("div",{class:"row-tools",style:"margin-top:8px"},
+      h("button",{class:"btn sm",onclick:()=>{const d=mkDec(); b.decisioni.push(d); pendingFocus="dec-"+d.id; render(); refresh();}},"＋ Altra decisione con le sue azioni"),
+      b.nota===undefined && h("button",{class:"btn sm",onclick:()=>{b.nota="";render();refresh();const x=document.querySelector("#blk-"+b.id+" label textarea");x&&x.focus();}},"＋ Nota sotto la tabella")));
+    if(b.nota!==undefined){
+      box.append(h("label",{class:"f",style:"margin-top:8px"},"Nota (appare in corsivo sotto la tabella, preceduta da «Nota:»)",
+        h("textarea",{rows:2,value:b.nota,"data-rich":true,placeholder:"Testo della nota",oninput:e=>{b.nota=e.target.value;refresh();}})),
+        h("div",{class:"row-tools",style:"margin-top:6px"},
+          h("button",{class:"btn sm",onclick:()=>{b.nota=DEF_NOTA;render();refresh();}},"Inserisci nota standard"),
+          h("button",{class:"btn sm danger",onclick:()=>{delete b.nota;render();refresh();}},"Rimuovi nota")));
+    }
+  } else if(b.type==="prec"){
+    const wrap=h("div",{class:"decs"});
+    b.decisioni.forEach((d,di)=>{
+      const addAz=()=>{ d.azioni.push(mkPrecAz()); render(); refresh(); const ins=document.querySelectorAll("#dec-"+d.id+" tr:last-child input"); ins.length&&ins[0].focus(); };
+      const t=h("table",{class:"tbl"},h("tr",{},h("th",{},"Azioni associate"),h("th",{},"Issue #"),h("th",{},"Stato"),h("th",{})));
+      d.azioni.forEach((r,ri)=>{
+        const inp=(k,ph)=>h("input",{value:r[k],placeholder:ph,"data-rich":k==="titolo",oninput:e=>{r[k]=e.target.value;refresh();},
+          onkeydown:e=>{ if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();addAz();} }});
+        const sel=h("select",{class:"stato"+(r.stato==="Completato"?" done":""),onchange:e=>{r.stato=e.target.value;e.target.classList.toggle("done",r.stato==="Completato");refresh();}},
+          ["In Corso","Completato"].map(v=>h("option",{value:v,selected:r.stato===v},v)));
+        t.append(h("tr",{},h("td",{},inp("titolo","Azione assegnata in precedenza")),h("td",{class:"idc"},inp("id","42")),h("td",{class:"dc"},sel),
+          h("td",{class:"xc"},h("button",{class:"btn sm ghost danger",title:"Rimuovi azione",onclick:()=>{d.azioni.splice(ri,1);if(!d.azioni.length)d.azioni.push(mkPrecAz());render();refresh();}},"✕"))));
+      });
+      wrap.append(h("div",{class:"dec",id:"dec-"+d.id},
+        h("div",{class:"bh"},h("span",{class:"tag"},"Decisione precedente"),
+          h("input",{value:d.did,placeholder:"ID, es. D12",style:"max-width:150px",oninput:e=>{d.did=e.target.value;refresh();}}),
+          h("span",{class:"sp"}),ctl(b.decisioni,di,{confirm:null})),
+        t,h("button",{class:"btn sm",style:"margin-top:6px",onclick:addAz},"＋ Azione")));
+    });
+    box.append(wrap,h("div",{class:"row-tools",style:"margin-top:8px"},
+      h("button",{class:"btn sm",onclick:()=>{const d=mkPrecDec(); b.decisioni.push(d); pendingFocus="dec-"+d.id; render(); refresh();}},"＋ Altra decisione precedente")));
+  } else if(b.type==="decisione"){
+    box.append(h("textarea",{rows:3,value:b.text,"data-rich":true,placeholder:"Decisione presa, es. «Lo sprint dura due settimane e i ruoli cambiano a ogni sprint.» (riceve in automatico un ID Dn progressivo)",oninput:e=>{b.text=e.target.value;refresh();}}));
+  } else {
+    const ph={p:"Testo. Riga vuota = nuovo paragrafo.",ul:"Una voce per riga",ol:"Una voce per riga",raw:"Codice Typst inserito così com'è"}[b.type];
+    box.append(h("textarea",{rows:b.type==="p"?4:3,value:b.text,placeholder:ph,"data-rich":b.type!=="raw",
+      style:b.type==="raw"?"font-family:ui-monospace,monospace;font-size:13px":"",
+      oninput:e=>{b.text=e.target.value;refresh();}}));
+  }
+  return box;
+}
+
+/* ============ header actions ============ */
+$("#b-copy").onclick=async()=>{ try{await navigator.clipboard.writeText(generate());toast("Copiato negli appunti");}catch(e){const r=document.createRange();r.selectNodeContents(outEl);getSelection().removeAllRanges();getSelection().addRange(r);document.execCommand("copy");toast("Copiato");} };
+function download(name,text,type){const a=h("a",{href:URL.createObjectURL(new Blob([text],{type})),download:name});document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);}
+$("#b-dl").onclick=()=>{download("verbale_"+(S.meta.data||today())+".typ",generate(),"text/plain;charset=utf-8");toast("File scaricato");};
+$("#b-exp").onclick=()=>{download("verbale_"+(S.meta.data||today())+".json",JSON.stringify({S,settings},null,2),"application/json");};
+$("#b-imp").onclick=()=>$("#file").click();
+$("#file").onchange=async e=>{const f=e.target.files[0]; if(!f)return; try{const j=JSON.parse(await f.text()); if(!j.S) throw 0; S=migrate(j.S); if(j.settings) settings=Object.assign(defaultSettings(),j.settings); render(); refresh(); toast("Importato");}catch(err){toast("File JSON non valido");} e.target.value="";};
+$("#b-new").onclick=()=>{ if(!confirm("Iniziare un nuovo verbale? Le modifiche non esportate andranno perse (membri e impostazioni restano).")) return;
+  const old=S.meta; S=defaultState(settings); S.meta.redattore=old.redattore; S.meta.verificatori=[...old.verificatori]; render(); refresh(); };
+function applyTheme(){ if(settings.theme) document.documentElement.dataset.theme=settings.theme; else delete document.documentElement.dataset.theme; }
+$("#b-theme").onclick=()=>{ settings.theme=settings.theme==="dark"?"light":"dark"; applyTheme(); save(); };
+/* grassetto / corsivo stile Word sui campi di testo */
+let lastRich=null;
+document.addEventListener("focusin",e=>{ if(e.target.matches&&e.target.matches("[data-rich]")) lastRich=e.target; });
+function fmt(el,kind){
+  if(!el||!document.contains(el)){ toast("Clicca prima in un campo di testo"); return; }
+  const v=el.value; let a=el.selectionStart, b=el.selectionEnd;
+  if(a===b){ while(a>0&&/[^\s*]/.test(v[a-1])) a--; while(b<v.length&&/[^\s*]/.test(v[b])) b++; }
+  while(a<b&&/[\s*]/.test(v[a])) a++; while(b>a&&/[\s*]/.test(v[b-1])) b--;
+  let nv, s0, s1;
+  if(a===b){ const c=el.selectionStart, mk=kind==="b"?"****":"**"; nv=v.slice(0,c)+mk+v.slice(c); s0=s1=c+mk.length/2; }
+  else {
+    let L=0; while(v[a-1-L]==="*") L++; let R=0; while(v[b+R]==="*") R++;
+    const n=Math.min(L,R,3), has=kind==="b"?n>=2:(n===1||n===3);
+    const n2=kind==="b"?(has?n-2:n+2):(has?n-1:n+1), inner=v.slice(a,b);
+    nv=v.slice(0,a-n)+"*".repeat(n2)+inner+"*".repeat(n2)+v.slice(b+n); s0=a-n+n2; s1=s0+inner.length;
+  }
+  el.value=nv; el.focus(); el.setSelectionRange(s0,s1); el.dispatchEvent(new Event("input",{bubbles:true}));
+}
+const curRich=()=>{ const a=document.activeElement; return (a&&a.matches&&a.matches("[data-rich]"))?a:lastRich; };
+[["f-b","b"],["f-i","i"]].forEach(([id,k])=>{ const bt=$("#"+id); bt.addEventListener("mousedown",e=>e.preventDefault()); bt.addEventListener("click",()=>fmt(curRich(),k)); });
+document.addEventListener("keydown",e=>{
+  if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&!e.altKey&&e.target.matches&&e.target.matches("[data-rich]")){
+    const k=e.key.toLowerCase(); if(k==="b"||k==="i"){ e.preventDefault(); fmt(e.target,k); }
+  }
+});
+document.addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();$("#b-dl").click();} });
+
+load(); applyTheme(); render(); refresh();
+</script>
+</body>
+</html>
