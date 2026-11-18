@@ -3,7 +3,6 @@
   data: "",
   versione: "",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin"),
-  riassunto: "",
   registro_modifiche: (),
   body
 ) = {
@@ -44,12 +43,6 @@
     #v(0.7cm)
     #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
     #v(0.7cm)
-    
-    #if riassunto != "" [
-      #text(size: 14pt, weight: "bold")[Riassunto del verbale] \
-      #v(0.1em)
-      #text(size: 12pt)[#riassunto]
-    ]
   ]
 
   pagebreak(weak: true)
@@ -93,3 +86,34 @@
 
   body
 }
+
+// Voce del glossario: box con nome (intestazione arancione) e significato (sfondo arancione tenue)
+#let colore-glossario = rgb("#c85815")
+
+#let voce(termine, descrizione) = block(
+  width: 100%,
+  breakable: false,
+  above: 1em,
+  below: 1em,
+  stroke: 1.2pt + colore-glossario,
+  radius: 4pt,
+  clip: true,
+  stack(
+    block(
+      width: 100%,
+      above: 0pt,
+      below: 0pt,
+      fill: colore-glossario,
+      inset: (x: 10pt, y: 6pt),
+      text(fill: white, weight: "bold", font: "Montserrat")[#termine],
+    ),
+    block(
+      width: 100%,
+      above: 0pt,
+      below: 0pt,
+      fill: colore-glossario.lighten(88%),
+      inset: 10pt,
+      par(justify: true)[#descrizione],
+    ),
+  ),
+)
