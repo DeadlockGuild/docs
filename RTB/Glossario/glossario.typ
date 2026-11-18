@@ -90,7 +90,7 @@ Le voci sono organizzate in ordine alfabetico. Per ogni termine viene fornita la
 
 == S
 
-#voce([Sprint], [Intervallo di tempo fisso e breve (nel contesto del nostro progetto di 2 settimane) utilizzato nelle metodologie di sviluppo Agile, durante il quale il team si impegna a completare un insieme specifico di attività selezionate dal backlog. Ogni sprint comprende le fasi di pianificazione iniziale, sviluppo, test e revisione finale.])
+#voce([Sprint], [Intervallo di tempo fisso e breve (nel contesto del nostro progetto, di 2 settimane) utilizzato nelle metodologie di sviluppo Agile, durante il quale il team si impegna a completare un insieme specifico di attività selezionate dal backlog. Ogni sprint comprende le fasi di pianificazione iniziale, sviluppo, test e revisione finale.])
 
 == T
 
