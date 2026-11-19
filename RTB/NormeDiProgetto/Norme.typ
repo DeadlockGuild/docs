@@ -67,8 +67,8 @@
     columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
     align: horizon + left,
     table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
-    [0.1.0], [2026-11-16], [Mattia Pasquato], [Mattia Scomparin], [• struttura generale del documento e introduzione],
-    [0.1.0], [2026-11-x], [????], [Mattia Scomparin], [• Stesura sezioni 1, 2]
+    [0.2.0], [2026-11-19], [Mattia Pasquato], [Mattia Scomparin], [• Prima stesura sezioni 1 e 2],
+    [0.1.0], [2026-11-16], [Mattia Pasquato], [Mattia Scomparin], [• Struttura generale del documento e introduzione]
   )
 )
 
