@@ -34,8 +34,8 @@
     inset: (x: 10pt, y: 5pt),
     row-gutter: 0.7em,
     text(weight: "bold")[Uso:], [Esterno],
-    text(weight: "bold")[Redattore:], [Godwin Agbleze \ Carlo Nardin],
-    text(weight: "bold")[Verificatore:], [Mattia Scomparin],
+    text(weight: "bold")[Redattori:], [Godwin Agbleze \ Carlo Nardin],
+    text(weight: "bold")[Verificatori:], [Mattia Scomparin],
     text(weight: "bold")[Destinatari:], [Prof. Tullio Vardanega \ Prof. Riccardo Cardin \ Miriade Srl],
   )
   
@@ -148,7 +148,7 @@ Il progetto *RareCare Navigator* si pone l'obiettivo di ridurre il divario infor
 === Macro-funzionalità del prodotto
 La piattaforma si articola nelle seguenti macro-aree funzionali:
 - *Hub di Coordinamento e Rete Integrata di Comunicazione*: ambiente collaborativo con controllo granulare dei permessi (basato su ruolo, relazione con il paziente e visibilità del singolo documento) per connettere gli attori associati al paziente e consentire lo scambio diretto di messaggi e documentazione.
-- *#g[Fascicolo Digitale] e Document Repository*: archivio cifrato per il caricamento, il versionamento, la conservazione e la condivisione controllata di referti medici, piani terapeutici (#g[PAI]), piani educativi (#g[PEI]) e certificazioni amministrative.
+- *#g[Fascicolo Digitale] e #g[Document Repository]*: archivio cifrato per il caricamento, il versionamento, la conservazione e la condivisione controllata di referti medici, piani terapeutici (#g[PAI]), piani educativi (#g[PEI]) e certificazioni amministrative.
 - *#g[Smart Checklist] e Timeline di Cura*: rappresentazione cronologica del percorso assistenziale e generazione di liste di attività (_to-do list_) legate alla fase clinica in cui si trova il paziente, basate sui template del #g[Disease Pack] e soggette a validazione umana.
 - *Motore di Workflow, Scadenze e Notifiche*: registrazione delle scadenze cliniche e burocratiche con pianificazione automatica di promemoria inviati tramite notifiche push ed e-mail, ed eventuale segnalazione al #g[Care Navigator] in caso di mancato completamento.
 - *Assistente Conversazionale RAG (_Care Navigator AI Assistant_)*: chat interattiva in linguaggio naturale che risponde a quesiti clinico-informativi e amministrativi attingendo esclusivamente alla base di conoscenza validata del #g[Disease Pack], citando le fonti utilizzate, dichiarando i propri limiti quando l'informazione non è disponibile e astenendosi da qualsiasi decisione medica.
@@ -157,20 +157,20 @@ La piattaforma si articola nelle seguenti macro-aree funzionali:
   - estrazione automatica di entità cliniche e scadenze da note testuali o vocali tramite tecniche #g[NLP] / #g[NER] e sintesi di checklist dai piani #g[PAI]/#g[PEI], sempre subordinate a revisione e conferma umana;
   - modulo di *mappatura geospaziale* dei centri clinici e dei servizi territoriali (primo requisito opzionale per priorità);
   - *assistente vocale (_Voice Bot_)* per l'interazione a mani libere in mobilità o emergenza (secondo requisito opzionale per priorità);
-  - *analisi predittiva dei bisogni* tramite modelli di _Machine Learning_ (terzo requisito opzionale per priorità).
+  - *analisi predittiva dei bisogni* tramite modelli di #g[Machine Learning] (terzo requisito opzionale per priorità).
 
 === Vincoli generali del prodotto
 Lo sviluppo e il funzionamento del sistema sono soggetti ai seguenti vincoli principali:
-- *Protezione dei dati sanitari e conformità normativa*: il sistema tratta categorie particolari di dati personali (dati relativi alla salute, inclusi quelli di minori, art. 9 #g[GDPR]) e deve rispettare i principi di _#g[Privacy by Design]_ e _by Default_, la gestione esplicita e revocabile dei consensi, il tracciamento immutabile degli accessi (_#g[Audit log]_) e la residenza dei dati nell'Unione Europea.
+- *Protezione dei dati sanitari e conformità normativa*: il sistema tratta categorie particolari di dati personali (dati relativi alla salute, inclusi quelli di minori, art. 9 #g[GDPR]) e deve rispettare i principi di #g[Privacy by Design] e #g[Privacy by Default], la gestione esplicita e revocabile dei consensi, il tracciamento immutabile degli accessi (#g[Audit log]) e la residenza dei dati nell'Unione Europea.
 - *Assenza di autonomia decisionale medica dell'IA*: per vincolo normativo e di sicurezza del paziente, l'intelligenza artificiale non può prendere decisioni cliniche autonome; ogni suggerimento, checklist o dato estratto dall'IA richiede un'esplicita approvazione umana prima di diventare effettivo.
 - *Perimetro del dominio e validazione delle fonti*: per l'intero progetto viene realizzato esclusivamente il #g[Disease Pack] relativo alla Sindrome di Sanfilippo, i cui contenuti documentali sono forniti già validati dall'associazione *Sanfilippo Fighters*.
-- *Assenza di dati reali in fase di sviluppo e test*: non è previsto l'utilizzo di dati appartenenti a pazienti reali; tutte le attività di sviluppo e verifica si basano su dati fittizi (_#g[Mock data]_).
+- *Assenza di dati reali in fase di sviluppo e test*: non è previsto l'utilizzo di dati appartenenti a pazienti reali; tutte le attività di sviluppo e verifica si basano su dati fittizi (#g[Mock data]).
 - *Scelte tecnologiche e infrastrutturali*: le tecnologie indicate nel capitolato (stack cloud #g[AWS], #g[Flutter], #g[Amazon Bedrock], #g[AWS Cognito]) rappresentano raccomandazioni non vincolanti da cui il gruppo può discostarsi motivando le proprie scelte. La proponente mette a disposizione account #g[AWS] con permessi controllati e limiti settimanali sul consumo di token dei modelli linguistici.
 
 == Utenti e loro caratteristiche
 Il sistema si rivolge a una rete eterogenea di attori che ruotano attorno al paziente. La definizione puntuale dei profili e la scelta tra un account unico per nucleo familiare o profili separati verranno consolidate durante il *#g[Design Sprint]*; nella fase attuale si individuano le seguenti figure di riferimento:
 - *Paziente / Famiglia (#g[Caregiver])*: è l'utente primario della piattaforma. Spesso opera in condizioni di forte stress emotivo e carico organizzativo; necessita quindi di un'interfaccia empatica, accessibile e a basso sforzo cognitivo. Gestisce il fascicolo del paziente, consulta la timeline, le checklist e l'assistente virtuale, inserisce scadenze e controlla in modo granulare quali documenti condividere con gli altri attori.
-- *#g[Care Navigator]*: figura di riferimento umano (_case manager_) che accompagna e coordina la famiglia lungo il percorso assistenziale. Utilizza la piattaforma per monitorare l'avanzamento delle attività, supportare l'aggiornamento delle fasi e ricevere segnalazioni sulle scadenze non portate a termine.
+- *#g[Care Navigator]*: figura di riferimento umano (#g[case manager]) che accompagna e coordina la famiglia lungo il percorso assistenziale. Utilizza la piattaforma per monitorare l'avanzamento delle attività, supportare l'aggiornamento delle fasi e ricevere segnalazioni sulle scadenze non portate a termine.
 - *Professionista sanitario (es. medico, pediatra, terapista)*: consulta e carica la documentazione clinica di propria competenza relativa ai pazienti che ha in carico (quali gli esami richiesti e i referti esplicitamente condivisi dalla famiglia). Non ha facoltà di modificare il #g[Disease Pack].
 - *Struttura clinica / Centro specialistico*: ente sanitario coinvolto nella presa in carico del paziente, abilitato a validare e confermare le tappe e le checklist proposte dal sistema per le diverse fasi della patologia.
 - *Ente pubblico o scolastico (es. scuola, servizi sociali)*: attore esterno della rete di cura (come un dirigente scolastico o docente referente per il #g[PEI]) che accede in sola consultazione ai soli documenti amministrativi o educativi che la famiglia ha scelto esplicitamente di condividere.
