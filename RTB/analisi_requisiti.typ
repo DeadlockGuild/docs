@@ -25,7 +25,7 @@
   #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[Analisi dei Requisiti] \
   #v(0.5cm)
   #text(size: 14pt)[Data: 2026-11-18] \
-  #text(size: 14pt)[Versione: 0.1.0]
+  #text(size: 14pt)[Versione: 0.1.1]
   
   #v(1.5cm)
   #grid(
@@ -86,7 +86,7 @@
 = Introduzione
 
 == Scopo del documento
-Il presente documento di _Analisi dei Requisiti_ ha lo scopo di definire e strutturare i bisogni espressi dalla proponente *Miriade S.r.l.* per il progetto *RareCare Navigator* (#g[Capitolato] C5), traducendoli in requisiti software chiari, classificati e tracciabili.
+Il presente documento di _Analisi dei Requisiti_ ha lo scopo di definire e strutturare i bisogni espressi dalla proponente *Miriade Srl* per il progetto *RareCare Navigator* (#g[Capitolato] C5), traducendoli in requisiti software chiari, classificati e tracciabili.
 
 L'obiettivo del documento è duplice:
 - fornire un punto di riferimento condiviso tra il gruppo *DeadlockGuild*, l'azienda proponente e i committenti (*Prof. Tullio Vardanega* e *Prof. Riccardo Cardin*) in merito alle capacità attese dal sistema;
@@ -103,7 +103,7 @@ Il prodotto mira a trasformare questo scenario in un percorso assistenziale coor
 Per evitare ambiguità interpretative dovute all'uso del linguaggio naturale e alla specificità dei termini clinici, normativi e tecnologici del dominio, il gruppo affianca al presente documento un _Glossario_ esterno. Tutti i vocaboli e gli acronimi definiti all'interno del _Glossario_ sono indicati nel testo, alla loro prima occorrenza significativa, in corsivo e contrassegnati dal pedice $G$ (ad esempio: #g[Disease Pack]).
 
 == Maturità e miglioramenti del documento
-Il presente documento è soggetto a un processo di redazione incrementale e a spirale: non va quindi considerato definitivo fino al consolidamento delle relative #g[Baseline], ma evolve progressivamente con l'approfondimento del dominio applicativo e con i confronti periodici tra il gruppo *DeadlockGuild* e la proponente *Miriade S.r.l.*.
+Il presente documento è soggetto a un processo di redazione incrementale e a spirale: non va quindi considerato definitivo fino al consolidamento delle relative #g[Baseline], ma evolve progressivamente con l'approfondimento del dominio applicativo e con i confronti periodici tra il gruppo *DeadlockGuild* e la proponente *Miriade Srl*.
 
 Ogni variazione, aggiunta o affinamento dei _Casi d'Uso_ e dei requisiti viene tracciato tramite il sistema di versionamento e riportato nel _Registro delle modifiche_, al fine di mantenere la coerenza e la tracciabilità del documento lungo tutto il ciclo di sviluppo fino alla revisione RTB e al collaudo finale.
 
@@ -114,7 +114,7 @@ Ogni variazione, aggiunta o affinamento dei _Casi d'Uso_ e dei requisiti viene t
   
 - *Regolamento del progetto didattico* (ultimo accesso: 2026-11-18) \
   #link("https://www.math.unipd.it/~tullio/IS-1/2026/Dispense/PD1.pdf")
-- *Capitolato d'appalto C5 -- RareCare: Piattaforma AI per la raccolta dati e il supporto decisionale nelle malattie rare*, Miriade S.r.l. (ultimo accesso: 2026-11-18) \
+- *Capitolato d'appalto C5 -- RareCare: Piattaforma AI per la raccolta dati e il supporto decisionale nelle malattie rare*, Miriade Srl (ultimo accesso: 2026-11-18) \
   #link("https://www.math.unipd.it/~tullio/IS-1/2026/Progetto/C5-RareCare.pdf")
 - *Verbale esterno del 2026-10-23* (v1.0.4) \
   #link("https://deadlockguild.github.io/docs/pdf/Candidatura/Verbali/Esterni/VE_Miriade_2026-10-23.pdf")
@@ -171,7 +171,7 @@ Lo sviluppo e il funzionamento del sistema sono soggetti ai seguenti vincoli pri
 == Utenti e loro caratteristiche
 Il sistema si rivolge a una rete eterogenea di attori che ruotano attorno al paziente. La definizione puntuale dei profili e la scelta tra un account unico per nucleo familiare o profili separati verranno consolidate durante il *#g[Design Sprint]*; nella fase attuale si individuano le seguenti figure di riferimento:
 - *Paziente / Famiglia (Caregiver)*: è l'utente primario della piattaforma. Spesso opera in condizioni di forte stress emotivo e carico organizzativo; necessita quindi di un'interfaccia empatica, accessibile e a basso sforzo cognitivo. Gestisce il fascicolo del paziente, consulta la timeline, le checklist e l'assistente virtuale, inserisce scadenze e controlla in modo granulare quali documenti condividere con gli altri attori.
-- *#Care Navigator*: figura di riferimento umano (#g[case manager]) che accompagna e coordina la famiglia lungo il percorso assistenziale. Utilizza la piattaforma per monitorare l'avanzamento delle attività, supportare l'aggiornamento delle fasi e ricevere segnalazioni sulle scadenze non portate a termine.
+- *Care Navigator*: figura di riferimento umano (#g[case manager]) che accompagna e coordina la famiglia lungo il percorso assistenziale. Utilizza la piattaforma per monitorare l'avanzamento delle attività, supportare l'aggiornamento delle fasi e ricevere segnalazioni sulle scadenze non portate a termine.
 - *Professionista sanitario (es. medico, pediatra, terapista)*: consulta e carica la documentazione clinica di propria competenza relativa ai pazienti che ha in carico (quali gli esami richiesti e i referti esplicitamente condivisi dalla famiglia). Non ha facoltà di modificare il Disease Pack.
 - *Struttura clinica / Centro specialistico*: ente sanitario coinvolto nella presa in carico del paziente, abilitato a validare e confermare le tappe e le checklist proposte dal sistema per le diverse fasi della patologia.
 - *Ente pubblico o scolastico (es. scuola, servizi sociali)*: attore esterno della rete di cura (come un dirigente scolastico o docente referente per il PEI) che accede in sola consultazione ai soli documenti amministrativi o educativi che la famiglia ha scelto esplicitamente di condividere.
@@ -182,7 +182,7 @@ Il sistema si rivolge a una rete eterogenea di attori che ruotano attorno al paz
 
 = Requisiti
 
-In questa sezione vengono elencati i requisiti individuati durante l'attività di analisi a partire dal #Capitolato d'appalto, dai casi d'uso e dai colloqui con l'azienda proponente.
+In questa sezione vengono elencati i requisiti individuati durante l'attività di analisi a partire dal Capitolato d'appalto, dai casi d'uso e dai colloqui con l'azienda proponente.
 
 Ogni requisito è identificato da un codice univoco secondo il formalismo:
 #align(center)[
