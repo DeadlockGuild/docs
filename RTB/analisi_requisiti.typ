@@ -67,7 +67,7 @@
     columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
     align: horizon + left,
     table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
-    [0.1.1], [2026-11-20], [Carlo Nardin], [Mattia Scomparin], [Correzioni varie: Termini glossario e formattazione testo]
+    [0.1.1], [2026-11-20], [Carlo Nardin], [Mattia Scomparin], [Correzioni varie: Termini glossario e formattazione testo],
     [0.1.0], [2026-11-18], [Carlo Nardin \ Godwin Agbleze], [Mattia Scomparin], [Introduzione, descrizione generale del prodotto e impostazione della struttura per i requisiti]
   )
 )
