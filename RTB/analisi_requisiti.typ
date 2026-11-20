@@ -67,6 +67,7 @@
     columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
     align: horizon + left,
     table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
+    [0.1.1], [2026-11-20], [Carlo Nardin], [Mattia Scomparin], [Correzioni varie: Termini glossario e formattazione testo]
     [0.1.0], [2026-11-18], [Carlo Nardin \ Godwin Agbleze], [Mattia Scomparin], [Introduzione, descrizione generale del prodotto e impostazione della struttura per i requisiti]
   )
 )
@@ -104,7 +105,7 @@ Per evitare ambiguità interpretative dovute all'uso del linguaggio naturale e a
 == Maturità e miglioramenti del documento
 Il presente documento è soggetto a un processo di redazione incrementale e a spirale: non va quindi considerato definitivo fino al consolidamento delle relative #g[Baseline], ma evolve progressivamente con l'approfondimento del dominio applicativo e con i confronti periodici tra il gruppo *DeadlockGuild* e la proponente *Miriade S.r.l.*.
 
-Ogni variazione, aggiunta o affinamento dei _Casi d'Uso_ e dei requisiti viene tracciato tramite il sistema di versionamento e riportato nel _Registro delle modifiche_, al fine di mantenere la coerenza e la tracciabilità del documento lungo tutto il ciclo di sviluppo fino alla revisione #g[RTB] e al collaudo finale.
+Ogni variazione, aggiunta o affinamento dei _Casi d'Uso_ e dei requisiti viene tracciato tramite il sistema di versionamento e riportato nel _Registro delle modifiche_, al fine di mantenere la coerenza e la tracciabilità del documento lungo tutto il ciclo di sviluppo fino alla revisione RTB e al collaudo finale.
 
 == Riferimenti
 
@@ -118,7 +119,7 @@ Ogni variazione, aggiunta o affinamento dei _Casi d'Uso_ e dei requisiti viene t
 - *Verbale esterno del 2026-10-23* (v1.0.4) \
   #link("https://deadlockguild.github.io/docs/pdf/Candidatura/Verbali/Esterni/VE_Miriade_2026-10-23.pdf")
 
-- *Regolamento Generale sulla Protezione dei Dati -- GDPR (Regolamento UE 2016/679)* (ultimo accesso: 2026-11-18) \
+- *Regolamento Generale sulla Protezione dei Dati -- #g[GDPR] (Regolamento UE 2016/679)* (ultimo accesso: 2026-11-18) \
   #link("https://eur-lex.europa.eu/eli/reg/2016/679/oj")
 
 === Riferimenti informativi
@@ -138,7 +139,7 @@ Ogni variazione, aggiunta o affinamento dei _Casi d'Uso_ e dei requisiti viene t
 == Obiettivi del prodotto
 Il progetto *RareCare Navigator* si pone l'obiettivo di ridurre il divario informativo e organizzativo che grava sulle famiglie colpite da patologie rare, perseguendo cinque finalità principali:
 1. *Orientamento continuo e affidabile*: guidare familiari e operatori nella comprensione dei protocolli sanitari, delle pratiche burocratiche e dei diritti/benefici di legge, rendendo accessibili informazioni complesse.
-2. *Coordinamento sicuro della rete di cura*: mettere in comunicazione strutturata la famiglia, il #g[Care Navigator], i professionisti sanitari e gli enti coinvolti, garantendo che ciascun soggetto acceda esclusivamente ai dati pertinenti al proprio ruolo e autorizzati per lo specifico paziente.
+2. *Coordinamento sicuro della rete di cura*: mettere in comunicazione strutturata la famiglia, il Care Navigator, i professionisti sanitari e gli enti coinvolti, garantendo che ciascun soggetto acceda esclusivamente ai dati pertinenti al proprio ruolo e autorizzati per lo specifico paziente.
 3. *Gestione proattiva di attività e scadenze*: accompagnare il percorso assistenziale attraverso una timeline clinica e checklist dinamiche adattate alla fase della patologia, prevenendo dimenticanze su visite, esami, terapie e rinnovi amministrativi o scolastici (#g[PAI], #g[PEI], invalidità).
 4. *Supporto decisionale basato su fonti verificate*: impiegare modelli di #g[LLM] e architetture #g[RAG] per estrarre informazioni da documentazione clinica e normativa già validata, mantenendo sempre il controllo e la conferma finale in capo all'essere umano.
 5. *Riusabilità ed estendibilità del sistema*: disaccoppiare il nucleo applicativo della piattaforma dalle specificità della singola malattia rara attraverso un modello a plugin (#g[Disease Pack]), così da permettere l'adozione futura della piattaforma per altre patologie senza intervenire sul codice del _core_.
@@ -148,32 +149,32 @@ Il progetto *RareCare Navigator* si pone l'obiettivo di ridurre il divario infor
 === Macro-funzionalità del prodotto
 La piattaforma si articola nelle seguenti macro-aree funzionali:
 - *Hub di Coordinamento e Rete Integrata di Comunicazione*: ambiente collaborativo con controllo granulare dei permessi (basato su ruolo, relazione con il paziente e visibilità del singolo documento) per connettere gli attori associati al paziente e consentire lo scambio diretto di messaggi e documentazione.
-- *#g[Fascicolo Digitale] e #g[Document Repository]*: archivio cifrato per il caricamento, il versionamento, la conservazione e la condivisione controllata di referti medici, piani terapeutici (#g[PAI]), piani educativi (#g[PEI]) e certificazioni amministrative.
-- *#g[Smart Checklist] e Timeline di Cura*: rappresentazione cronologica del percorso assistenziale e generazione di liste di attività (_to-do list_) legate alla fase clinica in cui si trova il paziente, basate sui template del #g[Disease Pack] e soggette a validazione umana.
-- *Motore di Workflow, Scadenze e Notifiche*: registrazione delle scadenze cliniche e burocratiche con pianificazione automatica di promemoria inviati tramite notifiche push ed e-mail, ed eventuale segnalazione al #g[Care Navigator] in caso di mancato completamento.
-- *Assistente Conversazionale RAG (_Care Navigator AI Assistant_)*: chat interattiva in linguaggio naturale che risponde a quesiti clinico-informativi e amministrativi attingendo esclusivamente alla base di conoscenza validata del #g[Disease Pack], citando le fonti utilizzate, dichiarando i propri limiti quando l'informazione non è disponibile e astenendosi da qualsiasi decisione medica.
-- *Architettura Modulare a #g[Disease Pack]*: gestione di pacchetti configurativi e documentali specifici per patologia (contenenti fasi della malattia, template di checklist e scadenze, documenti validati per il #g[RAG], vocabolari clinici e istruzioni di contesto per l'assistente).
+- *#g[Fascicolo Digitale] e #g[Document Repository]*: archivio cifrato per il caricamento, il versionamento, la conservazione e la condivisione controllata di referti medici, piani terapeutici (PAI), piani educativi (PEI) e certificazioni amministrative.
+- *#g[Smart Checklist] e Timeline di Cura*: rappresentazione cronologica del percorso assistenziale e generazione di liste di attività (_to-do list_) legate alla fase clinica in cui si trova il paziente, basate sui template del Disease Pack e soggette a validazione umana.
+- *Motore di Workflow, Scadenze e Notifiche*: registrazione delle scadenze cliniche e burocratiche con pianificazione automatica di promemoria inviati tramite notifiche push ed e-mail, ed eventuale segnalazione al Care Navigator in caso di mancato completamento.
+- *Assistente Conversazionale RAG (_Care Navigator AI Assistant_)*: chat interattiva in linguaggio naturale che risponde a quesiti clinico-informativi e amministrativi attingendo esclusivamente alla base di conoscenza validata del Disease Pack, citando le fonti utilizzate, dichiarando i propri limiti quando l'informazione non è disponibile e astenendosi da qualsiasi decisione medica.
+- *Architettura Modulare a Disease Pack*: gestione di pacchetti configurativi e documentali specifici per patologia (contenenti fasi della malattia, template di checklist e scadenze, documenti validati per il RAG, vocabolari clinici e istruzioni di contesto per l'assistente).
 - *Funzionalità evolutive e opzionali*:
-  - estrazione automatica di entità cliniche e scadenze da note testuali o vocali tramite tecniche #g[NLP] / #g[NER] e sintesi di checklist dai piani #g[PAI]/#g[PEI], sempre subordinate a revisione e conferma umana;
+  - estrazione automatica di entità cliniche e scadenze da note testuali o vocali tramite tecniche #g[NLP] / #g[NER] e sintesi di checklist dai piani PAI/PEI, sempre subordinate a revisione e conferma umana;
   - modulo di *mappatura geospaziale* dei centri clinici e dei servizi territoriali (primo requisito opzionale per priorità);
   - *assistente vocale (_Voice Bot_)* per l'interazione a mani libere in mobilità o emergenza (secondo requisito opzionale per priorità);
   - *analisi predittiva dei bisogni* tramite modelli di #g[Machine Learning] (terzo requisito opzionale per priorità).
 
 === Vincoli generali del prodotto
 Lo sviluppo e il funzionamento del sistema sono soggetti ai seguenti vincoli principali:
-- *Protezione dei dati sanitari e conformità normativa*: il sistema tratta categorie particolari di dati personali (dati relativi alla salute, inclusi quelli di minori, art. 9 #g[GDPR]) e deve rispettare i principi di #g[Privacy by Design] e #g[Privacy by Default], la gestione esplicita e revocabile dei consensi, il tracciamento immutabile degli accessi (#g[Audit log]) e la residenza dei dati nell'Unione Europea.
+- *Protezione dei dati sanitari e conformità normativa*: il sistema tratta categorie particolari di dati personali (dati relativi alla salute, inclusi quelli di minori, art. 9 GDPR) e deve rispettare i principi di #g[Privacy by Design] e #g[Privacy by Default], la gestione esplicita e revocabile dei consensi, il tracciamento immutabile degli accessi (#g[Audit log]) e la residenza dei dati nell'Unione Europea.
 - *Assenza di autonomia decisionale medica dell'IA*: per vincolo normativo e di sicurezza del paziente, l'intelligenza artificiale non può prendere decisioni cliniche autonome; ogni suggerimento, checklist o dato estratto dall'IA richiede un'esplicita approvazione umana prima di diventare effettivo.
-- *Perimetro del dominio e validazione delle fonti*: per l'intero progetto viene realizzato esclusivamente il #g[Disease Pack] relativo alla Sindrome di Sanfilippo, i cui contenuti documentali sono forniti già validati dall'associazione *Sanfilippo Fighters*.
+- *Perimetro del dominio e validazione delle fonti*: per l'intero progetto viene realizzato esclusivamente il Disease Pack relativo alla Sindrome di Sanfilippo, i cui contenuti documentali sono forniti già validati dall'associazione *Sanfilippo Fighters*.
 - *Assenza di dati reali in fase di sviluppo e test*: non è previsto l'utilizzo di dati appartenenti a pazienti reali; tutte le attività di sviluppo e verifica si basano su dati fittizi (#g[Mock data]).
-- *Scelte tecnologiche e infrastrutturali*: le tecnologie indicate nel capitolato (stack cloud #g[AWS], #g[Flutter], #g[Amazon Bedrock], #g[AWS Cognito]) rappresentano raccomandazioni non vincolanti da cui il gruppo può discostarsi motivando le proprie scelte. La proponente mette a disposizione account #g[AWS] con permessi controllati e limiti settimanali sul consumo di token dei modelli linguistici.
+- *Scelte tecnologiche e infrastrutturali*: le tecnologie indicate nel capitolato (stack cloud #g[AWS], #g[Flutter], #g[Amazon Bedrock], #g[AWS Cognito]) rappresentano raccomandazioni non vincolanti da cui il gruppo può discostarsi motivando le proprie scelte. La proponente mette a disposizione account AWS con permessi controllati e limiti settimanali sul consumo di token dei modelli linguistici.
 
 == Utenti e loro caratteristiche
 Il sistema si rivolge a una rete eterogenea di attori che ruotano attorno al paziente. La definizione puntuale dei profili e la scelta tra un account unico per nucleo familiare o profili separati verranno consolidate durante il *#g[Design Sprint]*; nella fase attuale si individuano le seguenti figure di riferimento:
-- *Paziente / Famiglia (#g[Caregiver])*: è l'utente primario della piattaforma. Spesso opera in condizioni di forte stress emotivo e carico organizzativo; necessita quindi di un'interfaccia empatica, accessibile e a basso sforzo cognitivo. Gestisce il fascicolo del paziente, consulta la timeline, le checklist e l'assistente virtuale, inserisce scadenze e controlla in modo granulare quali documenti condividere con gli altri attori.
-- *#g[Care Navigator]*: figura di riferimento umano (#g[case manager]) che accompagna e coordina la famiglia lungo il percorso assistenziale. Utilizza la piattaforma per monitorare l'avanzamento delle attività, supportare l'aggiornamento delle fasi e ricevere segnalazioni sulle scadenze non portate a termine.
-- *Professionista sanitario (es. medico, pediatra, terapista)*: consulta e carica la documentazione clinica di propria competenza relativa ai pazienti che ha in carico (quali gli esami richiesti e i referti esplicitamente condivisi dalla famiglia). Non ha facoltà di modificare il #g[Disease Pack].
+- *Paziente / Famiglia (Caregiver)*: è l'utente primario della piattaforma. Spesso opera in condizioni di forte stress emotivo e carico organizzativo; necessita quindi di un'interfaccia empatica, accessibile e a basso sforzo cognitivo. Gestisce il fascicolo del paziente, consulta la timeline, le checklist e l'assistente virtuale, inserisce scadenze e controlla in modo granulare quali documenti condividere con gli altri attori.
+- *#Care Navigator*: figura di riferimento umano (#g[case manager]) che accompagna e coordina la famiglia lungo il percorso assistenziale. Utilizza la piattaforma per monitorare l'avanzamento delle attività, supportare l'aggiornamento delle fasi e ricevere segnalazioni sulle scadenze non portate a termine.
+- *Professionista sanitario (es. medico, pediatra, terapista)*: consulta e carica la documentazione clinica di propria competenza relativa ai pazienti che ha in carico (quali gli esami richiesti e i referti esplicitamente condivisi dalla famiglia). Non ha facoltà di modificare il Disease Pack.
 - *Struttura clinica / Centro specialistico*: ente sanitario coinvolto nella presa in carico del paziente, abilitato a validare e confermare le tappe e le checklist proposte dal sistema per le diverse fasi della patologia.
-- *Ente pubblico o scolastico (es. scuola, servizi sociali)*: attore esterno della rete di cura (come un dirigente scolastico o docente referente per il #g[PEI]) che accede in sola consultazione ai soli documenti amministrativi o educativi che la famiglia ha scelto esplicitamente di condividere.
+- *Ente pubblico o scolastico (es. scuola, servizi sociali)*: attore esterno della rete di cura (come un dirigente scolastico o docente referente per il PEI) che accede in sola consultazione ai soli documenti amministrativi o educativi che la famiglia ha scelto esplicitamente di condividere.
 
 
 #pagebreak()
@@ -181,7 +182,7 @@ Il sistema si rivolge a una rete eterogenea di attori che ruotano attorno al paz
 
 = Requisiti
 
-In questa sezione vengono elencati i requisiti individuati durante l'attività di analisi a partire dal #g[Capitolato] d'appalto, dai casi d'uso e dai colloqui con l'azienda proponente.
+In questa sezione vengono elencati i requisiti individuati durante l'attività di analisi a partire dal #Capitolato d'appalto, dai casi d'uso e dai colloqui con l'azienda proponente.
 
 Ogni requisito è identificato da un codice univoco secondo il formalismo:
 #align(center)[
