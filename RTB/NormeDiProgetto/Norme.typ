@@ -11,8 +11,7 @@
 
 #align(center)[
   #v(1cm)
-  // Assicurati che il percorso del logo sia corretto
-  #figure(image("assets/logo_nobg.png", width: 35%), outlined: false, numbering: none)
+  #figure(image("../../assets/logo_nobg.png", width: 35%), outlined: false, numbering: none)
   #v(0.5cm)
   #text(size: 14pt, weight: "bold")[UNIVERSITÀ DEGLI STUDI DI PADOVA] \
   #text(size: 12pt)[Corso di Laurea in Informatica] \
@@ -24,8 +23,8 @@
   
   #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[Norme di Progetto] \
   #v(0.5cm)
-  #text(size: 14pt)[Data: 2026-11-18] \
-  #text(size: 14pt)[Versione: 0.1.0]
+  #text(size: 14pt)[Data: 2026-11-19] \
+  #text(size: 14pt)[Versione: 0.2.0]
   
   #v(1.5cm)
   #grid(
@@ -34,8 +33,8 @@
     inset: (x: 10pt, y: 5pt),
     row-gutter: 0.7em,
     text(weight: "bold")[Uso:], [Interno],
-    text(weight: "bold")[Redattore:], [Mattia Pasquato],
-    text(weight: "bold")[Verificatore:], [Mattia Scoparin],
+    text(weight: "bold")[Redattori:], [Mattia Pasquato],
+    text(weight: "bold")[Verificatori:], [Mattia Scomparin],
     text(weight: "bold")[Destinatari:], [Gruppo DeadlockGuild \ Prof. Tullio Vardanega \ Prof. Riccardo Cardin],
   )
   
@@ -53,7 +52,7 @@
       columns: (1fr, auto, 1fr),
       align: horizon,
       line(length: 100%, stroke: 1.5pt + rgb("#c85815")),
-      box(inset: (x: 10pt))[#image("assets/logo_text_nobg.png", width: 85pt)],
+      box(inset: (x: 10pt))[#image("../../assets/logo_text_nobg.png", width: 85pt)],
       line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
     )
   ],
@@ -91,7 +90,7 @@ Il documento di _Norme di Progetto_ definisce e raccoglie le regole, le convenzi
 Disporre di un insieme di norme condiviso e documentato offre al gruppo un riferimento comune da rispettare, permettendo a tutti i componenti di operare con uniformità e di portare a termine il progetto secondo criteri di #g[efficacia] ed #g[efficienza]. Il modo di lavorare del gruppo, tuttavia, si affina con l’esperienza maturata sul campo e con l’avvio di nuove attività lungo il ciclo di vita del software. Per questo il documento adotta un approccio di redazione incrementale, ovvero viene esteso e aggiornato progressivamente sulla base delle decisioni prese nelle riunioni interne, fino al consolidamento delle #g[Baseline] di progetto.
 
 == Scopo del prodotto
-Il progetto ha come obiettivo la realizzazione di *RareCare Navigator* (#g[Capitolato] C5), una piattaforma digitale multipiattaforma dotata di assistente virtuale basato su #g[Intelligenza Artificiale], proposta dall'azienda *Miriade S.r.l.* per supportare la gestione delle malattie rare e complesse, a partire dalla *#g[Sindrome di Sanfilippo]* (Mucopolisaccaridosi di tipo III).
+Il progetto ha come obiettivo la realizzazione di *RareCare Navigator* (#g[Capitolato] C5), una piattaforma digitale multipiattaforma dotata di assistente virtuale basato su #g[Intelligenza Artificiale], proposta dall'azienda *Miriade Srl* per supportare la gestione delle malattie rare e complesse, a partire dalla *#g[Sindrome di Sanfilippo]* (Mucopolisaccaridosi di tipo III).
 
 Il sistema mira a superare la frammentazione informativa e organizzativa che le famiglie dei pazienti si trovano ad affrontare, affiancando la figura del *#g[Care Navigator]* con un insieme di strumenti integrati: un hub collaborativo per la rete di cura, un #g[Fascicolo Digitale] cifrato, la gestione delle scadenze e delle #g[Smart Checklist] per fase clinica, e un assistente conversazionale basato su architettura #g[RAG] e su fonti documentali verificate.
 
@@ -109,10 +108,10 @@ Al fine di evitare ambiguità terminologiche e incomprensioni relative a vocabol
 
 
 === Riferimenti informativi
-- *Glossario* (ultimo accesso: 2026-11-18) \
-  #link("link da mettere")
+- *Glossario* (v0.2.0) \
+  #link("https://deadlockguild.github.io/docs/pdf/RTB/Glossario/glossario.pdf")
 
-- *Capitolato C5 - RareCare* (ultimo accesso:2026-11-18) \
+- *Capitolato d'appalto C5 -- RareCare: Piattaforma AI per la raccolta dati e il supporto decisionale nelle malattie rare*, Miriade Srl (ultimo accesso: 2026-11-18) \
   #link("https://www.math.unipd.it/~tullio/IS-1/2026/Progetto/C5-RareCare.pdf")
   
 #pagebreak()
@@ -124,20 +123,19 @@ Lo standard internazionale *ISO/IEC 12207:1995* regola i processi del ciclo di v
 == Fornitura
 
 === Scopo e descrizione
-Il processo di fornitura comprende le attività e i compiti con cui il gruppo fornitore (*DeadlockGuild*) instaura e mantiene un rapporto collaborativo con l’azienda proponente (*Miriade S.r.l.*) e con i committenti (*Prof. Tullio Vardanega e Prof. Riccardo Cardin*). In particolare, il fornitore concorda con la proponente, tramite accordo formale, i vincoli e i requisiti del progetto, esaminando le richieste ricevute e valutandone la fattibilità. Sulla base di tale accordo, pianifica le attività: analizza e consolida i requisiti, stabilisce il modello di ciclo di vita e controlla i processi di sviluppo, garantendo la qualità in relazione allo stato di avanzamento del progetto. Il processo copre l’intero arco del progetto, dalla fase preliminare di valutazione dei capitolati e presentazione dell’offerta di candidatura fino alla verifica dei risultati nelle revisioni intermedie (#g[RTB]) e finali (#g[PB] e collaudo).
+Il processo di fornitura comprende le attività e i compiti con cui il gruppo fornitore (*DeadlockGuild*) instaura e mantiene un rapporto collaborativo con l’azienda proponente (*Miriade Srl*) e con i committenti (*Prof. Tullio Vardanega e Prof. Riccardo Cardin*). In particolare, il fornitore concorda con la proponente, tramite accordo formale, i vincoli e i requisiti del progetto, esaminando le richieste ricevute e valutandone la fattibilità. Sulla base di tale accordo, pianifica le attività: analizza e consolida i requisiti, stabilisce il modello di ciclo di vita e controlla i processi di sviluppo, garantendo la qualità in relazione allo stato di avanzamento del progetto. Il processo copre l’intero arco del progetto, dalla fase preliminare di valutazione dei capitolati e presentazione dell’offerta di candidatura fino alla verifica dei risultati nelle revisioni intermedie (#g[RTB]) e finali (#g[PB] e collaudo).
 
 === Comunicazioni con la proponente
-Per garantire interazioni ordinate, tempestive e tracciabili con l'azienda proponente *Miriade S.r.l.* e gli #g[stakeholders], il gruppo adotta le seguenti modalità di comunicazione:
+Per garantire interazioni ordinate, tempestive e tracciabili con l'azienda proponente *Miriade Srl* e gli #g[stakeholders], il gruppo adotta le seguenti modalità di comunicazione:
 - *Posta elettronica*: L’indirizzo ufficiale del gruppo è il canale per le comunicazioni formali, come la richiesta di incontri, l’invio di domande strutturate e la trasmissione dei verbali per l’approvazione;
 - *#g[SAL]*: Incontri in videoconferenza su Google Meet, proposti dalla proponente, a cadenza settimanale o quindicinale a discrezione e su richiesta del gruppo. Servono a presentare i progressi, esporre i dubbi sulle scelte da compiere e mantenere l’allineamento con la proponente;
 - *#g[Design Sprint]*: Workshop in presenza di circa quattro ore, messo a disposizione dalla proponente, dedicato a chiarire il flusso di lavoro, gli attori che utilizzeranno l’applicazione e il comportamento atteso del sistema. Fornisce la base per definire i requisiti e classificarli in fondamentali, desiderabili e opzionali;
 - *Incontro con l’associazione*: Confronto di circa due ore con l’associazione Sanfilippo Fighters, in qualità di utilizzatrice del prodotto, per raccogliere le aspettative, le priorità e i chiarimenti sul dominio applicativo;
 - *Verbali*: Ogni incontro con la proponente viene documentato in un verbale esterno, sottoposto al referente aziendale per la verifica e la firma di approvazione, e pubblicato sul sito documentale del gruppo una volta convalidato.
 
-=== Documentazione fornita
 === Strumenti
-- *Github*
+- *GitHub*
 - *Google Meet*
-- *telegram*
+- *Telegram*
 - *Typst*
 - *Gmail*
