@@ -44,7 +44,12 @@
       align: (right, left),
       inset: (x: 10pt, y: 5pt),
       text(weight: "bold")[Uso:], uso,
-      text(weight: "bold")[Redattore:], redattore,
+      // Con più redattori (array) l'etichetta passa al plurale
+      ..if type(redattore) == array {
+        (text(weight: "bold")[Redattori:], redattore.join([\ ]))
+      } else {
+        (text(weight: "bold")[Redattore:], redattore)
+      },
       // Con più verificatori (array) l'etichetta passa al plurale
       ..if type(verificatore) == array {
         (text(weight: "bold")[Verificatori:], verificatore.join([\ ]))

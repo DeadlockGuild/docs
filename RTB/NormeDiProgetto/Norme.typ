@@ -1,85 +1,21 @@
-#set text(lang: "it", font: ("Atkinson Hyperlegible Next", "Liberation Sans"), weight: 400)
-#show strong: set text(font: "Atkinson Hyperlegible Next", weight: 700)
-#set page(margin: (x: 2.5cm, y: 2.5cm))
-#set heading(numbering: "1.")
-#set par(justify: true)
-#set list(marker: [•])
-#show link: it => text(fill: rgb("#c85815"), weight: "bold")[#it]
+#import "../Verbali/template.typ": *
+
+#show: verbale.with(
+  titolo: "Norme di Progetto",
+  data: "2026-11-21",
+  versione: "0.2.1",
+  redattore: ("Mattia Pasquato",),
+  verificatore: ("Mattia Scomparin",),
+  destinatari: ("Gruppo DeadlockGuild", "Prof. Tullio Vardanega", "Prof. Riccardo Cardin"),
+  registro_modifiche: (
+    ([0.2.1], [2026-11-21], [Mattia Pasquato], [Mattia Scomparin], [- Sistemazioni typesetting minori e rimozione sezione "Documentazione fornita" non ancora definita]),
+    ([0.2.0], [2026-11-19], [Mattia Pasquato], [Mattia Scomparin], [- Prima stesura sezioni 1 e 2]),
+    ([0.1.0], [2026-11-16], [Mattia Pasquato], [Mattia Scomparin], [- Struttura generale del documento e introduzione]),
+  ),
+)
 
 // Funzione di utilità per indicare i termini presenti nel Glossario
 #let g(term) = [#emph(term)#sub[G]]
-
-#align(center)[
-  #v(1cm)
-  #figure(image("../../assets/logo_nobg.png", width: 35%), outlined: false, numbering: none)
-  #v(0.5cm)
-  #text(size: 14pt, weight: "bold")[UNIVERSITÀ DEGLI STUDI DI PADOVA] \
-  #text(size: 12pt)[Corso di Laurea in Informatica] \
-  #text(size: 12pt)[Ingegneria del Software -- A.A. 2026/2027]
-  
-  #v(1.2cm)
-  #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-  #v(1.2cm)
-  
-  #text(size: 28pt, font: "Montserrat", weight: 800, fill: rgb("#c85815"))[Norme di Progetto] \
-  #v(0.5cm)
-  #text(size: 14pt)[Data: 2026-11-19] \
-  #text(size: 14pt)[Versione: 0.2.0]
-  
-  #v(1.5cm)
-  #grid(
-    columns: (1fr, 1fr),
-    align: (right, left),
-    inset: (x: 10pt, y: 5pt),
-    row-gutter: 0.7em,
-    text(weight: "bold")[Uso:], [Interno],
-    text(weight: "bold")[Redattori:], [Mattia Pasquato],
-    text(weight: "bold")[Verificatori:], [Mattia Scomparin],
-    text(weight: "bold")[Destinatari:], [Gruppo DeadlockGuild \ Prof. Tullio Vardanega \ Prof. Riccardo Cardin],
-  )
-  
-  #v(1.0cm)
-  #line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-  #v(1.0cm)
-]
-
-#pagebreak(weak: true)
-
-#set page(
-  numbering: "1",
-  header: [
-    #grid(
-      columns: (1fr, auto, 1fr),
-      align: horizon,
-      line(length: 100%, stroke: 1.5pt + rgb("#c85815")),
-      box(inset: (x: 10pt))[#image("../../assets/logo_text_nobg.png", width: 85pt)],
-      line(length: 100%, stroke: 1.5pt + rgb("#c85815"))
-    )
-  ],
-)
-
-
-#heading([Registro delle modifiche], numbering: none, outlined: false)
-#text(
-  size: 10pt,
-  table(
-    columns: (0.7fr, 1.5fr, 2fr, 2fr, 4fr),
-    align: horizon + left,
-    table.header([*Ver.*], [*Data*], [*Redattore*], [*Verificatore*], [*Descrizione*]),
-    [0.2.0], [2026-11-19], [Mattia Pasquato], [Mattia Scomparin], [• Prima stesura sezioni 1 e 2],
-    [0.1.0], [2026-11-16], [Mattia Pasquato], [Mattia Scomparin], [• Struttura generale del documento e introduzione]
-  )
-)
-
-#pagebreak(weak: true)
-
-
-#show outline.entry.where(level: 1): it => {
-  v(12pt, weak: true)
-  strong(it)
-}
-#outline(title: [Indice], indent: auto)
-#pagebreak()
 
 
 = Introduzione
