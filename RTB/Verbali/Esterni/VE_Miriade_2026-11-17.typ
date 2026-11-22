@@ -1,4 +1,4 @@
-#import "template/template.typ": *
+#import "../template.typ": *
 
 #show: verbale.with(
   titolo: "Verbale - Miriade Srl (C5)",
