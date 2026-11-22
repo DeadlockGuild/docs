@@ -15,7 +15,7 @@
 )
 
 // Funzione di utilità per indicare i termini presenti nel Glossario
-#let g(term) = [#emph(term)#sub[G]]
+#let g(term) = [term#sub[*G*]]
 
 
 = Introduzione
