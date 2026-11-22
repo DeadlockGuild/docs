@@ -6,7 +6,7 @@
     "orePerMembro": 91,
     "scadenza": "2027-04-09",
     "durataSprintPredefinita": 2,
-    "linkGithubProject": "https://github.com/users/DeadlockGuild/projects/1",
+    "linkGithubProject": "@DeadlockGuild's SWE",
     "linkPreventivo": "https://deadlockguild.github.io/docs/pdf/Candidatura/ValutazioneCostiOre/preventivo_costi_dichiarazione_impegni.pdf"
   },
   "ruoli": [
@@ -57,9 +57,29 @@
   ],
   "milestone": [
     {
-      "nome": "Consegna del progetto",
+      "nome": "Primi requisiti",
+      "data": "2026-12-18",
+      "descrizione": "Presentazione del primo lotto di requisiti alla proponente per una verifica preliminare e per validare l'impostazione del lavoro."
+    },
+    {
+      "nome": "Verifica requisiti",
+      "data": "2027-01-15",
+      "descrizione": "Presentazione alla proponente di tutti i requisiti completati, includendo l'eventuale revisione del primo lotto e l'analisi dei requisiti mancanti."
+    },
+    {
+      "nome": "RTB",
+      "data": "2027-01-29",
+      "descrizione": "Presentazione ai committenti della Requirements and Technology Baseline con la consegna dei documenti richiesti (Analisi dei Requisiti, Piano di Progetto, Piano di Qualifica, Norme di Progetto e Glossario)"
+    },
+    {
+      "nome": "Chiusura sviluppo",
+      "data": "2027-03-26",
+      "descrizione": "Completamento delle funzionalità previste e chiusura dello sviluppo con margine di anticipo rispetto alla consegna finale, così da dedicare l'ultima fase alla correzione di eventuali problematiche."
+    },
+    {
+      "nome": "PB",
       "data": "2027-04-09",
-      "descrizione": "Scadenza indicata nel Preventivo costi e dichiarazione impegni"
+      "descrizione": "Consegna finale di tutti i documenti e del prodotto per la Product Baseline, in linea con la scadenza fissata nel documento Preventivo Costi e Dichiarazione Impegni per la chiusura del progetto."
     }
   ],
   "sprint": [
@@ -72,35 +92,130 @@
         {
           "membro": "Godwin Agbleze",
           "ruolo": "analista",
-          "ore": 0
+          "ore": 3
         },
         {
           "membro": "Nikola Miljanovic",
           "ruolo": "amministratore",
-          "ore": 0
+          "ore": 5
         },
         {
           "membro": "Carlo Nardin",
           "ruolo": "analista",
-          "ore": 0
+          "ore": 3
         },
         {
           "membro": "Mattia Pasquato",
           "ruolo": "amministratore",
-          "ore": 0
+          "ore": 5
         },
         {
           "membro": "Giacomo Ravazzolo",
           "ruolo": "responsabile",
-          "ore": 0
+          "ore": 2
         },
         {
           "membro": "Mattia Scomparin",
           "ruolo": "verificatore",
+          "ore": 2
+        }
+      ],
+      "stima": {
+        "responsabile": 3,
+        "amministratore": 8,
+        "analista": 8,
+        "progettista": 0,
+        "programmatore": 0,
+        "verificatore": 4
+      },
+      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/2",
+      "registro": [
+        {
+          "data": "2026-11-18",
+          "membro": "Giacomo Ravazzolo",
+          "ruolo": "responsabile",
+          "ore": 2
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Nikola Miljanovic",
+          "ruolo": "amministratore",
+          "ore": 5
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Mattia Pasquato",
+          "ruolo": "amministratore",
+          "ore": 5
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Godwin Agbleze",
+          "ruolo": "analista",
+          "ore": 3
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Carlo Nardin",
+          "ruolo": "analista",
+          "ore": 3
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Mattia Scomparin",
+          "ruolo": "verificatore",
+          "ore": 2
+        }
+      ],
+      "chiuso": true,
+      "dataChiusura": "2026-11-18"
+    },
+    {
+      "id": 2,
+      "nome": "Sprint 2",
+      "inizio": "2026-11-19",
+      "fine": "2026-12-02",
+      "assegnazioni": [
+        {
+          "membro": "Godwin Agbleze",
+          "ruolo": "responsabile",
+          "ore": 0
+        },
+        {
+          "membro": "Nikola Miljanovic",
+          "ruolo": "verificatore",
+          "ore": 0
+        },
+        {
+          "membro": "Carlo Nardin",
+          "ruolo": "amministratore",
+          "ore": 0
+        },
+        {
+          "membro": "Mattia Pasquato",
+          "ruolo": "analista",
+          "ore": 0
+        },
+        {
+          "membro": "Giacomo Ravazzolo",
+          "ruolo": "analista",
+          "ore": 0
+        },
+        {
+          "membro": "Mattia Scomparin",
+          "ruolo": "amministratore",
           "ore": 0
         }
       ],
-      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/2",
+      "stima": {
+        "responsabile": 4,
+        "amministratore": 10,
+        "analista": 10,
+        "progettista": 0,
+        "programmatore": 0,
+        "verificatore": 4
+      },
+      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/4",
       "registro": []
     }
   ]
