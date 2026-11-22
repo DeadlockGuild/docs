@@ -57,29 +57,29 @@
   ],
   "milestone": [
     {
-      "nome": "Presentazione requisiti iniziali",
+      "nome": "Primi requisiti",
       "data": "2026-12-18",
-      "descrizione": "Presentazione requisiti iniziali a Miriade"
+      "descrizione": "Presentazione del primo lotto di requisiti alla proponente per una verifica preliminare e per validare l'impostazione del lavoro."
     },
     {
-      "nome": "Verifica finale dei requisiti",
+      "nome": "Verifica requisiti",
       "data": "2027-01-15",
-      "descrizione": "Confronto finale sui requisiti con Miriade"
+      "descrizione": "Presentazione alla proponente di tutti i requisiti completati, includendo l'eventuale revisione del primo lotto e l'analisi dei requisiti mancanti."
     },
     {
       "nome": "RTB",
       "data": "2027-01-29",
-      "descrizione": "RTB"
+      "descrizione": "Presentazione ai committenti della Requirements and Technology Baseline con la consegna dei documenti richiesti (Analisi dei Requisiti, Piano di Progetto, Piano di Qualifica, Norme di Progetto e Glossario)"
     },
     {
-      "nome": "Fine sviluppo",
+      "nome": "Chiusura sviluppo",
       "data": "2027-03-26",
-      "descrizione": "Data che indica la fine dello sviluppo"
+      "descrizione": "Completamento delle funzionalità previste e chiusura dello sviluppo con margine di anticipo rispetto alla consegna finale, così da dedicare l'ultima fase alla correzione di eventuali problematiche."
     },
     {
       "nome": "PB",
       "data": "2027-04-09",
-      "descrizione": "Scadenza indicata nel Preventivo costi e dichiarazione impegni"
+      "descrizione": "Consegna finale di tutti i documenti e del prodotto per la Product Baseline, in linea con la scadenza fissata nel documento Preventivo Costi e Dichiarazione Impegni per la chiusura del progetto."
     }
   ],
   "sprint": [
