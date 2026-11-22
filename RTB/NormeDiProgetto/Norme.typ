@@ -2,12 +2,13 @@
 
 #show: verbale.with(
   titolo: "Norme di Progetto",
-  data: "2026-11-21",
-  versione: "0.2.1",
-  redattore: ("Mattia Pasquato",),
-  verificatore: ("Mattia Scomparin",),
+  data: "2026-11-22",
+  versione: "0.2.2",
+  redattore: ("Mattia Pasquato", "Mattia Scomparin"),
+  verificatore: ("Mattia Scomparin", "Nikola Miljanovic"),
   destinatari: ("Gruppo DeadlockGuild", "Prof. Tullio Vardanega", "Prof. Riccardo Cardin"),
   registro_modifiche: (
+    ([0.2.2], [2026-11-22], [Mattia Scomparin], [Nikola Miljanovic], [- Corretta formattazione del rimado al glossario]),
     ([0.2.1], [2026-11-21], [Mattia Pasquato], [Mattia Scomparin], [- Sistemazioni typesetting minori e rimozione sezione "Documentazione fornita" non ancora definita]),
     ([0.2.0], [2026-11-19], [Mattia Pasquato], [Mattia Scomparin], [- Prima stesura sezioni 1 e 2]),
     ([0.1.0], [2026-11-16], [Mattia Pasquato], [Mattia Scomparin], [- Struttura generale del documento e introduzione]),
