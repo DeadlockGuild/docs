@@ -6,7 +6,7 @@
     "orePerMembro": 91,
     "scadenza": "2027-04-09",
     "durataSprintPredefinita": 2,
-    "linkGithubProject": "https://github.com/users/DeadlockGuild/projects/1",
+    "linkGithubProject": "@DeadlockGuild's SWE",
     "linkPreventivo": "https://deadlockguild.github.io/docs/pdf/Candidatura/ValutazioneCostiOre/preventivo_costi_dichiarazione_impegni.pdf"
   },
   "ruoli": [
@@ -57,7 +57,27 @@
   ],
   "milestone": [
     {
-      "nome": "Consegna del progetto",
+      "nome": "Presentazione requisiti iniziali",
+      "data": "2026-12-18",
+      "descrizione": "Presentazione requisiti iniziali a Miriade"
+    },
+    {
+      "nome": "Verifica finale dei requisiti",
+      "data": "2027-01-15",
+      "descrizione": "Confronto finale sui requisiti con Miriade"
+    },
+    {
+      "nome": "RTB",
+      "data": "2027-01-29",
+      "descrizione": "RTB"
+    },
+    {
+      "nome": "Fine sviluppo",
+      "data": "2027-03-26",
+      "descrizione": "Data che indica la fine dello sviluppo"
+    },
+    {
+      "nome": "PB",
       "data": "2027-04-09",
       "descrizione": "Scadenza indicata nel Preventivo costi e dichiarazione impegni"
     }
@@ -72,35 +92,130 @@
         {
           "membro": "Godwin Agbleze",
           "ruolo": "analista",
-          "ore": 0
+          "ore": 3
         },
         {
           "membro": "Nikola Miljanovic",
           "ruolo": "amministratore",
-          "ore": 0
+          "ore": 5
         },
         {
           "membro": "Carlo Nardin",
           "ruolo": "analista",
-          "ore": 0
+          "ore": 3
         },
         {
           "membro": "Mattia Pasquato",
           "ruolo": "amministratore",
-          "ore": 0
+          "ore": 5
         },
         {
           "membro": "Giacomo Ravazzolo",
           "ruolo": "responsabile",
-          "ore": 0
+          "ore": 2
         },
         {
           "membro": "Mattia Scomparin",
           "ruolo": "verificatore",
+          "ore": 2
+        }
+      ],
+      "stima": {
+        "responsabile": 3,
+        "amministratore": 8,
+        "analista": 8,
+        "progettista": 0,
+        "programmatore": 0,
+        "verificatore": 4
+      },
+      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/2",
+      "registro": [
+        {
+          "data": "2026-11-18",
+          "membro": "Giacomo Ravazzolo",
+          "ruolo": "responsabile",
+          "ore": 2
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Nikola Miljanovic",
+          "ruolo": "amministratore",
+          "ore": 5
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Mattia Pasquato",
+          "ruolo": "amministratore",
+          "ore": 5
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Godwin Agbleze",
+          "ruolo": "analista",
+          "ore": 3
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Carlo Nardin",
+          "ruolo": "analista",
+          "ore": 3
+        },
+        {
+          "data": "2026-11-18",
+          "membro": "Mattia Scomparin",
+          "ruolo": "verificatore",
+          "ore": 2
+        }
+      ],
+      "chiuso": true,
+      "dataChiusura": "2026-11-18"
+    },
+    {
+      "id": 2,
+      "nome": "Sprint 2",
+      "inizio": "2026-11-19",
+      "fine": "2026-12-02",
+      "assegnazioni": [
+        {
+          "membro": "Godwin Agbleze",
+          "ruolo": "responsabile",
+          "ore": 0
+        },
+        {
+          "membro": "Nikola Miljanovic",
+          "ruolo": "verificatore",
+          "ore": 0
+        },
+        {
+          "membro": "Carlo Nardin",
+          "ruolo": "amministratore",
+          "ore": 0
+        },
+        {
+          "membro": "Mattia Pasquato",
+          "ruolo": "analista",
+          "ore": 0
+        },
+        {
+          "membro": "Giacomo Ravazzolo",
+          "ruolo": "analista",
+          "ore": 0
+        },
+        {
+          "membro": "Mattia Scomparin",
+          "ruolo": "amministratore",
           "ore": 0
         }
       ],
-      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/2",
+      "stima": {
+        "responsabile": 4,
+        "amministratore": 10,
+        "analista": 10,
+        "progettista": 0,
+        "programmatore": 0,
+        "verificatore": 4
+      },
+      "link": "https://github.com/users/DeadlockGuild/projects/1/insights/4",
       "registro": []
     }
   ]
