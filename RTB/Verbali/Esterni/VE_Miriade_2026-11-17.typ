@@ -3,13 +3,14 @@
 #show: verbale.with(
   titolo: "Verbale - Miriade Srl (C5)",
   data: "2026-11-17",
-  versione: "0.1.0",
+  versione: "0.1.1",
   uso: "Esterno",
   redattore: "Carlo Nardin",
   verificatore: "Nikola Miljanovic",
   destinatari: ("Prof. Tullio Vardanega", "Prof. Riccardo Cardin", "Miriade Srl"),
   riassunto: "Allineamento post-aggiudicazione: referenti aziendali, proposta di incontro con Sanfilippo Fighters e workshop di Design Sprint, modalità di comunicazione, orientamento tecnologico e pianificazione.",
   registro_modifiche: (
+    ("0.1.1", "2026-11-22", "Carlo Nardin", "Nikola Miljanovic", "Correzioni minori"),
     ("0.1.0", "2026-11-22", "Carlo Nardin", "Nikola Miljanovic", "Prima stesura del verbale"),
   ),
 )
@@ -62,7 +63,7 @@ Il workshop è finalizzato a:
 - definire con maggiore precisione le funzionalità attese e classificare i requisiti in obbligatori, desiderabili e opzionali;
 - realizzare una prima bozza strutturale delle interfacce (_mockup_ di alto livello), incentrata sulla disposizione degli elementi nelle schermate e sui flussi di interazione piuttosto che sui dettagli grafici fini.
 
-Miriade Srl si occuperà di organizzare gli incontri una volta ricevuta dal gruppo una email di conferma sulle attività di proprio interesse. A valle delle sessioni svolte, il team procederà con l'approfondimento del documento di *Analisi dei Requisiti*.
+Miriade Srl si occuperà di organizzare gli incontri una volta ricevuta dal gruppo un'email di conferma sulle attività di proprio interesse. A valle delle sessioni svolte, il team procederà con l'approfondimento del documento di *Analisi dei Requisiti*.
 
 #fonte_decisione([D7], [Valutare internamente le proposte ricevute e comunicare via email a Miriade Srl a quali attività il gruppo intende aderire.])
 
@@ -72,7 +73,7 @@ Per quanto riguarda il coordinamento periodico con l'azienda, la proponente ha l
 
 Per quanto riguarda i canali di comunicazione, la proponente si è resa disponibile anche all'apertura di una chat dedicata, evidenziando tuttavia come la *posta elettronica* resti generalmente preferibile per le domande rilevanti, in quanto garantisce una risposta più sicura e tempestiva.
 
-Durante la futura fase di progettazione, Miriade Srl potrà fornire supporto mirato (ad esempio su AWS o sulla componente frontend), sia tramite brevi sessioni di _overview_ sia aiutando nella risoluzione di criticità bloccanti; tale affiancamento presuppone tuttavia che il gruppo svolga preventivamente uno studio autonomo di base delle tecnologie adottate.
+Durante la futura fase di progettazione, Miriade Srl potrà fornire supporto mirato (ad esempio su AWS o sullo sviluppo frontend), sia tramite brevi sessioni di _overview_ sia aiutando nella risoluzione di criticità bloccanti; tale affiancamento presuppone tuttavia che il gruppo svolga preventivamente uno studio autonomo di base delle tecnologie adottate.
 
 == Architettura, tecnologie, account AWS e gestione del tempo
 
@@ -93,16 +94,12 @@ Infine, sul piano organizzativo, Emanuele Righetto ha consigliato al team di man
 = Tracciamento Azioni
 
 #tabella_decisioni(
-  (azioni: (
-      (azione: [Redazione verbale esterno 2026-11-17], issue: [#issue(83)], ass: [Carlo Nardin], ver: [Nikola Miljanovic], scad: [2026-11-25]),
-  )),
   (id: [D7], azioni: (
-      (azione: [Inviare email a Miriade Srl per comunicare l'adesione alle attività proposte ], issue: [#issue(86)], ass: [Godwin Agbleze], ver: [Nikola Miljanovic], scad: [2026-11-22]),
+      (azione: [Inviare email a Miriade Srl per comunicare l'adesione alle attività proposte], issue: [#issue(86)], ass: [Godwin Agbleze], ver: [Nikola Miljanovic], scad: [2026-11-22]),
   )),
   (id: [D8], azioni: (
       (azione: [Creare documento di base interno per lo studio dei servizi AWS citati nel capitolato], issue: [#issue(87)], ass: [Mattia Pasquato], ver: [Nikola Miljanovic], scad: [2026-12-01]),
   )),
-
 )
 
 #v(1.5cm)
@@ -116,4 +113,6 @@ Con la presente firma, la proponente conferma che il contenuto del presente verb
   *Per Miriade Srl* \
   Emanuele Righetto \
   // #image("../../../assets/approvazioni/Miriade_2026-11-17.png", width: 30%)
+  #v(1.2cm)
+  #line(length: 5.5cm, stroke: 0.5pt)
 ]
