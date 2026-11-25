@@ -1,0 +1,62 @@
+name: Bump versione Major di Documenti
+
+on:
+  pull_request:
+    types: closed
+    branches: main
+    paths:
+      - '**.typ'
+      - '!**/template.typ'
+
+permissions:
+  contents: write
+
+jobs:
+  if_merged_main:
+    if: ${{ github.event.pull_request.merged == true && !(startsWith(github.head_ref, 'hotfix')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Get changes
+        id: changed-files
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 #v47.0.6
+        with:
+          files: |
+            **.typ
+            !**/template.typ
+
+      - name: Setup Python
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Add changes to typst files
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for file in ${CHANGED_FILES}; do
+            python ./.github/workflows/scripts/version_update.py -f "$file" -w "${{ toJson(github.event.pull_request.requested_reviewers.*.login) != 'null' && toJson(github.event.pull_request.requested_reviewers.*.login) || github.event.pull_request.user.login }}" -m "${{ github.event.pull_request.body }}" --major;
+          done;
+
+      - name: Setup git user
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Push changes
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          git add .
+          pluralizzazione="o"
+          if [[ "${CHANGED_FILES[@]}" -gt 1 ]]; then
+            pluralizzazione="i"
+          fi
+          git commit -m "Bump versione Major di $FILE_COUNT document$pluralizzazione"
+          git push
