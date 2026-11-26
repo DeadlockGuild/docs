@@ -88,6 +88,7 @@ if version_bump.bump_version == "j" and args.reviewer:
     parser.error("Aggiornare la versione major lo fa solo il responsabile senza verifica. Il campo verficatore (reviewer) non va inserito.\n")
 
 with open(args.file, "r+") as file_handler:
+    main_table_start_pattern = "^#show:\\s\\w+?\\.with\\($"
     main_table_end_pattern = "^\\)$"
     main_version_pattern = "versione: \"\\d+?\\.\\d+?\\.\\d+?\","
     edit_registry_pattern = "registro_modifiche: \\("
@@ -96,6 +97,7 @@ with open(args.file, "r+") as file_handler:
     reviewer_list_pattern = "verificatore: \\(?\"[\\w\\s,]*?\",\\)?"
     secondary_table_pattern = "^#((table)|(tabella_decisioni))\\($"
 
+    main_table_start_index = -1
     main_table_end_index = -1
     main_version_index = -1
     edit_registry_index = -1
@@ -107,7 +109,9 @@ with open(args.file, "r+") as file_handler:
     lines = file_handler.readlines()
 
     for index, line in enumerate(lines):
-        if main_table_end_index == -1 and (match := re.search(main_table_end_pattern, line)):
+        if main_table_start_index == -1 and (match := re.search(main_table_start_pattern, line)):
+            main_table_start_index = index
+        elif main_table_end_index == -1 and (match := re.search(main_table_end_pattern, line)):
             main_table_end_index = index
         elif main_version_index == -1 and (match := re.search(main_version_pattern, line)):
             main_version_index = index
@@ -122,7 +126,7 @@ with open(args.file, "r+") as file_handler:
         elif secondary_table_index == -1 and (match := re.search(secondary_table_pattern, line)):
             secondary_table_index = index
 
-    assert main_table_end_index != -1 and (main_table_end_index < secondary_table_index or secondary_table_index == -1)
+    assert main_table_start_index != -1 and main_table_end_index != -1 and main_table_start_index < main_table_end_index and (main_table_end_index < secondary_table_index or secondary_table_index == -1)
 
     version_major = "0"
     version_minor = "0"
