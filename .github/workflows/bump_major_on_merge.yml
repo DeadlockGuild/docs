@@ -39,7 +39,7 @@ jobs:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for file in ${CHANGED_FILES}; do
-            python ./.github/workflows/scripts/version_update.py -f "$file" -w "${{ toJson(github.event.pull_request.requested_reviewers.*.login) != 'null' && toJson(github.event.pull_request.requested_reviewers.*.login) || github.event.pull_request.user.login }}" -m "${{ github.event.pull_request.body }}" --major;
+            python ./.github/workflows/scripts/version_update.py -f "$file" -w "${{ toJson(github.event.pull_request.requested_reviewers.*.login) != '[]' && toJson(github.event.pull_request.requested_reviewers.*.login) || github.event.pull_request.user.login }}" -m "${{ github.event.pull_request.body }}" --major;
           done;
 
       - name: Setup git user
