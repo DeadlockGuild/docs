@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   if_merged_main_hotfix:
-    if: ${{ github.event.pull_request.merged == true && startsWith(github.head_ref, 'hotfix') }}
+    if: ${{ github.event.pull_request.merged == true && startsWith(github.head_ref, 'hotfix/') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
